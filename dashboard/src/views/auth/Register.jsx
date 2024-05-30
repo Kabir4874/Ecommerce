@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineGooglePlus } from "react-icons/ai";
 import { FiFacebook } from "react-icons/fi";
@@ -6,6 +6,21 @@ import { FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 const Register = () => {
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const inputHandle = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const submit = (e) => {
+    e.preventDefault();
+    console.log(state);
+  };
   return (
     <div className=" min-w-screen min-h-screen bg-mirage flex justify-center items-center">
       <div className="w-[350px] text-iron p-2">
@@ -14,7 +29,7 @@ const Register = () => {
           <p className="text-sm mb-3">
             Please register and start your business
           </p>
-          <form action="">
+          <form action="" onSubmit={submit}>
             <div className="flex flex-col w-full gap-1 mb-3">
               <label htmlFor="name">Name</label>
               <input
@@ -24,6 +39,8 @@ const Register = () => {
                 placeholder="name"
                 id="name"
                 required
+                onChange={inputHandle}
+                value={state.name}
               />
             </div>
 
@@ -36,6 +53,8 @@ const Register = () => {
                 placeholder="email"
                 id="email"
                 required
+                onChange={inputHandle}
+                value={state.email}
               />
             </div>
 
@@ -48,6 +67,8 @@ const Register = () => {
                 placeholder="password"
                 id="password"
                 required
+                onChange={inputHandle}
+                value={state.password}
               />
             </div>
 
@@ -68,7 +89,10 @@ const Register = () => {
             </button>
             <div className="flex items-center justify-center mb-3 gap-3">
               <p>
-                Already have an account? <Link to={"/login"} className=" underline">Login Here</Link>
+                Already have an account?{" "}
+                <Link to={"/login"} className=" underline">
+                  Login Here
+                </Link>
               </p>
             </div>
             <div className="w-full flex justify-center items-center mb-3">
