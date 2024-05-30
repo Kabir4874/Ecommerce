@@ -1,5 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { AiOutlineGooglePlus } from "react-icons/ai";
+import { FiFacebook } from "react-icons/fi";
+import { FaGithub } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Register = () => {
   return (
@@ -64,11 +68,37 @@ const Register = () => {
             </button>
             <div className="flex items-center justify-center mb-3 gap-3">
               <p>
-                Already have an account? <Link to={"/login"}>Login Here</Link>
+                Already have an account? <Link to={"/login"} className=" underline">Login Here</Link>
               </p>
             </div>
-            <div>
-              
+            <div className="w-full flex justify-center items-center mb-3">
+              <div className="w-[45%] bg-slate-700 h-[1px]"></div>
+              <div className="w-[10%] flex justify-center items-center">
+                <span className="pb-1">Or</span>
+              </div>
+              <div className="w-[45%] bg-slate-700 h-[1px]"></div>
+            </div>
+            <div className="flex justify-center items-center gap-3">
+              <div className="w-[35px] h-[35px] flex items-center justify-center rounded-md bg-orange-700 shadow-lg hover:shadow-orange-700/50 cursor-pointer overflow-hidden">
+                <span>
+                  <AiOutlineGooglePlus />
+                </span>
+              </div>
+              <div className="w-[35px] h-[35px] flex items-center justify-center rounded-md bg-indigo-700 shadow-lg hover:shadow-indigo-700/50 cursor-pointer overflow-hidden">
+                <span>
+                  <FiFacebook />
+                </span>
+              </div>
+              <div className="w-[35px] h-[35px] flex items-center justify-center rounded-md bg-cyan-700 shadow-lg hover:shadow-cyan-700/50 cursor-pointer overflow-hidden">
+                <span>
+                  <FaXTwitter />
+                </span>
+              </div>
+              <div className="w-[35px] h-[35px] flex items-center justify-center rounded-md bg-purple-700 shadow-lg hover:shadow-purple-700/50 cursor-pointer overflow-hidden">
+                <span>
+                  <FaGithub />
+                </span>
+              </div>
             </div>
           </form>
         </div>
