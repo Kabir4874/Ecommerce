@@ -4,6 +4,7 @@ import { RiProductHuntLine } from "react-icons/ri";
 import { FaUsers } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import Chart from "react-apexcharts";
+import { Link } from "react-router-dom";
 const AdminDashboard = () => {
   const state = {
     series: [
@@ -59,6 +60,37 @@ const AdminDashboard = () => {
       legend: {
         position: "top",
       },
+      responsive: [
+        {
+          breakpoint: 565,
+          yaxis: {
+            categories: [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apl",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ],
+          },
+          options: {
+            plotOptions: {
+              bar: {
+                horizontal: true,
+              },
+            },
+            chart: {
+              height: "550px",
+            },
+          },
+        },
+      ],
     },
   };
   return (
@@ -112,6 +144,97 @@ const AdminDashboard = () => {
               height={350}
             />
           </div>
+        </div>
+        <div className="w-full lg:w-5/12 lg:pl-4 mt-6 lg:mt-0">
+          <div className="w-full bg-ebony_clay p-4 rounded-md text-iron">
+            <div className="flex justify-between items-center">
+              <h2 className="font-semibold text-lg pb-3">
+                Recent seller message
+              </h2>
+              <Link className=" font-semibold text-sm">View All</Link>
+            </div>
+            <div className="flex flex-col gap-2 pt-6">
+              <ol className=" relative border border-slate-600 ml-4">
+                <li className="mb-3 ml-6">
+                  <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-dark_turquoise2 rounded-full z-10">
+                    <img
+                      src="http://localhost:3000/images/admin.jpg"
+                      alt=""
+                      className="w-full rounded-full h-full shadow-lg"
+                    />
+                  </div>
+                  <div className="p-3 bg-slate-800 rounded-lg border border-slate-600 shadow-sm">
+                    <div className="flex justify-between items-center">
+                      <Link className="text-md">Admin</Link>
+                      <time
+                        datetime=""
+                        className="mb-1 text-sm sm:order-last sm:mb-0"
+                      >
+                        4 day ago
+                      </time>
+                    </div>
+                    <div className="p-2 text-xs bg-slate-700 rounded-lg border border-slate-800">
+                      How are you
+                    </div>
+                  </div>
+                </li>
+                <li className="mb-3 ml-6">
+                  <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-dark_turquoise2 rounded-full z-10">
+                    <img
+                      src="http://localhost:3000/images/admin.jpg"
+                      alt=""
+                      className="w-full rounded-full h-full shadow-lg"
+                    />
+                  </div>
+                  <div className="p-3 bg-slate-800 rounded-lg border border-slate-600 shadow-sm">
+                    <div className="flex justify-between items-center">
+                      <Link className="text-md">Admin</Link>
+                      <time
+                        datetime=""
+                        className="mb-1 text-sm sm:order-last sm:mb-0"
+                      >
+                        4 day ago
+                      </time>
+                    </div>
+                    <div className="p-2 text-xs bg-slate-700 rounded-lg border border-slate-800">
+                      How are you
+                    </div>
+                  </div>
+                </li>
+                <li className="mb-3 ml-6">
+                  <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-dark_turquoise2 rounded-full z-10">
+                    <img
+                      src="http://localhost:3000/images/admin.jpg"
+                      alt=""
+                      className="w-full rounded-full h-full shadow-lg"
+                    />
+                  </div>
+                  <div className="p-3 bg-slate-800 rounded-lg border border-slate-600 shadow-sm">
+                    <div className="flex justify-between items-center">
+                      <Link className="text-md">Admin</Link>
+                      <time
+                        datetime=""
+                        className="mb-1 text-sm sm:order-last sm:mb-0"
+                      >
+                        4 day ago
+                      </time>
+                    </div>
+                    <div className="p-2 text-xs bg-slate-700 rounded-lg border border-slate-800">
+                      How are you
+                    </div>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="w-full p-4 bg-ebony_clay rounded-md mt-6">
+        <div className="flex justify-between items-center">
+          <h2 className=" font-semibold text-lg text-iron pb-3">
+            Recent Orders
+          </h2>
+          <Link className=" font-semibold text-sm text-iron">View All</Link>
         </div>
       </div>
     </div>
