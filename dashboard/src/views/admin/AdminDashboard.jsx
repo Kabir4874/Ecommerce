@@ -236,6 +236,50 @@ const AdminDashboard = () => {
           </h2>
           <Link className=" font-semibold text-sm text-iron">View All</Link>
         </div>
+        <div className=" relative overflow-x-auto">
+          <table className="w-full text-sm text-left text-iron">
+            <thead className="text-sm uppercase border-b border-slate-700">
+              <tr>
+                <th scope="col" className="py-3 px-4">
+                  Order Id
+                </th>
+                <th scope="col" className="py-3 px-4">
+                  Price
+                </th>
+                <th scope="col" className="py-3 px-4">
+                  Payment Status
+                </th>
+                <th scope="col" className="py-3 px-4">
+                  Order Status
+                </th>
+                <th scope="col" className="py-3 px-4">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {[1, 2, 3, 4, 5].map((d, i) => (
+                <tr key={i}>
+                  <td className="py-3 px-4 font-medium whitespace-nowrap">
+                    #adlfkj3lfk323
+                  </td>
+                  <td className="py-3 px-4 font-medium whitespace-nowrap">
+                    $565
+                  </td>
+                  <td className="py-3 px-4 font-medium whitespace-nowrap">
+                    <span>pending</span>
+                  </td>
+                  <td className="py-3 px-4 font-medium whitespace-nowrap">
+                    <span>pending</span>
+                  </td>
+                  <td className="py-3 px-4 font-medium whitespace-nowrap">
+                    <Link>View</Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
