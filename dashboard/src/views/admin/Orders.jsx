@@ -13,7 +13,7 @@ const Orders = () => {
       <div className="w-full p-4 bg-ebony_clay rounded-md">
         <div className="flex justify-between items-center">
           <select
-            onChange={(e) => perPage(parseInt(e.target.value))}
+            onChange={(e) => setPerPage(parseInt(e.target.value))}
             className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
           >
             <option value="5">5</option>
@@ -189,13 +189,15 @@ const Orders = () => {
             </div>
           </div>
         </div>
-        <Pagination
-          pageNumber={currentPage}
-          setPageNumber={setCurrentPage}
-          totalItem={50}
-          perPage={perPage}
-          showItem={3}
-        />
+        <div className="w-full flex justify-end mt-4 bottom-4 right-4">
+          <Pagination
+            pageNumber={currentPage}
+            setPageNumber={setCurrentPage}
+            totalItem={20}
+            perPage={perPage}
+            showItem={4}
+          />
+        </div>
       </div>
     </div>
   );
