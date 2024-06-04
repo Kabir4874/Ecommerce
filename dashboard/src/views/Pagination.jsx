@@ -62,5 +62,4 @@ const Pagination = ({
     </ul>
   );
 };
-
 export default Pagination;
