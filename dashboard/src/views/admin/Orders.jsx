@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BsArrowBarDown } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import Pagination from "../Pagination";
 
 const Orders = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -188,6 +189,13 @@ const Orders = () => {
             </div>
           </div>
         </div>
+        <Pagination
+          pageNumber={currentPage}
+          setPageNumber={setCurrentPage}
+          totalItem={50}
+          perPage={perPage}
+          showItem={3}
+        />
       </div>
     </div>
   );
