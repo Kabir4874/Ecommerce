@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { getNavs } from "../navigation";
 import { BiLogOut } from "react-icons/bi";
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
+  const { pathname } = useLocation();
   const [allNav, setAllNav] = useState([]);
   useEffect(() => {
     const navs = getNavs("admin");
@@ -35,13 +36,17 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
           <ul>
             {allNav.map((n, i) => (
               <li key={n.id}>
-                <NavLink
+                <Link
                   to={n.path}
-                  className=" text-iron duration-200 px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-3 hover:pl-4 transition-all w-full mb-4 text-xl"
+                  className={`${
+                    pathname === n.path
+                      ? " bg-slate-600 shadow-indigo-500/30 text-white duration-500"
+                      : " text-iron duration-200"
+                  } px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-3 hover:pl-4 transition-all w-full mb-4 text-xl`}
                 >
                   <span>{n.icon}</span>
                   <span>{n.title}</span>
-                </NavLink>
+                </Link>
               </li>
             ))}
             <li>
