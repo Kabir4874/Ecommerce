@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
+import { BsImage } from "react-icons/bs";
 
 const Category = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -88,9 +89,46 @@ const Category = () => {
             </div>
           </div>
         </div>
-        <div className={`w-[320px] lg:w-5/12 translate-x-[100] lg:relative lg:right-0 fixed ${show?'right-0':'-right-[340px]'} z-20 top-0 transition-all duration-500`}>
-          <div className="w-full p-4 bg-ebony_clay rounded-md">
-                
+        <div
+          className={`w-[320px] lg:w-5/12 translate-x-[100] lg:relative lg:right-0 fixed ${
+            show ? "right-0" : "-right-[340px]"
+          } z-20 top-0 transition-all duration-500`}
+        >
+          <div className="w-full pl-6">
+            <div className=" bg-ebony_clay h-screen lg:h-auto px-3 py-2 lg:rounded-md text-iron">
+              <h1 className=" text-iron font-semibold text-xl mb-8 w-full text-center">
+                Add Category
+              </h1>
+              <form action="">
+                <div className="flex flex-col w-full gap-2 mb-3">
+                  <label htmlFor="name">Category Name</label>
+                  <input
+                    type="text"
+                    placeholder="category name"
+                    className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
+                    id="name"
+                    name="category_name"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="image"
+                    className="flex justify-center items-center flex-col h-[238px] cursor-pointer border border-dashed hover:border-indigo-500 w-full border-iron"
+                  >
+                    <span>
+                      <BsImage />
+                    </span>
+                    <span>Select Image</span>
+                  </label>
+                </div>
+                <input type="file" name="image" id="image" className="hidden" />
+                <div>
+                  <button className=" bg-blue-500 w-full hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 my-2">
+                    Add Category
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
