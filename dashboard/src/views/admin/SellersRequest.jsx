@@ -36,9 +36,6 @@ const SellersRequest = () => {
                       No.
                     </th>
                     <th scope="col" className="py-1 px-4">
-                      Image
-                    </th>
-                    <th scope="col" className="py-1 px-4">
                       Name
                     </th>
                     <th scope="col" className="py-1 px-4">
@@ -57,15 +54,8 @@ const SellersRequest = () => {
                 </thead>
                 <tbody>
                   {[1, 2, 3, 4, 5].map((d, i) => (
-                    <tr key={i}>
+                    <tr key={i} className=" border-b border-slate-700">
                       <td className="py-3 px-4 whitespace-nowrap">{d}</td>
-                      <td className="py-3 px-4 whitespace-nowrap">
-                        <img
-                          src={`http://localhost:3000/images/category/${d}.jpg`}
-                          alt=""
-                          className="w-[45px] h-[45px]"
-                        />
-                      </td>
                       <td className="py-3 px-4 whitespace-nowrap">
                         <span>Rakib Khan</span>
                       </td>
@@ -73,10 +63,10 @@ const SellersRequest = () => {
                         <span>rakib@gmail.com</span>
                       </td>
                       <td className="py-3 px-4 whitespace-nowrap">
-                        <span>Active</span>
+                        <span>Inactive</span>
                       </td>
                       <td className="py-3 px-4 whitespace-nowrap">
-                        <span>Inactive</span>
+                        <span>Pending</span>
                       </td>
                       <td className="py-3 px-4 whitespace-nowrap">
                         <div className="flex justify-start items-center gap-4">
