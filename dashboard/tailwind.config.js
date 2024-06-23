@@ -7,6 +7,7 @@ module.exports = {
         mirage: "#161D31",
         iron: "#D0D2D6",
         ebony_clay: "#283046",
+        ebony_clay2:"#252b3b",
         charleston_green: "#22292f80",
         persian_blue: "#181ee8",
         gallery: "#f0f0f0",
