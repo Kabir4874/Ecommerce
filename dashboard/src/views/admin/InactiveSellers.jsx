@@ -45,16 +45,10 @@ const InactiveSellers = () => {
                       Email
                     </th>
                     <th scope="col" className="py-1 px-4">
-                      Shop Name
-                    </th>
-                    <th scope="col" className="py-1 px-4">
                       Payment Status
                     </th>
                     <th scope="col" className="py-1 px-4">
-                      Division
-                    </th>
-                    <th scope="col" className="py-1 px-4">
-                      District
+                      Status
                     </th>
                     <th scope="col" className="py-1 px-4">
                       Action
@@ -64,35 +58,27 @@ const InactiveSellers = () => {
                 <tbody>
                   {[1, 2, 3, 4, 5].map((d, i) => (
                     <tr key={i}>
-                      <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        {d}
-                      </td>
-                      <td className="py-3 px-4 font-medium whitespace-nowrap">
+                      <td className="py-3 px-4 whitespace-nowrap">{d}</td>
+                      <td className="py-3 px-4 whitespace-nowrap">
                         <img
                           src={`http://localhost:3000/images/category/${d}.jpg`}
                           alt=""
                           className="w-[45px] h-[45px]"
                         />
                       </td>
-                      <td className="py-3 px-4 font-medium whitespace-nowrap">
+                      <td className="py-3 px-4 whitespace-nowrap">
                         <span>Rakib Khan</span>
                       </td>
-                      <td className="py-3 px-4 font-medium whitespace-nowrap">
+                      <td className="py-3 px-4 whitespace-nowrap">
                         <span>rakib@gmail.com</span>
                       </td>
-                      <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        <span>Rakib Fashion</span>
-                      </td>
-                      <td className="py-3 px-4 font-medium whitespace-nowrap">
+                      <td className="py-3 px-4 whitespace-nowrap">
                         <span>Active</span>
                       </td>
-                      <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        <span>Dhaka</span>
+                      <td className="py-3 px-4 whitespace-nowrap">
+                        <span>Inactive</span>
                       </td>
-                      <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        <span>Dhaka</span>
-                      </td>
-                      <td className="py-3 px-4 font-medium whitespace-nowrap">
+                      <td className="py-3 px-4 whitespace-nowrap">
                         <div className="flex justify-start items-center gap-4">
                           <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
                             <FaEye />
