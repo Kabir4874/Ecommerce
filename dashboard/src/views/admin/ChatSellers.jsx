@@ -86,7 +86,7 @@ const ChatSellers = () => {
                     <img
                       src="http://localhost:3000/images/admin.jpg"
                       alt=""
-                      className="w-[42px] h-[42px] border-green-500 border-2 max-w-[42px] p-[2px] rounded-full"
+                      className="w-[42px] h-[42px] border-green-500 border-2 max-w-[42px] p-[3px] rounded-full"
                     />
                     <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
                   </div>
@@ -112,7 +112,24 @@ const ChatSellers = () => {
                         alt=""
                         className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
                       />
-                      <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                    </div>
+                    <div className="flex justify-center items-start flex-col w-full bg-orange-500 text-white p-1 px-2 rounded-sm">
+                      <span>How are you?</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="w-full flex justify-end items-center">
+                  <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
+                    <div className="flex justify-center items-start flex-col w-full bg-blue-500 text-white p-1 px-2 rounded-sm">
+                      <span>How are you?</span>
+                    </div>
+                    <div>
+                      <img
+                        src="http://localhost:3000/images/admin.jpg"
+                        alt=""
+                        className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
+                      />
                     </div>
                   </div>
                 </div>
