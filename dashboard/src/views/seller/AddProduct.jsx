@@ -57,6 +57,33 @@ const AddProduct = () => {
                 />
               </div>
             </div>
+
+            <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-iron">
+              <div className="flex flex-col w-full gap-1">
+                <label htmlFor="name">Product Name</label>
+                <input
+                  type="text"
+                  placeholder="product name"
+                  name="name"
+                  id="name"
+                  onChange={inputHandle}
+                  value={state.name}
+                  className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
+                />
+              </div>
+              <div className="flex flex-col w-full gap-1">
+                <label htmlFor="stock">Stock</label>
+                <input
+                  type="number"
+                  placeholder="stock"
+                  name="stock"
+                  id="stock"
+                  onChange={inputHandle}
+                  value={state.stock}
+                  className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
+                />
+              </div>
+            </div>
           </form>
         </div>
       </div>
