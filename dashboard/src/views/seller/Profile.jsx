@@ -167,8 +167,50 @@ const Profile = () => {
         </div>
 
         <div className="w-full md:w-6/12">
-          <div className="w-full bg-ebony_clay rounded-md p-4 text-iron">
-            
+          <div className="w-full p-4  pl-0 md:pl-7 mt-6 md:mt-0">
+            <div className="bg-ebony_clay rounded-md text-iron">
+              <form
+                action=""
+                className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md relative mt-4"
+              >
+                <h1 className="text-iron text-lg mb-3 font-semibold">
+                  Change Password
+                </h1>
+                <div className="flex flex-col w-full gap-1 mb-3">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    placeholder="email"
+                    id="email"
+                    name="email"
+                    className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
+                  />
+                </div>
+                <div className="flex flex-col w-full gap-1">
+                  <label htmlFor="oldPassword">Old Password</label>
+                  <input
+                    type="password"
+                    placeholder="old password"
+                    id="oldPassword"
+                    name="oldPassword"
+                    className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
+                  />
+                </div>
+                <div className="flex flex-col w-full gap-1 mb-3">
+                  <label htmlFor="newPassword">New Password</label>
+                  <input
+                    type="password"
+                    placeholder="new password"
+                    id="newPassword"
+                    name="newPassword"
+                    className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
+                  />
+                </div>
+                <button className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 my-2 w-fit">
+                  Update Password
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
