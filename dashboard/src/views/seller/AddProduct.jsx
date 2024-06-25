@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { BsImages } from "react-icons/bs";
+import { IoCloseSharp } from "react-icons/io5";
 
 const AddProduct = () => {
   const categorys = [
@@ -55,11 +57,45 @@ const AddProduct = () => {
       setAllCategory(categorys);
     }
   };
-  useEffect(() => {
-    setAllCategory(categorys);
-  }, []);
+
+  const [images, setImages] = useState([]);
+  const [imageShow, setImageShow] = useState([]);
+
+  const imageHandle = (e) => {
+    const files = e.target.files;
+    const length = files.length;
+    if (length > 0) {
+      setImages([...images, ...files]);
+      let imageUrl = [];
+
+      for (let i = 0; i < length; i++) {
+        imageUrl.push({ url: URL.createObjectURL(files[i]) });
+      }
+      setImageShow([...imageShow, ...imageUrl]);
+    }
+  };
+
+  const changeImage = (img, index) => {
+    if (img) {
+      let tempUrl = imageShow;
+      let tempImages = images;
+
+      tempImages[index] = img;
+      tempUrl[index] = { url: URL.createObjectURL(img) };
+      setImageShow([...tempUrl]);
+      setImages([...tempImages]);
+    }
+  };
+
+  const removeImage = (i) => {
+    const filterImage = images.filter((img, index) => index !== i);
+    const filterImageUrl = imageShow.filter((img, index) => index !== i);
+    setImages(filterImage);
+    setImageShow(filterImageUrl);
+  };
+
   return (
-    <div className="px-2 lg:px-7 pt-5">
+    <div className="px-2 lg:px-7 py-5">
       <div className="w-full p-4 bg-ebony_clay rounded-md">
         <div className="flex justify-between items-center pb-4">
           <h1 className="text-iron text-xl font-semibold">Add Product</h1>
@@ -132,6 +168,7 @@ const AddProduct = () => {
                   <div className="flex justify-start items-start flex-col h-[200px] overflow-y-scroll">
                     {allCategory.map((c, i) => (
                       <span
+                        key={i}
                         onClick={() => {
                           setCateShow(false);
                           setCategory(c.name);
@@ -193,20 +230,65 @@ const AddProduct = () => {
             </div>
 
             <div className="flex flex-col w-full gap-1 text-iron">
-                <label htmlFor="description">Description</label>
-                <textarea
-                  type="text"
-                  placeholder="description"
-                  name="description"
-                  id="description"
-                  onChange={inputHandle}
-                  value={state.description}
-                  rows={4}
-                  className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
-                >
+              <label htmlFor="description">Description</label>
+              <textarea
+                type="text"
+                placeholder="description"
+                name="description"
+                id="description"
+                onChange={inputHandle}
+                value={state.description}
+                rows={4}
+                className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
+              ></textarea>
+            </div>
 
-                </textarea>
-              </div>
+            <div className="grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 gap-3 w-full text-iron my-5">
+              {imageShow.map((img, i) => (
+                <div className="h-[280px] relative" key={i}>
+                  <label htmlFor={i}>
+                    <img
+                      src={img.url}
+                      alt=""
+                      className="w-full h-full rounded-sm cursor-pointer"
+                    />
+                  </label>
+                  <input
+                    type="file"
+                    id={i}
+                    hidden
+                    onChange={(e) => changeImage(e.target.files[0], i)}
+                  />
+                  <span
+                    onClick={() => removeImage(i)}
+                    className="p-2 z-10 cursor-pointer bg-slate-700 hover:shadow-lg hover:shadow-slate-400/50 text-white absolute top-1 right-1 rounded-full"
+                  >
+                    <IoCloseSharp />
+                  </span>
+                </div>
+              ))}
+              <label
+                htmlFor="image"
+                className="flex justify-center items-center flex-col h-[280px] cursor-pointer border border-dashed hover:border-indigo-500 w-full border-iron"
+              >
+                <span>
+                  <BsImages />
+                </span>
+                <span>select image</span>
+              </label>
+              <input
+                type="file"
+                id="image"
+                hidden
+                multiple
+                onChange={imageHandle}
+              />
+            </div>
+            <div className="flex">
+              <button className=" bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 my-2">
+                Add Product
+              </button>
+            </div>
           </form>
         </div>
       </div>
