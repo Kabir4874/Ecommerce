@@ -1,8 +1,31 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { FixedSizeList as List } from "react-window";
+
+function handleOnWheel({ deltaY }) {
+  console.log("Scrolled handleWheel", deltaY);
+}
+
+const outerElementType = forwardRef((props, ref) => (
+  <div ref={ref} onWheel={handleOnWheel} {...props} />
+));
 
 const Payments = () => {
+  const Row = ({ index, style }) => {
+    return (
+      <div className="flex text-sm my-4" style={style}>
+        <div className="w-[25%] p-2 whitespace-nowrap">{index + 1}</div>
+        <div className="w-[25%] p-2 whitespace-nowrap">$154</div>
+        <div className="w-[25%] p-2 whitespace-nowrap">
+          <span className="py-[1px] px-[5px] bg-slate-700 text-blue-500 rounded-md text-xs">
+            pending
+          </span>
+        </div>
+        <div className="w-[25%] p-2 whitespace-nowrap">12 Jun, 2024</div>
+      </div>
+    );
+  };
   return (
     <div className="px-2 md:px-7 py-5">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -48,7 +71,7 @@ const Payments = () => {
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 pb-4 mt-5">
         <div className=" bg-ebony_clay text-iron rounded-md p-5">
           <h2 className="text-lg">Send Request</h2>
-          <div className="pt-5">
+          <div className="py-5">
             <form action="">
               <div className="flex gap-3 flex-wrap">
                 <input
@@ -62,6 +85,55 @@ const Payments = () => {
                 </button>
               </div>
             </form>
+          </div>
+          <div>
+            <h2 className="text-lg pb-4">Pending request</h2>
+            <div className="w-full overflow-x-auto">
+              <div className="flex bg-mirage uppercase text-xs min-w-[340px]">
+                <div className="w-[25%] p-2">no</div>
+                <div className="w-[25%] p-2">amount</div>
+                <div className="w-[25%] p-2">status</div>
+                <div className="w-[25%] p-2">date</div>
+              </div>
+              {
+                <List
+                  style={{ minWidth: "340px", overflowX: "hidden" }}
+                  className="List"
+                  height={550}
+                  itemCount={10}
+                  itemSize={50}
+                  outerElementType={outerElementType}
+                >
+                  {Row}
+                </List>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div className=" bg-ebony_clay text-iron rounded-md p-5">
+          <div>
+            <h2 className="text-lg pb-4">Success Withdrawal</h2>
+            <div className="w-full overflow-x-auto">
+              <div className="flex bg-mirage uppercase text-xs min-w-[340px]">
+                <div className="w-[25%] p-2">no</div>
+                <div className="w-[25%] p-2">amount</div>
+                <div className="w-[25%] p-2">status</div>
+                <div className="w-[25%] p-2">date</div>
+              </div>
+              {
+                <List
+                  style={{ minWidth: "340px", overflowX: "hidden" }}
+                  className="List"
+                  height={550}
+                  itemCount={10}
+                  itemSize={50}
+                  outerElementType={outerElementType}
+                >
+                  {Row}
+                </List>
+              }
+            </div>
           </div>
         </div>
       </div>

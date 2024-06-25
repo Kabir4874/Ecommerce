@@ -8,6 +8,7 @@ import { FiUsers } from "react-icons/fi";
 import { CiChat1 } from "react-icons/ci";
 import { BsCurrencyDollar, BsChat } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
+import { RiDiscountPercentLine } from "react-icons/ri";
 export const allNav = [
   {
     id: 1,
@@ -89,7 +90,7 @@ export const allNav = [
   {
     id: 12,
     title: "Discount Product",
-    icon: <RiProductHuntLine />,
+    icon: <RiDiscountPercentLine />,
     role: "seller",
     path: "/seller/dashboard/discount-products",
   },
