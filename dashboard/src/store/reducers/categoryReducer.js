@@ -18,6 +18,27 @@ export const categoryAdd = createAsyncThunk(
   }
 );
 
+export const get_category = createAsyncThunk(
+  "category/get_category",
+  async (
+    { perPage, page, searchValue },
+    { fulfillWithValue, rejectWithValue }
+  ) => {
+    try {
+      const { data } = await api.get(
+        `/category-get?page=${page}&&searchValue=${searchValue}&&perPage=${perPage}`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const categoryReducer = createSlice({
   name: "category",
   initialState: {

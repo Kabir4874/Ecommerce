@@ -9,9 +9,11 @@ import { PropagateLoader } from "react-spinners";
 import {
   categoryAdd,
   messageClear,
+  get_category,
 } from "../../store/reducers/categoryReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-hot-toast";
+import Search from "../components/Search";
 
 const Category = () => {
   const dispatch = useDispatch();
@@ -53,8 +55,22 @@ const Category = () => {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
+      setState({
+        name: "",
+        image: "",
+      });
+      setImageShow("");
     }
   }, [successMessage, errorMessage]);
+
+  useEffect(() => {
+    const obj = {
+      perPage: parseInt(perPage),
+      page: parseInt(currentPage),
+      searchValue,
+    };
+    dispatch(get_category(obj));
+  }, [searchValue, currentPage, perPage]);
 
   return (
     <div className="px-2 lg:px-7 pt-5">
@@ -70,21 +86,11 @@ const Category = () => {
       <div className="flex flex-wrap w-full">
         <div className="w-full lg:w-7/12">
           <div className="w-full p-4 bg-ebony_clay rounded-md">
-            <div className="flex justify-between items-center">
-              <select
-                onChange={(e) => setPerPage(parseInt(e.target.value))}
-                className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
-              >
-                <option value="5">5</option>
-                <option value="15">15</option>
-                <option value="25">25</option>
-              </select>
-              <input
-                type="text"
-                placeholder="search"
-                className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
-              />
-            </div>
+            <Search
+              setPerPage={setPerPage}
+              setSearchValue={setSearchValue}
+              searchValue={searchValue}
+            />
             <div className=" relative overflow-x-auto mt-8">
               <table className="w-full text-sm text-left text-iron">
                 <thead className="text-sm uppercase border-b border-slate-700">
