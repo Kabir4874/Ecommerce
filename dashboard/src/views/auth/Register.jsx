@@ -7,8 +7,10 @@ import { FaXTwitter } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/utils";
+import { seller_register } from "../../store/reducers/authReducer";
 
 const Register = () => {
+  const dispatch = useDispatch();
   const { loader } = useSelector((state) => state.auth);
   const [state, setState] = useState({
     name: "",
@@ -23,7 +25,7 @@ const Register = () => {
   };
   const submit = (e) => {
     e.preventDefault();
-    console.log(state);
+    dispatch(seller_register(state));
   };
 
   return (
@@ -91,7 +93,7 @@ const Register = () => {
             </div>
             <button
               disabled={loader ? true : false}
-              className=" bg-blue-500 w-full hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3 transition-all duration-200"
+              className=" bg-blue-500 w-full hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3 transition-all duration-200"
             >
               {loader ? (
                 <PropagateLoader color="#fff" cssOverride={overrideStyle} />

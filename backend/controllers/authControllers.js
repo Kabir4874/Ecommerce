@@ -1,4 +1,5 @@
 const adminModel = require("../models/adminModel");
+const sellerModel = require("../models/sellerModel");
 const { responseReturn } = require("../utils/response");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -28,14 +29,35 @@ class authControllers {
     }
   };
 
+  seller_register = async (req, res) => {
+    const { email, name, password } = req.body;
+    try {
+      const getUser = await sellerModel.findOne({ email });
+      if (getUser) {
+        responseReturn(res, 404, { error: "Email already exits" });
+      } else {
+        const seller = await sellerModel.create({
+          name,
+          email,
+          password: await bcrypt.hash(password, 10),
+          method: "manually",
+          shopInfo: {},
+        });
+        
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   getUser = async (req, res) => {
     const { id, role } = req;
     try {
       if (role === "admin") {
         const user = await adminModel.findById(id);
         responseReturn(res, 200, { userInfo: user });
-      }else{
-        console.log('seller info');
+      } else {
+        console.log("seller info");
       }
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
