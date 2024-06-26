@@ -4,12 +4,37 @@ import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { BsImage } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
+import { overrideStyle } from "../../utils/utils";
+import { PropagateLoader } from "react-spinners";
 
 const Category = () => {
+  const loader = false;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [perPage, setPerPage] = useState(5);
   const [show, setShow] = useState(false);
+  const [imageShow, setImageShow] = useState("");
+  const [state, setState] = useState({
+    name: "",
+    image: "",
+  });
+
+  const imageHandle = (e) => {
+    let files = e.target.files;
+    if (files.length > 0) {
+      setImageShow(URL.createObjectURL(files[0]));
+      setState({
+        ...state,
+        image: files[0],
+      });
+    }
+  };
+
+  const add_category = (e) => {
+    e.preventDefault();
+    console.log(state);
+  };
+
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="flex lg:hidden justify-between items-center mb-5 p-4 bg-ebony_clay rounded-md">
@@ -117,32 +142,60 @@ const Category = () => {
                   <AiOutlineClose size={20} />
                 </div>
               </div>
-              <form action="">
+              <form action="" onSubmit={add_category}>
                 <div className="flex flex-col w-full gap-2 mb-3">
                   <label htmlFor="name">Category Name</label>
                   <input
+                    onChange={(e) =>
+                      setState({ ...state, name: e.target.value })
+                    }
+                    value={state.name}
                     type="text"
                     placeholder="category name"
                     className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
                     id="name"
                     name="category_name"
+                    required
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="image"
-                    className="flex justify-center items-center flex-col h-[238px] cursor-pointer border border-dashed hover:border-indigo-500 w-full border-iron"
+                    className="flex justify-center items-center flex-col h-[315px] cursor-pointer border border-dashed hover:border-indigo-500 w-full border-iron"
                   >
-                    <span>
-                      <BsImage />
-                    </span>
-                    <span>Select Image</span>
+                    {imageShow ? (
+                      <img src={imageShow} alt="" className="w-full h-full" />
+                    ) : (
+                      <>
+                        <span>
+                          <BsImage />
+                        </span>
+                        <span>Select Image</span>
+                      </>
+                    )}
                   </label>
                 </div>
-                <input type="file" name="image" id="image" className="hidden" />
-                <div>
-                  <button className=" bg-blue-500 w-full hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 my-2">
-                    Add Category
+                <input
+                  type="file"
+                  name="image"
+                  id="image"
+                  className="hidden"
+                  onChange={imageHandle}
+                  required
+                />
+                <div className="mt-4">
+                  <button
+                    disabled={loader ? true : false}
+                    className=" bg-blue-500 w-full hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3 transition-all duration-200"
+                  >
+                    {loader ? (
+                      <PropagateLoader
+                        color="#fff"
+                        cssOverride={overrideStyle}
+                      />
+                    ) : (
+                      "Add Category"
+                    )}
                   </button>
                 </div>
               </form>
