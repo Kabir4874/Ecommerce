@@ -134,7 +134,6 @@ export const authReducer = createSlice({
         state.role = returnRole(payload.token);
       })
       .addCase(get_user_info.fulfilled, (state, { payload }) => {
-        console.log(payload.userInfo);
         state.loader = false;
         state.userInfo = payload.userInfo;
       });

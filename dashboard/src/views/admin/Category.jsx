@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
@@ -6,9 +6,19 @@ import { BsImage } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import { overrideStyle } from "../../utils/utils";
 import { PropagateLoader } from "react-spinners";
+import {
+  categoryAdd,
+  messageClear,
+} from "../../store/reducers/categoryReducer";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-hot-toast";
 
 const Category = () => {
-  const loader = false;
+  const dispatch = useDispatch();
+  const { loader, successMessage, errorMessage } = useSelector(
+    (state) => state.category
+  );
+
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [perPage, setPerPage] = useState(5);
@@ -32,8 +42,19 @@ const Category = () => {
 
   const add_category = (e) => {
     e.preventDefault();
-    console.log(state);
+    dispatch(categoryAdd(state));
   };
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
 
   return (
     <div className="px-2 lg:px-7 pt-5">
