@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineGooglePlus } from "react-icons/ai";
 import { FiFacebook } from "react-icons/fi";
@@ -7,11 +7,17 @@ import { FaXTwitter } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/utils";
-import { seller_register } from "../../store/reducers/authReducer";
+import {
+  messageClear,
+  seller_register,
+} from "../../store/reducers/authReducer";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const dispatch = useDispatch();
-  const { loader } = useSelector((state) => state.auth);
+  const { loader, errorMessage, successMessage } = useSelector(
+    (state) => state.auth
+  );
   const [state, setState] = useState({
     name: "",
     email: "",
@@ -27,7 +33,16 @@ const Register = () => {
     e.preventDefault();
     dispatch(seller_register(state));
   };
-
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [errorMessage, successMessage]);
   return (
     <div className=" min-w-screen min-h-screen bg-mirage flex justify-center items-center">
       <div className="w-[350px] text-iron p-2">
