@@ -4,8 +4,12 @@ import { AiOutlineGooglePlus } from "react-icons/ai";
 import { FiFacebook } from "react-icons/fi";
 import { FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../../utils/utils";
 
 const Register = () => {
+  const { loader } = useSelector((state) => state.auth);
   const [state, setState] = useState({
     name: "",
     email: "",
@@ -21,6 +25,7 @@ const Register = () => {
     e.preventDefault();
     console.log(state);
   };
+
   return (
     <div className=" min-w-screen min-h-screen bg-mirage flex justify-center items-center">
       <div className="w-[350px] text-iron p-2">
@@ -84,8 +89,15 @@ const Register = () => {
                 I agree to privacy policy & terms
               </label>
             </div>
-            <button className=" bg-blue-500 w-full hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3 transition-all duration-200">
-              Sign Up
+            <button
+              disabled={loader ? true : false}
+              className=" bg-blue-500 w-full hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3 transition-all duration-200"
+            >
+              {loader ? (
+                <PropagateLoader color="#fff" cssOverride={overrideStyle} />
+              ) : (
+                "Register"
+              )}
             </button>
             <div className="flex items-center justify-center mb-3 gap-3">
               <p>

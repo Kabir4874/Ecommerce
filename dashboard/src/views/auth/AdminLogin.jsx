@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { PropagateLoader } from "react-spinners";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { overrideStyle } from "../../utils/utils";
 
 const AdminLogin = () => {
   const dispatch = useDispatch();
@@ -24,13 +25,6 @@ const AdminLogin = () => {
   const submit = (e) => {
     e.preventDefault();
     dispatch(admin_login(state));
-  };
-  const overrideStyle = {
-    display: "flex",
-    margin: "0 auto",
-    height: "24px",
-    justifyContent: "center",
-    alignItems: "center",
   };
   useEffect(() => {
     if (errorMessage) {
