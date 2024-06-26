@@ -18,6 +18,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api", require("./routes/authRoutes"));
 app.use("/api", require("./routes/dashboard/categoryRoutes"));
+app.use("/api", require("./routes/dashboard/productRoutes"));
 dbConnect();
 
 app.get("/", (req, res) => res.send("Hello World!"));

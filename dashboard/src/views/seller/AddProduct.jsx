@@ -93,6 +93,16 @@ const AddProduct = () => {
 
   const add = (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("name", state.name);
+    formData.append("description", state.description);
+    formData.append("price", state.price);
+    formData.append("stock", state.stock);
+    formData.append("brand", state.brand);
+    formData.append("discount", state.discount);
+    formData.append("images", images);
+
+    dispatch(add_product(formData));
   };
 
   return (

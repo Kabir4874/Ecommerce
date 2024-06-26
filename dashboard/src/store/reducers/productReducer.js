@@ -3,12 +3,9 @@ import api from "../../api/api";
 
 export const add_product = createAsyncThunk(
   "product/add_product",
-  async ({ name, image }, { fulfillWithValue, rejectWithValue }) => {
+  async (product, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("image", image);
-      const { data } = await api.post("/product-add", formData, {
+      const { data } = await api.post("/product-add", product, {
         withCredentials: true,
       });
       return fulfillWithValue(data);
