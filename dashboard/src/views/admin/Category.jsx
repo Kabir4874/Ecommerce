@@ -17,7 +17,7 @@ import Search from "../components/Search";
 
 const Category = () => {
   const dispatch = useDispatch();
-  const { loader, successMessage, errorMessage } = useSelector(
+  const { loader, successMessage, errorMessage, categorys } = useSelector(
     (state) => state.category
   );
 
@@ -110,20 +110,20 @@ const Category = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {[1, 2, 3, 4, 5].map((d, i) => (
+                  {categorys.map((d, i) => (
                     <tr key={i}>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        {d}
+                        {i + 1}
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
                         <img
-                          src={`http://localhost:3000/images/category/${d}.jpg`}
+                          src={d.image}
                           alt=""
                           className="w-[45px] h-[45px]"
                         />
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        <span>Sports</span>
+                        <span>{d.name}</span>
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
                         <div className="flex justify-start items-center gap-4">

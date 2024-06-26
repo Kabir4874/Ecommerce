@@ -52,7 +52,7 @@ class categoryController {
     const skipPage = perPage * (page - 1);
 
     try {
-      if (searchValue) {
+      if (searchValue && page && perPage) {
         const categorys = await categoryModel
           .find({
             $text: { $search: searchValue },
@@ -67,11 +67,18 @@ class categoryController {
           })
           .countDocuments();
         responseReturn(res, 200, { totalCategory, categorys });
-      } else {
+      } else if (searchValue === "" && page && perPage) {
         const categorys = await categoryModel
           .find({})
           .skip(skipPage)
           .limit(perPage)
+          .sort({ createdAt: -1 });
+
+        const totalCategory = await categoryModel.find({}).countDocuments();
+        responseReturn(res, 200, { totalCategory, categorys });
+      } else {
+        const categorys = await categoryModel
+          .find({})
           .sort({ createdAt: -1 });
 
         const totalCategory = await categoryModel.find({}).countDocuments();
