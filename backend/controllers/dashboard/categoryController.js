@@ -9,7 +9,6 @@ cloudinary.config({
   api_secret: process.env.API_SECRET,
   secure: true,
 });
-
 class categoryController {
   add_category = async (req, res) => {
     const form = formidable();
