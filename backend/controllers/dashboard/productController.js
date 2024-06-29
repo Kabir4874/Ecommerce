@@ -109,5 +109,83 @@ class productController {
       responseReturn(res, 500, { error: error.message });
     }
   };
+
+  update_product = async (req, res) => {
+    let {
+      name,
+      description,
+      discount,
+      stock,
+      brand,
+      price,
+      category,
+      productId,
+    } = req.body;
+
+    name = name.trim();
+    const slug = name.split(" ").join("-");
+    try {
+      await productModel.findByIdAndUpdate(productId, {
+        name,
+        description,
+        discount,
+        stock,
+        brand,
+        price,
+        category,
+        productId,
+        slug,
+      });
+      const product = await productModel.findById(productId);
+      responseReturn(res, 200, {
+        product,
+        message: "Product Updated Successfully",
+      });
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
+
+  update_product_image = async (req, res) => {
+    const form = formidable({ multiples: true });
+    form.parse(req, async (error, fields, files) => {
+      const { productId, oldImage } = fields;
+      const { newImage } = files;
+      if (error) {
+        responseReturn(res, 404, { error: error.message });
+      } else {
+        try {
+          const oldImagePublicId = oldImage[0].split("/").pop().split(".")[0];
+          await cloudinary.uploader.destroy(`products/${oldImagePublicId}`);
+          const result = await cloudinary.uploader.upload(
+            newImage[0].filepath,
+            {
+              folder: "products",
+              transformation: [
+                { quality: "auto:eco" },
+                { fetch_format: "auto" },
+              ],
+            }
+          );
+          if (result) {
+            let { images } = await productModel.findById(productId[0]);
+            const index = images.findIndex((img) => img === oldImage[0]);
+            images[index] = result.url;
+            await productModel.findByIdAndUpdate(productId[0], { images });
+
+            const product = await productModel.findById(productId[0]);
+            responseReturn(res, 200, {
+              product,
+              message: "Product Image Updated Successfully",
+            });
+          } else {
+            responseReturn(res, 500, { error: "Image Update Failed" });
+          }
+        } catch (error) {
+          responseReturn(res, 500, { error: error.message });
+        }
+      }
+    });
+  };
 }
 module.exports = new productController();
