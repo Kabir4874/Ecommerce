@@ -37,7 +37,7 @@ class productController {
           });
           allImageUrl = [...allImageUrl, result.url];
         }
-        const product = await productModel.create({
+        await productModel.create({
           sellerId: id,
           name,
           slug,
@@ -56,7 +56,8 @@ class productController {
       }
     });
   };
-  get_product = async (req, res) => {
+
+  get_products = async (req, res) => {
     const { page, searchValue, perPage } = req.query;
     const { id } = req;
     const skipPage = perPage * (page - 1);
@@ -97,6 +98,14 @@ class productController {
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
     }
+  };
+
+  get_product = async (req, res) => {
+    const { productId } = req.params;
+    try {
+      const product = await productModel.findById(productId);
+      console.log(product);
+    } catch (error) {}
   };
 }
 module.exports = new productController();

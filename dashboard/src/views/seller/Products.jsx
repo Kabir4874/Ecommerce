@@ -4,7 +4,7 @@ import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { useSelector, useDispatch } from "react-redux";
-import { get_product } from "../../store/reducers/productReducer";
+import { get_products } from "../../store/reducers/productReducer";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Products = () => {
       page: parseInt(currentPage),
       searchValue,
     };
-    dispatch(get_product(obj));
+    dispatch(get_products(obj));
   }, [searchValue, currentPage, perPage]);
 
   return (
@@ -101,7 +101,7 @@ const Products = () => {
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
                     <div className="flex justify-start items-center gap-4">
                       <Link
-                        to={`/seller/dashboard/edit-product/:1`}
+                        to={`/seller/dashboard/edit-product/${d._id}`}
                         className="p-[6px] bg-yellow-600 rounded hover:shadow-lg hover:shadow-yellow-600/50"
                       >
                         <FaEdit />
@@ -119,15 +119,19 @@ const Products = () => {
             </tbody>
           </table>
         </div>
-        <div className="w-full flex justify-end mt-4 bottom-4 right-4">
-          <Pagination
-            pageNumber={currentPage}
-            setPageNumber={setCurrentPage}
-            totalItem={20}
-            perPage={perPage}
-            showItem={4}
-          />
-        </div>
+        {totalProduct <= perPage ? (
+          ""
+        ) : (
+          <div className="w-full flex justify-end mt-4 bottom-4 right-4">
+            <Pagination
+              pageNumber={currentPage}
+              setPageNumber={setCurrentPage}
+              totalItem={totalProduct}
+              perPage={perPage}
+              showItem={4}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,31 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { BsImages } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
+import { get_category } from "../../store/reducers/categoryReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { get_product } from "../../store/reducers/productReducer";
 
 const EditProduct = () => {
-  const categorys = [
-    {
-      id: 1,
-      name: "Sports",
-    },
-    {
-      id: 2,
-      name: "Mobile",
-    },
-    {
-      id: 3,
-      name: "Jersey",
-    },
-    {
-      id: 4,
-      name: "Pant",
-    },
-    {
-      id: 5,
-      name: "Watch",
-    },
-  ];
+  const dispatch = useDispatch();
+  const { productId } = useParams();
+  const { categorys } = useSelector((state) => state.category);
   const [state, setState] = useState({
     name: "",
     description: "",
@@ -40,10 +24,29 @@ const EditProduct = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    dispatch(
+      get_category({
+        searchValue: "",
+        perPage: "",
+        page: "",
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    dispatch(get_product(productId));
+  }, [productId]);
+
   const [cateShow, setCateShow] = useState(false);
   const [category, setCategory] = useState("");
   const [allCategory, setAllCategory] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+
+  useEffect(() => {
+    setAllCategory(categorys);
+  }, [categorys]);
 
   const categorySearch = (e) => {
     const value = e.target.value;

@@ -15,19 +15,34 @@ export const add_product = createAsyncThunk(
   }
 );
 
-export const get_product = createAsyncThunk(
-  "product/get_product",
+export const get_products = createAsyncThunk(
+  "product/get_products",
   async (
     { perPage, page, searchValue },
     { fulfillWithValue, rejectWithValue }
   ) => {
     try {
       const { data } = await api.get(
-        `/product-get?page=${page}&&searchValue=${searchValue}&&perPage=${perPage}`,
+        `/products-get?page=${page}&&searchValue=${searchValue}&&perPage=${perPage}`,
         {
           withCredentials: true,
         }
       );
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_product = createAsyncThunk(
+  "product/get_product",
+  async (productId, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/product-get/${productId}`, {
+        withCredentials: true,
+      });
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
@@ -43,6 +58,7 @@ export const productReducer = createSlice({
     errorMessage: "",
     loader: false,
     products: [],
+    product:'',
     totalProduct: 0,
   },
   reducers: {
@@ -65,7 +81,7 @@ export const productReducer = createSlice({
         state.successMessage = payload.message;
         state.products = [...state.products, payload.product];
       })
-      .addCase(get_product.fulfilled, (state, { payload }) => {
+      .addCase(get_products.fulfilled, (state, { payload }) => {
         state.totalProduct = payload.totalProduct;
         state.products = payload.products;
       });
