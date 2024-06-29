@@ -104,8 +104,10 @@ class productController {
     const { productId } = req.params;
     try {
       const product = await productModel.findById(productId);
-      console.log(product);
-    } catch (error) {}
+      responseReturn(res, 200, { product });
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
   };
 }
 module.exports = new productController();

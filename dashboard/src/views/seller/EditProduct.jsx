@@ -10,6 +10,8 @@ const EditProduct = () => {
   const dispatch = useDispatch();
   const { productId } = useParams();
   const { categorys } = useSelector((state) => state.category);
+  const { product } = useSelector((state) => state.product);
+
   const [state, setState] = useState({
     name: "",
     description: "",
@@ -73,19 +75,15 @@ const EditProduct = () => {
 
   useEffect(() => {
     setState({
-      name: "T-shirt",
-      description: "Best T-shirt",
-      discount: 10,
-      price: 455,
-      brand: "Easy",
-      stock: 10,
+      name: product.name,
+      description: product.description,
+      discount: product.discount,
+      price: product.price,
+      brand: product.brand,
+      stock: product.stock,
     });
-    setCategory("Sports");
-    setImageShow([
-      "http://localhost:3000/images/admin.jpg",
-      "http://localhost:3000/images/admin.jpg",
-      "http://localhost:3000/images/admin.jpg",
-    ]);
+    setCategory(product.category);
+    setImageShow(product.images);
   }, []);
 
   return (
