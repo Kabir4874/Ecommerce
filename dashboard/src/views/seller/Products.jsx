@@ -64,35 +64,39 @@ const Products = () => {
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5].map((d, i) => (
+              {products.map((d, i) => (
                 <tr key={i}>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    {d}
+                    {i + 1}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
                     <img
-                      src={`http://localhost:3000/images/category/${d}.jpg`}
+                      src={d.images[0]}
                       alt=""
                       className="w-[45px] h-[45px]"
                     />
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <span>T-shirt</span>
+                    <span>{d?.name?.slice(0, 16)}...</span>
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <span>Sports</span>
+                    <span>{d.category}</span>
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <span>Easy</span>
+                    <span>{d.brand}</span>
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <span>$23</span>
+                    <span>${d.price}</span>
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <span>5%</span>
+                    {d.discount === 0 ? (
+                      <span>no discount</span>
+                    ) : (
+                      <span>{d.discount}%</span>
+                    )}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <span>50</span>
+                    <span>{d.stock}</span>
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
                     <div className="flex justify-start items-center gap-4">
