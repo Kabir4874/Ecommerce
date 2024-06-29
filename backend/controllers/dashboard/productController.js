@@ -33,6 +33,7 @@ class productController {
         for (let i = 0; i < images.length; i++) {
           const result = await cloudinary.uploader.upload(images[i].filepath, {
             folder: "products",
+            transformation: [{ quality: "auto:eco" }, { fetch_format: "auto" }],
           });
           allImageUrl = [...allImageUrl, result.url];
         }
@@ -55,6 +56,30 @@ class productController {
       }
     });
   };
-  get_product = async (req, res) => {};
+  get_product = async (req, res) => {
+    const { page, searchValue, perPage } = req.query;
+    const { id } = req;
+    const skipPage = perPage * (page - 1);
+    try {
+      if (searchValue) {
+        const products = await productModel
+          .find({
+            $test: { $search: searchValue },
+          })
+          .skip(skipPage)
+          .limit(perPage)
+          .sort({ createdAt: -1 });
+
+        const totalProduct = await productModel
+          .find({
+            $text: { $search: searchValue },
+          })
+          .countDocuments();
+        responseReturn(res, 200, { totalProduct, products });
+      }
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
 }
 module.exports = new productController();

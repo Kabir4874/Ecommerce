@@ -28,6 +28,7 @@ export const get_product = createAsyncThunk(
           withCredentials: true,
         }
       );
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
