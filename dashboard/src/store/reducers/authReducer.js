@@ -46,6 +46,20 @@ export const profile_image_upload = createAsyncThunk(
   }
 );
 
+export const profile_info_add = createAsyncThunk(
+  "auth/profile_info_add",
+  async (info, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.post("/profile-info-add", info, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const seller_login = createAsyncThunk(
   "auth/seller_login",
   async (info, { fulfillWithValue, rejectWithValue }) => {
@@ -160,6 +174,18 @@ export const authReducer = createSlice({
       })
       .addCase(profile_image_upload.fulfilled, (state, { payload }) => {
         state.loader = false;
+        state.successMessage = payload.message;
+      })
+      .addCase(profile_info_add.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(profile_info_add.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.error;
+      })
+      .addCase(profile_info_add.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.userInfo = payload.userInfo;
         state.successMessage = payload.message;
       });
   },

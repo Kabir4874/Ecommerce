@@ -130,5 +130,27 @@ class authControllers {
       }
     });
   };
+
+  profile_info_add = async (req, res) => {
+    const { division, district, subDistrict, shopName } = req.body;
+    const { id } = req;
+    try {
+      await sellerModel.findByIdAndUpdate(id, {
+        shopInfo: {
+          shopName,
+          division,
+          district,
+          subDistrict,
+        },
+      });
+      const userInfo = await sellerModel.findById(id);
+      responseReturn(res, 201, {
+        userInfo,
+        message: "Profile Info Added Successfully",
+      });
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
 }
 module.exports = new authControllers();
