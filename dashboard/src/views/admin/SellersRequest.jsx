@@ -1,33 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { FaEye } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { get_seller_request } from "../../store/reducers/sellerReducer";
+import Search from "../components/Search";
 
 const SellersRequest = () => {
+  const dispatch = useDispatch();
+  const { sellers, totalSeller } = useSelector((state) => state.seller);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [perPage, setPerPage] = useState(5);
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    dispatch(
+      get_seller_request({
+        perPage,
+        searchValue,
+        page: currentPage,
+      })
+    );
+  }, [searchValue, currentPage, perPage]);
+
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4 bg-ebony_clay rounded-md">
         <div className="w-full">
           <div className="w-full p-4 bg-ebony_clay rounded-md">
-            <div className="flex justify-between items-center">
-              <select
-                onChange={(e) => setPerPage(parseInt(e.target.value))}
-                className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
-              >
-                <option value="5">5</option>
-                <option value="15">15</option>
-                <option value="25">25</option>
-              </select>
-              <input
-                type="text"
-                placeholder="search"
-                className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
-              />
-            </div>
+            <Search
+              setPerPage={setPerPage}
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
+            />
             <div className=" relative overflow-x-auto mt-8">
               <table className="w-full text-sm text-left text-iron">
                 <thead className="text-sm uppercase whitespace-nowrap border-b border-slate-700">
@@ -53,24 +59,27 @@ const SellersRequest = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {[1, 2, 3, 4, 5].map((d, i) => (
+                  {sellers.map((d, i) => (
                     <tr key={i} className=" border-b border-slate-700">
-                      <td className="py-3 px-4 whitespace-nowrap">{d}</td>
+                      <td className="py-3 px-4 whitespace-nowrap">{i + 1}</td>
                       <td className="py-3 px-4 whitespace-nowrap">
-                        <span>Rakib Khan</span>
+                        <span>{d.name}</span>
                       </td>
                       <td className="py-3 px-4 whitespace-nowrap">
-                        <span>rakib@gmail.com</span>
+                        <span>{d.email}</span>
                       </td>
                       <td className="py-3 px-4 whitespace-nowrap">
-                        <span>Inactive</span>
+                        <span>{d.payment}</span>
                       </td>
                       <td className="py-3 px-4 whitespace-nowrap">
-                        <span>Pending</span>
+                        <span>{d.status}</span>
                       </td>
                       <td className="py-3 px-4 whitespace-nowrap">
                         <div className="flex justify-start items-center gap-4">
-                          <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
+                          <Link
+                            to={`/admin/dashboard/seller/details/${d._id}`}
+                            className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50"
+                          >
                             <FaEye />
                           </Link>
                         </div>
@@ -81,13 +90,17 @@ const SellersRequest = () => {
               </table>
             </div>
             <div className="w-full flex justify-end mt-4 bottom-4 right-4">
-              <Pagination
-                pageNumber={currentPage}
-                setPageNumber={setCurrentPage}
-                totalItem={20}
-                perPage={perPage}
-                showItem={4}
-              />
+              {totalSeller <= perPage ? (
+                ""
+              ) : (
+                <Pagination
+                  pageNumber={currentPage}
+                  setPageNumber={setCurrentPage}
+                  totalItem={totalSeller}
+                  perPage={perPage}
+                  showItem={4}
+                />
+              )}
             </div>
           </div>
         </div>

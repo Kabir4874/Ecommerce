@@ -19,6 +19,7 @@ app.use(express.json());
 app.use("/api", require("./routes/authRoutes"));
 app.use("/api", require("./routes/dashboard/categoryRoutes"));
 app.use("/api", require("./routes/dashboard/productRoutes"));
+app.use("/api", require("./routes/dashboard/sellerRoutes"));
 dbConnect();
 
 app.get("/", (req, res) => res.send("Hello World!"));

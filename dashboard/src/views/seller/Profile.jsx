@@ -121,7 +121,7 @@ const Profile = () => {
                 <div className="flex gap-2">
                   <span>Payment Account: </span>
                   <p>
-                    {userInfo?.status === "active" ? (
+                    {userInfo?.status ? (
                       <span className="bg-red-500 text-white text-xs cursor-pointer ml-2 px-2 py-0.5 rounded">
                         {userInfo.payment}
                       </span>
