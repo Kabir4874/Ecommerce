@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         gallery: "#eeeeee",
+        silver_chalice:'#afafaf',
       },
     },
     screens: {
