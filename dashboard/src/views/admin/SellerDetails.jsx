@@ -4,12 +4,14 @@ import { useParams } from "react-router-dom";
 import {
   get_seller,
   seller_status_update,
+  messageClear,
 } from "../../store/reducers/sellerReducer";
+import toast from "react-hot-toast";
 
 const SellerDetails = () => {
   const { sellerId } = useParams();
   const dispatch = useDispatch();
-  const { seller } = useSelector((state) => state.seller);
+  const { seller, successMessage } = useSelector((state) => state.seller);
   useEffect(() => {
     dispatch(get_seller(sellerId));
   }, [sellerId]);
@@ -20,6 +22,20 @@ const SellerDetails = () => {
     e.preventDefault();
     dispatch(seller_status_update({ sellerId, status }));
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage]);
+
+  useEffect(() => {
+    if (seller) {
+      setStatus(seller.status);
+    }
+  }, [seller]);
+
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4 bg-ebony_clay rounded-md">

@@ -83,6 +83,10 @@ export const sellerReducer = createSlice({
       })
       .addCase(get_seller.fulfilled, (state, { payload }) => {
         state.seller = payload.seller;
+      })
+      .addCase(seller_status_update.fulfilled, (state, { payload }) => {
+        state.seller = payload.seller;
+        state.successMessage = payload.message;
       });
   },
 });

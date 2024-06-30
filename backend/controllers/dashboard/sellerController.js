@@ -38,7 +38,7 @@ class sellerController {
     try {
       await sellerModel.findByIdAndUpdate(sellerId, { status });
       const seller = await sellerModel.findById(sellerId);
-      responseReturn(res, 200, { seller });
+      responseReturn(res, 200, { seller, message: "Seller Status Updated" });
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
     }
