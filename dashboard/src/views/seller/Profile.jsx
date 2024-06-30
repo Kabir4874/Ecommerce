@@ -1,29 +1,51 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BsImages } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { FadeLoader } from "react-spinners";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  profile_image_upload,
+  messageClear,
+} from "../../store/reducers/authReducer";
+import { toast } from "react-hot-toast";
 
 const Profile = () => {
-  const image = true;
-  const loader = false;
-  const status = "active";
-  const userInfo = true;
+  const dispatch = useDispatch();
+  const { userInfo, loader, successMessage, errorMessage } = useSelector(
+    (state) => state.auth
+  );
+
+  const add_image = (e) => {
+    if (e.target.files.length > 0) {
+      const formData = new FormData();
+      formData.append("image", e.target.files[0]);
+      dispatch(profile_image_upload(formData));
+    }
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
+
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full flex flex-wrap">
         <div className="w-full md:w-6/12">
           <div className="w-full bg-ebony_clay rounded-md p-4 text-iron">
             <div className="flex justify-center items-center py-3">
-              {image ? (
+              {userInfo?.image ? (
                 <label
                   htmlFor="img"
                   className="h-[210px] w-[300px] relative cursor-pointer p-3 overflow-hidden"
                 >
-                  <img
-                    src="http://localhost:3000/images/admin.jpg"
-                    alt=""
-                    className="w-full h-full"
-                  />
+                  <img src={userInfo.image} alt="" className="w-full h-full" />
                   {loader && (
                     <div className="bg-slate-600 absolute left-0 top-0 w-full h-full opacity-70 flex justify-center items-center z-20">
                       <span>
@@ -50,7 +72,7 @@ const Profile = () => {
                   )}
                 </label>
               )}
-              <input type="file" hidden id="img" />
+              <input type="file" hidden id="img" onChange={add_image} />
             </div>
 
             <div className="px-0 md:px-5 py-2">
@@ -60,26 +82,26 @@ const Profile = () => {
                 </span>
                 <div className="flex gap-2">
                   <span>Name: </span>
-                  <span>Kabir Ahmed Ridoy</span>
+                  <span>{userInfo.name}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Email: </span>
-                  <span>kabir@gmail.com</span>
+                  <span>{userInfo.email}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Role: </span>
-                  <span>seller</span>
+                  <span>{userInfo.role}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Status: </span>
-                  <span>active</span>
+                  <span>{userInfo.status}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Payment Account: </span>
                   <p>
-                    {status === "active" ? (
-                      <span className="bg-green-500 text-white text-xs cursor-pointer ml-2 px-2 py-0.5 rounded">
-                        pending
+                    {userInfo?.status === "active" ? (
+                      <span className="bg-red-500 text-white text-xs cursor-pointer ml-2 px-2 py-0.5 rounded">
+                        {userInfo.payment}
                       </span>
                     ) : (
                       <span className="bg-blue-500 text-white text-xs cursor-pointer ml-2 px-2 py-0.5 rounded">
@@ -90,7 +112,7 @@ const Profile = () => {
                 </div>
               </div>
 
-              {userInfo ? (
+              {!userInfo?.shopInfo ? (
                 <form
                   action=""
                   className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md relative mt-4"

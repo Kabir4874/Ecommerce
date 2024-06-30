@@ -3,8 +3,16 @@ const sellerModel = require("../models/sellerModel");
 const sellerCustomerModel = require("../models/chat/sellerCustomerModel");
 const { responseReturn } = require("../utils/response");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const { createToken } = require("../utils/tokenCreate");
+const { formidable } = require("formidable");
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+  secure: true,
+});
 
 class authControllers {
   admin_login = async (req, res) => {
@@ -94,6 +102,33 @@ class authControllers {
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
     }
+  };
+
+  profile_image_upload = async (req, res) => {
+    const { id } = req;
+    const form = formidable({ multiples: true });
+    form.parse(req, async (error, _, files) => {
+      const { image } = files;
+      try {
+        const result = await cloudinary.uploader.upload(image[0].filepath, {
+          folder: "profile",
+          transformation: [{ quality: "auto:eco" }, { fetch_format: "auto" }],
+        });
+        if (result) {
+          await sellerModel.findByIdAndUpdate(id, { image: result.url });
+          const userInfo = await sellerModel.findById(id);
+          responseReturn(res, 201, {
+            userInfo,
+            message: "Image Uploaded Successfully",
+          });
+        } else {
+          responseReturn(res, 404, { error: "Image Upload Failed" });
+        }
+      } catch (error) {
+        console.log(error);
+        responseReturn(res, 500, { error: error.message });
+      }
+    });
   };
 }
 module.exports = new authControllers();
