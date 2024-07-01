@@ -6,6 +6,7 @@ module.exports = {
       colors: {
         gallery: "#eeeeee",
         silver_chalice:'#afafaf',
+        sushi:'#7FAD39',
       },
     },
     screens: {
