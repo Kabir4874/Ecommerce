@@ -35,9 +35,7 @@ const Header = () => {
                   </a>
                 </div>
 
-                <div className="flex cursor-pointer text-slate-800 text-sm justify-center items-center gap-1 relative after:absolute after:h-[18px] after:w-[1px] after:bg-silver_chalice after:-right-4">
-                    
-                </div>
+                <div className="flex cursor-pointer text-slate-800 text-sm justify-center items-center gap-1 relative after:absolute after:h-[18px] after:w-[1px] after:bg-silver_chalice after:-right-4"></div>
               </div>
             </div>
           </div>
