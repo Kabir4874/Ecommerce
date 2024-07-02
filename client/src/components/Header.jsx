@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IoIosMail } from "react-icons/io";
+import { IoIosCall, IoIosMail } from "react-icons/io";
 import {
   FaFacebookF,
   FaXTwitter,
@@ -8,14 +8,16 @@ import {
   FaLock,
   FaList,
 } from "react-icons/fa6";
-import { AiFillGithub } from "react-icons/ai";
+import { AiFillGithub, AiFillHeart, AiFillShopping } from "react-icons/ai";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
+import { GrMail } from "react-icons/gr";
 
 const Header = () => {
   const { pathname } = useLocation();
   const user = true;
   const [showSidebar, setShowSidebar] = useState(true);
+  const wishlist = 4;
   return (
     <div className="w-full bg-white">
       {/* Header Top  */}
@@ -86,7 +88,7 @@ const Header = () => {
       </div>
 
       {/* Navbar  */}
-      <div className="w-full">
+      <div className="bg-white">
         <div className="w-[85%] lg:w-[90%] mx-auto">
           <div className="h-[80px] md-lg:h-[100px] flex justify-between items-center flex-wrap">
             <div className="md-lg:w-full w-3/12 md-lg:pt-4">
@@ -158,8 +160,170 @@ const Header = () => {
                     </Link>
                   </li>
                 </ul>
+
+                <div className="flex md-lg:hidden justify-center items-center gap-5">
+                  <div className="flex justify-center gap-5">
+                    <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-mercury">
+                      <span className="text-xl text-red-500">
+                        <AiFillHeart />
+                      </span>
+                      <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                        {wishlist}
+                      </div>
+                    </div>
+                    <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-mercury">
+                      <span className="text-xl text-orange-500">
+                        <AiFillShopping />
+                      </span>
+                      <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                        {wishlist}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      {/* Responsive Navbar  */}
+      <div className="hidden md-lg:block">
+        <div
+          onClick={() => setShowSidebar(true)}
+          className={`fixed duration-200 transition-all ${
+            showSidebar ? "invisible" : "visible"
+          } hidden md-lg:block w-screen h-screen bg-[rgba(0,0,0,0.5)] top-0 left-0 z-20`}
+        ></div>
+        <div
+          className={`w-[300px] z-[9999] transition-all duration-200 fixed ${
+            showSidebar ? "-left-[300px]" : "left-0 "
+          } top-0 overflow-y-auto bg-white h-screen py-6 px-8`}
+        >
+          <div className="flex justify-start flex-col gap-6">
+            <Link to={"/"}>
+              <img src="http://localhost:3000/images/logo.png" alt="logo" />
+            </Link>
+            <div className="flex justify-start items-center gap-10">
+              <div className="flex group cursor-pointer text-slate-800 text-sm justify-center items-center gap-1 relative after:absolute after:h-[18px] after:w-[1px] after:bg-silver_chalice after:-right-4">
+                <img
+                  src="http://localhost:3000/images/language.png"
+                  alt="language"
+                />
+                <span>
+                  <MdOutlineKeyboardArrowDown />
+                </span>
+                <ul className="absolute invisible transition-all top-12 rounded-sm duration-200 text-white p-2 w-[100px] flex flex-col gap-3 group-hover:visible group-hover:top-6 bg-black z-10">
+                  <li>Bangla</li>
+                  <li>English</li>
+                </ul>
+              </div>
+              {user ? (
+                <Link
+                  to={"/dashboard"}
+                  className="flex justify-center items-center gap-2 text-sm"
+                >
+                  <span>
+                    <FaUser />
+                  </span>
+                  <span>Kabir Ahmed</span>
+                </Link>
+              ) : (
+                <div className="flex justify-center items-center gap-2 text-sm">
+                  <span>
+                    <FaLock />
+                  </span>
+                  <span>Login</span>
+                </div>
+              )}
+            </div>
+            <ul className="flex flex-col justify-start items-start font-semibold uppercase">
+              <li>
+                <Link
+                  to={"/"}
+                  className={`py-2 block ${
+                    pathname === "/" ? "text-sushi" : ""
+                  }`}
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={"/shop"}
+                  className={`py-2 block ${
+                    pathname === "/shop" ? "text-sushi" : ""
+                  }`}
+                >
+                  shop
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={"/blog"}
+                  className={`py-2 block ${
+                    pathname === "/blog" ? "text-sushi" : ""
+                  }`}
+                >
+                  blog
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={"/about"}
+                  className={`py-2 block ${
+                    pathname === "/about" ? "text-sushi" : ""
+                  }`}
+                >
+                  about
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={"/contact"}
+                  className={`py-2 block ${
+                    pathname === "/contact" ? "text-sushi" : ""
+                  }`}
+                >
+                  contact
+                </Link>
+              </li>
+            </ul>
+            <div className="flex justify-start items-center gap-4">
+              <a href="#">
+                <FaFacebookF />
+              </a>
+              <a href="#">
+                <FaXTwitter />
+              </a>
+              <a href="#">
+                <FaLinkedinIn />
+              </a>
+              <a href="#">
+                <AiFillGithub />
+              </a>
+            </div>
+            <div className="w-full flex justify-end md-lg:justify-start gap-3 items-center">
+              <div className="w-[48px] h-[48px] rounded-full flex bg-wild_sand justify-center items-center">
+                <span>
+                  <IoIosCall />
+                </span>
+              </div>
+              <div className="flex justify-end flex-col gap-1">
+                <h2 className="text-sm font-medium text-slate-700">
+                  +888024234534
+                </h2>
+                <span className="text-xs">Support 24/7</span>
+              </div>
+            </div>
+            <ul className="flex flex-col justify-start items-start text-cod_gray gap-3">
+              <li className="flex justify-start items-center gap-2 text-sm">
+                <span>
+                  <GrMail />
+                </span>
+                <span>kabir@gmail.com</span>
+              </li>
+              <span className="text-sm">Multi Vendor E-commerce</span>
+            </ul>
           </div>
         </div>
       </div>

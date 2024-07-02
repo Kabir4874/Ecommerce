@@ -7,6 +7,9 @@ module.exports = {
         gallery: "#eeeeee",
         silver_chalice:'#afafaf',
         sushi:'#7FAD39',
+        mercury:'#E2E2E2',
+        wild_sand:'#F5F5F5',
+        cod_gray:'#1C1C1C',
       },
     },
     screens: {
