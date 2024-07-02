@@ -18,6 +18,18 @@ const Header = () => {
   const user = true;
   const [showSidebar, setShowSidebar] = useState(true);
   const wishlist = 4;
+  const [categoryShow, setCategoryShow] = useState(true);
+  const category = [
+    "Clothing",
+    "Sports",
+    "Phones",
+    "Laptops",
+    "Monitors",
+    "Tablets",
+    "Audio",
+    "Bags",
+    "Televisions",
+  ];
   return (
     <div className="w-full bg-white">
       {/* Header Top  */}
@@ -324,6 +336,61 @@ const Header = () => {
               </li>
               <span className="text-sm">Multi Vendor E-commerce</span>
             </ul>
+          </div>
+        </div>
+      </div>
+      {/* Bottom Nav  */}
+      <div className="w-[85%] lg:w-[90%] mx-auto">
+        <div className="flex w-full flex-wrap md-lg:gap-8">
+          <div className="w-3/12 md-lg:w-full">
+            <div className="bg-white relative">
+              <div
+                onClick={() => setCategoryShow(!categoryShow)}
+                className="h-[50px] bg-violet-400 text-white flex justify-center md-lg:justify-between md-lg:px-6 items-center gap-3 font-bold cursor-pointer"
+              >
+                <div className="flex justify-center items-center gap-3">
+                  <span>
+                    <FaList />
+                  </span>
+                  <span>All Category</span>
+                </div>
+                <span className="pt-1 text-2xl">
+                  <MdOutlineKeyboardArrowDown />
+                </span>
+              </div>
+              <div
+                className={`${
+                  categoryShow ? "h-0" : "h-[400px]"
+                } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[9999] bg-white w-full border-x`}
+              >
+                <ul className="py-2 text-slate-600 font-medium">
+                  {category.map((c, i) => (
+                    <li
+                      key={i}
+                      className="flex justify-start items-center gap-2 px-[24px] py-[6px]"
+                    >
+                      <Link className="text-sm block">{c}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-9/12 pl-8 md-lg:pl-0 md-lg:w-full">
+                <div className="flex flex-wrap w-full justify-between items-center md-lg:gap-6">
+                  <div className="w-8/12 md-lg:w-full">
+                    <div className="flex border h-[50px] items-center relative gap-5">
+                      <div className="relative after:absolute after:h-[25px] after:w-[1px] after:bg-silver_chalice after:-right-[15px] md:hidden">
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
           </div>
         </div>
       </div>
