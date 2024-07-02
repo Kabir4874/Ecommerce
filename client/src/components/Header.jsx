@@ -19,7 +19,7 @@ const Header = () => {
   const [showSidebar, setShowSidebar] = useState(true);
   const wishlist = 4;
   const [categoryShow, setCategoryShow] = useState(true);
-  const category = [
+  const categorys = [
     "Clothing",
     "Sports",
     "Phones",
@@ -30,6 +30,8 @@ const Header = () => {
     "Bags",
     "Televisions",
   ];
+  const [searchValue, setSearchValue] = useState("");
+  const [category, setCategory] = useState("");
   return (
     <div className="w-full bg-white">
       {/* Header Top  */}
@@ -364,7 +366,7 @@ const Header = () => {
                 } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[9999] bg-white w-full border-x`}
               >
                 <ul className="py-2 text-slate-600 font-medium">
-                  {category.map((c, i) => (
+                  {categorys.map((c, i) => (
                     <li
                       key={i}
                       className="flex justify-start items-center gap-2 px-[24px] py-[6px]"
@@ -378,19 +380,50 @@ const Header = () => {
           </div>
 
           <div className="w-9/12 pl-8 md-lg:pl-0 md-lg:w-full">
-                <div className="flex flex-wrap w-full justify-between items-center md-lg:gap-6">
-                  <div className="w-8/12 md-lg:w-full">
-                    <div className="flex border h-[50px] items-center relative gap-5">
-                      <div className="relative after:absolute after:h-[25px] after:w-[1px] after:bg-silver_chalice after:-right-[15px] md:hidden">
-
-                      </div>
-
-                    </div>
-
+            <div className="flex flex-wrap w-full justify-between items-center md-lg:gap-6">
+              <div className="w-8/12 md-lg:w-full">
+                <div className="flex border h-[50px] items-center relative gap-5">
+                  <div className="relative after:absolute after:h-[25px] after:w-[1px] after:bg-silver_chalice after:-right-[15px] md:hidden">
+                    <select
+                      onChange={(e) => setCategory(e.target.value)}
+                      name=""
+                      id=""
+                      className="w-[150px] text-slate-600 font-semibold bg-transparent px-2 h-full outline-none border-none"
+                    >
+                      <option value="">Select Category</option>
+                      {categorys.map((c, i) => (
+                        <option value={c.toLowerCase()}>{c}</option>
+                      ))}
+                    </select>
                   </div>
-
+                  <input
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    type="text"
+                    placeholder="what do you need"
+                    className="w-full relative bg-transparent text-slate-500 outline-none px-3 h-full"
+                  />
+                  <button className=" bg-violet-400 right-0 absolute px-8 h-full font-semibold uppercase text-white">
+                    Search
+                  </button>
                 </div>
+              </div>
 
+              <div className="w-4/12 block md-lg:hidden pl-2 md-lg:w-full md-lg:pl-0">
+                <div className="w-full flex justify-end md-lg:justify-start gap-3 items-center">
+                  <div className="w-[48px] h-[48px] rounded-full flex bg-wild_sand justify-center items-center">
+                    <span>
+                      <IoIosCall />
+                    </span>
+                  </div>
+                  <div className="flex justify-end flex-col gap-1">
+                    <h2 className="font-medium text-slate-700">
+                      +888024234534
+                    </h2>
+                    <span className="text-sm">Support 24/7</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
