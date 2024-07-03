@@ -7,51 +7,69 @@ const Categorys = () => {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: 1,
+      items: 6,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 1,
+      items: 6,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
-      items: 1,
+      items: 4,
+    },
+    mdtablet: {
+      breakpoint: { max: 991, min: 464 },
+      items: 4,
     },
     mobile: {
-      breakpoint: { max: 464, min: 0 },
+      breakpoint: { max: 768, min: 0 },
+      items: 3,
+    },
+    smmobile: {
+      breakpoint: { max: 640, min: 0 },
+      items: 2,
+    },
+    xsmobile: {
+      breakpoint: { max: 440, min: 0 },
       items: 1,
     },
   };
+  const categorys = [
+    "Clothing",
+    "Sports",
+    "Phones",
+    "Laptops",
+    "Monitors",
+    "Tablets",
+    "Audio",
+    "Bags",
+    "Televisions",
+  ];
   return (
-    <div className="w-full md-lg:mt-6">
-      <div className="w-[85%] lg:w-[90%] mx-auto">
-        <div className="w-full flex flex-wrap md-lg:gap-8">
-          <div className="w-full">
-            <div className="my-8">
-              <Carousel
-                autoPlay={true}
-                infinite={true}
-                arrows={true}
-                showDots={true}
-                responsive={responsive}
-              >
-                {[1, 2, 3, 4, 5, 6, 7].map((img, i) => (
-                  <Link
-                    key={i}
-                    className=" md-lg:h-[440px] sm:h-[230px] h-auto w-full block"
-                  >
-                    <img
-                      src={`http://localhost:3000/images/banner/${img}.jpg`}
-                      alt={`banner${img}`}
-                      className="w-full h-full"
-                    />
-                  </Link>
-                ))}
-              </Carousel>
+    <div className="w-[87%] mx-auto relative">
+      <Carousel
+        autoPlay={true}
+        infinite={true}
+        arrows={true}
+        responsive={responsive}
+        transitionDuration={500}
+      >
+        {categorys.map((c, i) => (
+          <Link key={i} className="h-[185px] border block">
+            <div className="w-full h-full relative p-3">
+              <img
+                src={`http://localhost:3000/images/admin.png`}
+                alt="category"
+              />
+              <div className="absolute bottom-6 w-full mx-auto font-bold left-0 flex justify-center items-center">
+                <span className="py-[2px] px-6 bg-dark_charcoal text-white">
+                  {c}
+                </span>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </Link>
+        ))}
+      </Carousel>
     </div>
   );
 };
