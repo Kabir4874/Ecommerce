@@ -11,6 +11,7 @@ module.exports = {
         wild_sand: "#F5F5F5",
         cod_gray: "#1C1C1C",
         dark_charcoal: "#3330305d",
+        buttercup:'#EDBB0E',
       },
     },
     screens: {
