@@ -135,7 +135,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
-                      to={"/shop"}
+                      to={"/shops"}
                       className={`p-2 block ${
                         pathname === "/shop" ? "text-sushi" : ""
                       }`}

@@ -13,6 +13,7 @@ module.exports = {
         dark_charcoal: "#3330305d",
         buttercup:'#EDBB0E',
         catskill_white:'#F3F6FA',
+        raisin_black:'#2422228A',
       },
     },
     screens: {

@@ -1,4 +1,6 @@
 import React from "react";
+import { AiFillGithub, AiOutlineTwitter } from "react-icons/ai";
+import { FaFacebook, FaLinkedin } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -69,18 +71,67 @@ const Footer = () => {
         </div>
 
         <div className="w-4/12 lg:w-full lg:mt-6">
-            <div className="w-full flex flex-col justify-start gap-5">
-                <h2 className="font-bold text-lg mb-2">Join Our</h2>
-                <span>Get Email updates about our latest and shop specials offers</span>
-                <div className="h-[50px] w-full bg-white border relative">
-                    <input type="text" placeholder="Enter your mail" className="h-full bg-transparent w-full px-3 outline-none"/>
-                    <button className="h-full absolute right-0 bg-indigo-500 text-white uppercase px-4 font-bold text-sm">Subscribe</button>
-
-                </div>
-
+          <div className="w-full flex flex-col justify-start gap-5">
+            <h2 className="font-bold text-lg mb-2">Join Our</h2>
+            <span>
+              Get Email updates about our latest and shop specials offers
+            </span>
+            <div className="h-[50px] w-full bg-white border relative">
+              <input
+                type="text"
+                placeholder="Enter your mail"
+                className="h-full bg-transparent w-full px-3 outline-none"
+              />
+              <button className="h-full absolute right-0 bg-indigo-500 text-white uppercase px-4 font-bold text-sm">
+                Subscribe
+              </button>
             </div>
 
+            <ul className="flex justify-start items-center gap-3">
+              <li>
+                <a
+                  href="#"
+                  className="w-[38px] h-[38px] hover:bg-sushi hover:text-white flex justify-center items-center bg-white rounded-full transition-all duration-200"
+                >
+                  <FaFacebook />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="w-[38px] h-[38px] hover:bg-sushi hover:text-white flex justify-center items-center bg-white rounded-full transition-all duration-200"
+                >
+                  <AiOutlineTwitter />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="w-[38px] h-[38px] hover:bg-sushi hover:text-white flex justify-center items-center bg-white rounded-full transition-all duration-200"
+                >
+                  <FaLinkedin />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="w-[38px] h-[38px] hover:bg-sushi hover:text-white flex justify-center items-center bg-white rounded-full transition-all duration-200"
+                >
+                  <AiFillGithub />
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
+
+      <div className="w-[85%] flex flex-wrap justify-center items-center text-slate-600 mx-auto py-5 text-center">
+        <span>
+          Copyright ©2024 All right reserved | made by{" "}
+          <a href="#" className="text-blue-500 underline">
+            @Kabir_Ahmed_Ridoy
+          </a>
+        </span>
       </div>
     </footer>
   );
