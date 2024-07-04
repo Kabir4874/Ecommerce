@@ -185,14 +185,16 @@ const Header = () => {
                         {wishlist}
                       </div>
                     </div>
-                    <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-mercury">
-                      <span className="text-xl text-orange-500">
-                        <AiFillShopping />
-                      </span>
-                      <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                        {wishlist}
+                    <Link to={"/card"}>
+                      <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-mercury">
+                        <span className="text-xl text-orange-500">
+                          <AiFillShopping />
+                        </span>
+                        <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                          {wishlist}
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   </div>
                 </div>
               </div>
