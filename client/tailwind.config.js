@@ -14,6 +14,7 @@ module.exports = {
         buttercup: "#EDBB0E",
         catskill_white: "#F3F6FA",
         raisin_black: "#2422228A",
+        iron: "#D0D2D6",
       },
     },
     screens: {
