@@ -5,11 +5,10 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import Ratings from "../components/Ratings";
+import { AiFillHeart } from "react-icons/ai";
 
 const Details = () => {
   const [image, setImage] = useState("");
-  const images = [1, 2, 3];
-
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -40,6 +39,10 @@ const Details = () => {
       items: 1,
     },
   };
+
+  const images = [1, 2, 3];
+  const discount = 5;
+  const stock = 5;
   return (
     <div>
       <Header />
@@ -115,6 +118,62 @@ const Details = () => {
               <div className="flex justify-start items-center gap-4">
                 <div className="flex text-xl">
                   <Ratings ratings={3.5} />
+                </div>
+                <span className="text-green-500">(23 reviews)</span>
+              </div>
+
+              <div className="text-2xl text-red-500 font-bold flex gap-2">
+                {discount ? (
+                  <>
+                    <h2 className="line-through">$500</h2>
+                    <h2>
+                      ${500 - Math.floor((500 * discount) / 100)} (-{discount}%)
+                    </h2>
+                  </>
+                ) : (
+                  <h2>Price: $500</h2>
+                )}
+              </div>
+
+              <div className="text-slate-600">
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
+                  aliquid reprehenderit autem amet omnis blanditiis perferendis
+                  tempora! Tempora, animi molestias laboriosam rem perferendis
+                  cumque! Quod, id quos laudantium eligendi vero sint assumenda
+                  provident magnam molestias obcaecati aliquid. Ipsa, delectus
+                  exercitationem qui ullam reiciendis quasi error. In animi id
+                  fuga mollitia.
+                </p>
+              </div>
+
+              <div className="flex gap-3 pb-10 border-b">
+                {stock ? (
+                  <>
+                    <div className="flex bg-slate-200 h-[50px] justify-center items-center text-xl">
+                      <div className="px-6 cursor-pointer">-</div>
+                      <div className="px-5">5</div>
+                      <div className="px-6 cursor-pointer">+</div>
+                    </div>
+                    <div>
+                      <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white">
+                        Add to Cart
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+                <div>
+                  <div className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white">
+                    <AiFillHeart />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex py-5 gap-5">
+                <div>
+                  <span></span>
                 </div>
               </div>
             </div>
