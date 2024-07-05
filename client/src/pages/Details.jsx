@@ -5,7 +5,8 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import Ratings from "../components/Ratings";
-import { AiFillHeart } from "react-icons/ai";
+import { AiFillGithub, AiOutlineTwitter, AiFillHeart } from "react-icons/ai";
+import { FaFacebook, FaLinkedin } from "react-icons/fa6";
 
 const Details = () => {
   const [image, setImage] = useState("");
@@ -172,9 +173,62 @@ const Details = () => {
               </div>
 
               <div className="flex py-5 gap-5">
-                <div>
-                  <span></span>
+                <div className="w-[150px] text-black font-bold text-xl flex flex-col gap-5">
+                  <span>Availability</span>
+                  <span>Share on</span>
                 </div>
+                <div className="flex flex-col gap-5">
+                  <span className={`text-${stock ? "green" : "reed"}-500`}>
+                    {stock ? `In Stock (${stock})` : "Out of Stock"}
+                  </span>
+                  <ul className="flex justify-start items-center gap-3">
+                    <li>
+                      <a
+                        href="#"
+                        className="w-[38px] h-[38px] hover:bg-sushi flex justify-center items-center bg-indigo-500 rounded-full transition-all duration-200 text-white"
+                      >
+                        <FaFacebook />
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="w-[38px] h-[38px] hover:bg-sushi flex justify-center items-center bg-cyan-500 rounded-full transition-all duration-200 text-white"
+                      >
+                        <AiOutlineTwitter />
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="w-[38px] h-[38px] hover:bg-sushi flex justify-center items-center bg-purple-500 rounded-full transition-all duration-200 text-white"
+                      >
+                        <FaLinkedin />
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="w-[38px] h-[38px] hover:bg-sushi flex justify-center items-center bg-blue-500 rounded-full transition-all duration-200 text-white"
+                      >
+                        <AiFillGithub />
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                {stock ? (
+                  <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white">
+                    Buy Now
+                  </button>
+                ) : (
+                  ""
+                )}
+                <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-lime-500/40 bg-lime-500 text-white">
+                  Chat Seller
+                </button>
               </div>
             </div>
           </div>
