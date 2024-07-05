@@ -10,6 +10,7 @@ import { FaFacebook, FaLinkedin } from "react-icons/fa6";
 
 const Details = () => {
   const [image, setImage] = useState("");
+  const [state, setState] = useState("reviews");
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -73,7 +74,7 @@ const Details = () => {
         </div>
       </section>
 
-      <div>
+      <section>
         <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-16">
           <div className="grid grid-cols-2 md-lg:grid-cols-1 gap-8">
             <div>
@@ -233,7 +234,44 @@ const Details = () => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <section>
+        <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-16">
+          <div className="flex flex-wrap">
+            <div className="w-[72%] md-lg:w-full">
+              <div className="pr-4 md-lg:pr-0">
+                <div className="grid grid-cols-2">
+                  <button
+                    onClick={() => setState("reviews")}
+                    className={`py-1 px-5 ${
+                      state === "reviews"
+                        ? "bg-green-500 text-white"
+                        : "bg-slate-200 text-slate-700"
+                    } rounded-sm`}
+                  >
+                    Reviews
+                  </button>
+                  <button
+                    onClick={() => setState("description")}
+                    className={`py-1 px-5 ${
+                      state === "description"
+                        ? "bg-green-500 text-white"
+                        : "bg-slate-200 text-slate-700"
+                    } rounded-sm`}
+                  >
+                    Description
+                  </button>
+                </div>
+                <div>{state === "reviews" ? "reviews" : "description"}</div>
+              </div>
+            </div>
+            <div className="w-[28%] md-lg:w-full">
+              <div className="pl-4 md-lg:pl-0"></div>
+            </div>
+          </div>
+        </div>
+      </section>
       <Footer />
     </div>
   );
