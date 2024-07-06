@@ -5,6 +5,7 @@ import Pagination from "./Pagination";
 import RatingReact from "react-rating";
 import { CiStar } from "react-icons/ci";
 import { AiFillStar } from "react-icons/ai";
+import { Link } from "react-router-dom";
 const Reviews = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
@@ -115,24 +116,48 @@ const Reviews = () => {
       </div>
 
       <div>
-        <div className="flex flex-col gap-3">
-          <div className="flex gap-1">
-            <RatingReact
-              onChange={(e) => setRat(e)}
-              initialRating={rat}
-              emptySymbol={
-                <span className="text-slate-600 text-4xl">
-                  <CiStar />
-                </span>
-              }
-              fullSymbol={
-                <span className=" text-buttercup text-4xl">
-                  <AiFillStar />
-                </span>
-              }
-            />
+        {userInfo ? (
+          <div className="flex flex-col gap-3">
+            <div className="flex gap-1">
+              <RatingReact
+                onChange={(e) => setRat(e)}
+                initialRating={rat}
+                emptySymbol={
+                  <span className="text-slate-600 text-4xl">
+                    <CiStar />
+                  </span>
+                }
+                fullSymbol={
+                  <span className=" text-buttercup text-4xl">
+                    <AiFillStar />
+                  </span>
+                }
+              />
+            </div>
+            <form action="">
+              <textarea
+                name=""
+                id=""
+                rows={5}
+                className="border outline-none p-3 w-full"
+              ></textarea>
+              <div className="mt-2">
+                <button className="py-1 px-5 bg-indigo-500 text-white rounded-sm">
+                  Submit
+                </button>
+              </div>
+            </form>
           </div>
-        </div>
+        ) : (
+          <div>
+            <Link
+              to={"/login"}
+              className="py-1 px-5 bg-indigo-500 text-white rounded-sm"
+            >
+              Login
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
