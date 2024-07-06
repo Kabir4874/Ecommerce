@@ -15,6 +15,7 @@ module.exports = {
         catskill_white: "#F3F6FA",
         raisin_black: "#2422228A",
         iron: "#D0D2D6",
+        malibu:'#6699FF',
       },
     },
     screens: {
