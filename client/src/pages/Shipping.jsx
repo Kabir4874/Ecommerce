@@ -1,11 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useLocation, Link } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 const Shipping = () => {
-  const { state } = useLocation();
+  //   const { state } = useLocation();
+  const [res, setRes] = useState(false);
+  const [state, setState] = useState({
+    name: "",
+    address: "",
+    phone: "",
+    post: "",
+    province: "",
+    city: "",
+    area: "",
+  });
+  const inputHandle = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
+  const save = (e) => {
+    e.preventDefault();
+    const { name, address, phone, post, province, city, area } = state;
+    if (name && address && phone && post && province && city && area) {
+      setRes(true);
+    }
+  };
   return (
     <div>
       <Header />
@@ -32,77 +52,121 @@ const Shipping = () => {
             <div className="w-[67%] md-lg:w-full">
               <div className="flex flex-col gap-3">
                 <div className="bg-white p-6 shadow-sm rounded-md">
-                  <h2 className="text-slate-600 font-bold pb-3">
-                    Shipping Information
-                  </h2>
-                  <form action="">
-                    <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
-                      <div className="flex flex-col gap-1 mb-2 w-full">
-                        <label htmlFor="name">Name</label>
-                        <input
-                          type="text"
-                          name="name"
-                          id="name"
-                          placeholder="name"
-                          className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-1 mb-2 w-full">
-                        <label htmlFor="address">Address</label>
-                        <input
-                          type="text"
-                          name="address"
-                          id="address"
-                          placeholder="House no/building/street/area"
-                          className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
-                        />
-                      </div>
+                  {!res && (
+                    <>
+                      <h2 className="text-slate-600 font-bold pb-3">
+                        Shipping Information
+                      </h2>
+                      <form action="" onSubmit={save}>
+                        <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
+                          <div className="flex flex-col gap-1 mb-2 w-full">
+                            <label htmlFor="name">Name</label>
+                            <input
+                              type="text"
+                              name="name"
+                              id="name"
+                              placeholder="name"
+                              onChange={inputHandle}
+                              value={state.name}
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
+                            />
+                          </div>
+                          <div className="flex flex-col gap-1 mb-2 w-full">
+                            <label htmlFor="address">Address</label>
+                            <input
+                              type="text"
+                              name="address"
+                              id="address"
+                              onChange={inputHandle}
+                              value={state.address}
+                              placeholder="House no/building/street/area"
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
+                          <div className="flex flex-col gap-1 mb-2 w-full">
+                            <label htmlFor="phone">Phone</label>
+                            <input
+                              type="text"
+                              name="phone"
+                              id="phone"
+                              placeholder="phone"
+                              onChange={inputHandle}
+                              value={state.phone}
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
+                            />
+                          </div>
+                          <div className="flex flex-col gap-1 mb-2 w-full">
+                            <label htmlFor="post">Post</label>
+                            <input
+                              type="text"
+                              name="post"
+                              id="post"
+                              placeholder="post"
+                              onChange={inputHandle}
+                              value={state.post}
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
+                          <div className="flex flex-col gap-1 mb-2 w-full">
+                            <label htmlFor="province">Province</label>
+                            <input
+                              type="text"
+                              name="province"
+                              id="province"
+                              placeholder="province"
+                              onChange={inputHandle}
+                              value={state.province}
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
+                            />
+                          </div>
+                          <div className="flex flex-col gap-1 mb-2 w-full">
+                            <label htmlFor="city">City</label>
+                            <input
+                              type="text"
+                              name="city"
+                              id="city"
+                              placeholder="city"
+                              onChange={inputHandle}
+                              value={state.city}
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
+                          <div className="flex flex-col gap-1 mb-2 w-full">
+                            <label htmlFor="area">Area</label>
+                            <input
+                              type="text"
+                              name="area"
+                              id="area"
+                              placeholder="area"
+                              onChange={inputHandle}
+                              value={state.area}
+                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
+                            />
+                          </div>
+                          <div className="flex flex-col gap-1 mt-3 w-full">
+                            <button className="px-3 py-[6px] rounded-sm hover:shadow-indigo-500/20 hover:shadow-lg bg-indigo-500 text-white">
+                              Save
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </>
+                  )}
+                  {res && (
+                    <div className="flex flex-col gap-1">
+                      <h2>Deliver to {state.name}</h2>
+                      <p>
+                        <span>Home</span>
+                        <span></span>
+                      </p>
                     </div>
-                    <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
-                      <div className="flex flex-col gap-1 mb-2 w-full">
-                        <label htmlFor="phone">Phone</label>
-                        <input
-                          type="text"
-                          name="phone"
-                          id="phone"
-                          placeholder="phone"
-                          className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-1 mb-2 w-full">
-                        <label htmlFor="post">Post</label>
-                        <input
-                          type="text"
-                          name="post"
-                          id="post"
-                          placeholder="post"
-                          className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
-                        />
-                      </div>
-                    </div>
-                    <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600">
-                      <div className="flex flex-col gap-1 mb-2 w-full">
-                        <label htmlFor="province">Province</label>
-                        <input
-                          type="text"
-                          name="province"
-                          id="province"
-                          placeholder="province"
-                          className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-1 mb-2 w-full">
-                        <label htmlFor="city">City</label>
-                        <input
-                          type="text"
-                          name="city"
-                          id="city"
-                          placeholder="city"
-                          className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
-                        />
-                      </div>
-                    </div>
-                  </form>
+                  )}
                 </div>
               </div>
             </div>
