@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
@@ -11,24 +11,27 @@ import { BsFillGridFill } from "react-icons/bs";
 import { FaThList } from "react-icons/fa";
 import ShopProducts from "../components/products/ShopProducts";
 import Pagination from "../components/Pagination";
+import { useDispatch, useSelector } from "react-redux";
+import { price_range_product } from "../store/reducers/homeReducer";
 
 const Shops = () => {
+  const dispatch = useDispatch();
+  const { categorys, products, latest_product, priceRange } = useSelector(
+    (state) => state.home
+  );
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(3);
   const [styles, setStyles] = useState("grid");
   const [filter, setFilter] = useState(true);
-  const categorys = [
-    "Clothing",
-    "Sports",
-    "Phones",
-    "Laptops",
-    "Monitors",
-    "Tablets",
-    "Audio",
-    "Bags",
-    "Televisions",
-  ];
-  const [state, setState] = useState({ values: [50, 2000] });
+  const [state, setState] = useState({ values: [1, 100] });
+  useEffect(() => {
+    dispatch(price_range_product());
+  }, []);
+  useEffect(() => {
+    setState({
+      values: [priceRange.low, priceRange.high],
+    });
+  }, [priceRange]);
   return (
     <div>
       <Header />
@@ -73,15 +76,15 @@ const Shops = () => {
               <div className="py-2">
                 {categorys.map((c, i) => (
                   <div
-                    key={i}
+                    key={c._id}
                     className="flex justify-start items-center gap-2 py-1"
                   >
-                    <input type="checkbox" id={c} />
+                    <input type="checkbox" id={c.name} />
                     <label
-                      htmlFor={c}
+                      htmlFor={c.name}
                       className="text-slate-600 block cursor-pointer"
                     >
-                      {c}
+                      {c.name}
                     </label>
                   </div>
                 ))}
@@ -93,8 +96,8 @@ const Shops = () => {
                 </h2>
                 <Range
                   step={5}
-                  min={50}
-                  max={2000}
+                  min={priceRange.low}
+                  max={priceRange.high}
                   values={state.values}
                   onChange={(values) => setState({ values })}
                   renderTrack={({ props, children }) => (
