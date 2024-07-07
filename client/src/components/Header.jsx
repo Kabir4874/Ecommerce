@@ -13,23 +13,12 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
 import { GrMail } from "react-icons/gr";
 
-const Header = () => {
+const Header = ({ categorys }) => {
   const { pathname } = useLocation();
   const user = true;
   const [showSidebar, setShowSidebar] = useState(true);
   const wishlist = 4;
   const [categoryShow, setCategoryShow] = useState(true);
-  const categorys = [
-    "Clothing",
-    "Sports",
-    "Phones",
-    "Laptops",
-    "Monitors",
-    "Tablets",
-    "Audio",
-    "Bags",
-    "Televisions",
-  ];
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
   return (
@@ -367,13 +356,20 @@ const Header = () => {
                   categoryShow ? "h-0" : "h-[400px]"
                 } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[9999] bg-white w-full border-x`}
               >
-                <ul className="py-2 text-slate-600 font-medium">
+                <ul className="py-2 text-slate-600 font-medium overflow-y-scroll h-full">
                   {categorys.map((c, i) => (
                     <li
                       key={i}
                       className="flex justify-start items-center gap-2 px-[24px] py-[6px]"
                     >
-                      <Link className="text-sm block">{c}</Link>
+                      <img
+                        src={c.image}
+                        alt="category img"
+                        className="w-[30px] h-[30px] rounded-full overflow-hidden"
+                      />
+                      <Link to={`/product/${c.slug}`} className="text-sm block">
+                        {c.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -394,7 +390,9 @@ const Header = () => {
                     >
                       <option value="">Select Category</option>
                       {categorys.map((c, i) => (
-                        <option value={c.toLowerCase()}>{c}</option>
+                        <option key={i} value={c.name.toLowerCase()}>
+                          {c.name}
+                        </option>
                       ))}
                     </select>
                   </div>
