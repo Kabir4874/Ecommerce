@@ -12,8 +12,10 @@ import { AiFillGithub, AiFillHeart, AiFillShopping } from "react-icons/ai";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
 import { GrMail } from "react-icons/gr";
+import { useSelector } from "react-redux";
 
-const Header = ({ categorys }) => {
+const Header = () => {
+  const { categorys } = useSelector((state) => state.home);
   const { pathname } = useLocation();
   const user = true;
   const [showSidebar, setShowSidebar] = useState(true);

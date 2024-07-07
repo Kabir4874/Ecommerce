@@ -32,7 +32,7 @@ export const homeReducer = createSlice({
     products: [],
     latest_product: [],
     topRated_product: [],
-    discount_Product: [],
+    discount_product: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -44,7 +44,7 @@ export const homeReducer = createSlice({
         state.products = payload.products;
         state.latest_product = payload.latest_product;
         state.topRated_product = payload.topRated_product;
-        state.discount_Product = payload.discount_Product;
+        state.discount_product = payload.discount_product;
       });
   },
 });

@@ -4,7 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
-const Products = ({ title }) => {
+const Products = ({ title, products }) => {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -23,10 +23,6 @@ const Products = ({ title }) => {
       items: 1,
     },
   };
-  const products = [
-    [1, 2, 3],
-    [4, 5, 6],
-  ];
 
   const ButtonGroup = ({ next, previous }) => {
     return (
@@ -67,16 +63,16 @@ const Products = ({ title }) => {
       >
         {products.map((p, i) => (
           <div key={i} className="flex flex-col justify-start gap-2">
-            {p.map((pl, i) => (
-              <Link key={i} className="flex justify-start items-start">
+            {p.map((pl, j) => (
+              <Link key={j} className="flex justify-start items-start">
                 <img
-                  src={`http://localhost:3000/images/products/${pl}.webp`}
-                  alt={`product${pl}`}
+                  src={pl.images[0]}
+                  alt={`product img`}
                   className="w-[110px] h-[110px]"
                 />
                 <div className="px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
-                  <h2>Long Sleeve Casual Shirt for Man</h2>
-                  <span className="text-lg font-bold">$565</span>
+                  <h2>{pl.name}</h2>
+                  <span className="text-lg font-bold">${pl.price}</span>
                 </div>
               </Link>
             ))}

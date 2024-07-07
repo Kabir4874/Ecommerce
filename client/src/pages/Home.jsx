@@ -9,23 +9,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { get_category, get_products } from "../store/reducers/homeReducer";
 const Home = () => {
   const dispatch = useDispatch();
-  const {
-    categorys,
-    products,
-    latest_product,
-    topRated_product,
-    discount_Product,
-  } = useSelector((state) => state.home);
+  const { products, latest_product, topRated_product, discount_product } =
+    useSelector((state) => state.home);
   useEffect(() => {
     dispatch(get_category());
     dispatch(get_products());
   }, []);
   return (
     <div className="w-full">
-      <Header categorys={categorys} />
+      <Header />
       <Banner />
       <div className="my-4">
-        <Categorys categorys={categorys} />
+        <Categorys />
       </div>
       <div className="py-[45px]">
         <FeatureProducts products={products} />
@@ -45,7 +40,7 @@ const Home = () => {
             <div className=" overflow-hidden">
               <Products
                 title={"Discount Product"}
-                products={discount_Product}
+                products={discount_product}
               />
             </div>
           </div>

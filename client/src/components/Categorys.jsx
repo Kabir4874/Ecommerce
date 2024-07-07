@@ -1,9 +1,11 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const Categorys = ({categorys}) => {
+const Categorys = () => {
+  const { categorys } = useSelector((state) => state.home);
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -46,11 +48,7 @@ const Categorys = ({categorys}) => {
         {categorys.map((c, i) => (
           <Link key={i} className="h-[185px] border block">
             <div className="w-full h-full relative p-3">
-              <img
-                src={c.image}
-                alt="category"
-                className="w-full h-full"
-              />
+              <img src={c.image} alt="category" className="w-full h-full" />
               <div className="absolute bottom-6 w-full mx-auto font-bold left-0 flex justify-center items-center">
                 <span className="py-[2px] px-6 bg-dark_charcoal text-white">
                   {c.name}
