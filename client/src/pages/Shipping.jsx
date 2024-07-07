@@ -160,17 +160,97 @@ const Shipping = () => {
                   )}
                   {res && (
                     <div className="flex flex-col gap-1">
-                      <h2>Deliver to {state.name}</h2>
+                      <h2 className="text-slate-600 font-semibold pb-2">
+                        Deliver to {state.name}
+                      </h2>
                       <p>
-                        <span>Home</span>
-                        <span></span>
+                        <span className="bg-blue-200 text-blue-800 text-xs font-medium mr-2 px-2.5  py-0.5 rounded">
+                          Home
+                        </span>
+                        <span className="text-slate-600 text-sm">
+                          {state.address} {state.province} {state.city}{" "}
+                          {state.area}{" "}
+                        </span>
+                        <span
+                          onClick={() => setRes(false)}
+                          className="text-indigo-500 cursor-pointer"
+                        >
+                          change
+                        </span>
+                      </p>
+                      <p className="text-slate-600 text-sm">
+                        Email to kabir@gmail.com
                       </p>
                     </div>
                   )}
                 </div>
+                {[1, 2].map((p, i) => (
+                  <div key={i} className="flex bg-white p-4 flex-col gap-2">
+                    <div className="flex justify-start items-center">
+                      <h2 className="text-slate-600">Kabir Fashion</h2>
+                    </div>
+                    {[1, 2].map((p, i) => (
+                      <div key={i} className="w-full flex flex-wrap">
+                        <div className="flex sm:w-full gap-2 w-7/12">
+                          <div className="flex gap-2 justify-start items-center">
+                            <img
+                              src={`http://localhost:3000/images/products/${
+                                i + 1
+                              }.webp`}
+                              alt="product"
+                              className="w-[80px] h-[80px]"
+                            />
+                            <div className="pr-4 text-slate-600">
+                              <h2>Long Sleeve casual Shirt for Man</h2>
+                              <span className="text-sm">Brand: Easy</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex justify-end w-5/12 sm:w-full sm:mt-3">
+                          <div className="pl-4 sm:pl-0">
+                            <h2 className="text-lg text-orange-500">$600</h2>
+                            <p className=" line-through">$665</p>
+                            <p> -10%</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="w-[33%] md-lg:w-full"></div>
+            <div className="w-[33%] md-lg:w-full">
+              <div className="pl-3 md-lg:pl-0">
+                <div className="bg-white font-medium p-5 text-slate-600 flex flex-col gap-3">
+                  <h2 className="text-xl font-semibold">Order Summary</h2>
+                  <div className="flex justify-between items-center">
+                    <span>Items Total: </span>
+                    <span>$853</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Delivery Fee: </span>
+                    <span>$5</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Total Payment: </span>
+                    <span>$858</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Total: </span>
+                    <span>$958</span>
+                  </div>
+                  <button
+                    disabled={res ? false : true}
+                    className={`px-5 py-[6px] rounded-sm hover:shadow-orange-500/20 hover:shadow-lg ${
+                      res ? "bg-orange-500" : "bg-orange-300"
+                    } text-sm text-white uppercase`}
+                  >
+                    Place Order
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
