@@ -25,7 +25,9 @@ const Shops = () => {
   const perPage = 12;
   const [styles, setStyles] = useState("grid");
   const [filter, setFilter] = useState(true);
-  const [state, setState] = useState({ values: [1, 100] });
+  const [state, setState] = useState({
+    values: [priceRange.low, priceRange.high],
+  });
   const [category, setCategory] = useState("");
   const [rating, setRating] = useState("");
   const [sortPrice, setSortPrice] = useState("");
@@ -311,7 +313,7 @@ const Shops = () => {
               <div className="pl-8 md:pl-0">
                 <div className="py-4 bg-white mb-10 px-3 rounded-md flex justify-between items-start border">
                   <h2 className="text-lg font-medium text-slate-600">
-                    12 Products
+                    {totalProduct} Products
                   </h2>
                   <div className="flex justify-center items-center gap-3">
                     <select

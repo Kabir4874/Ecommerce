@@ -91,6 +91,7 @@ class homeControllers {
 
       const totalProduct = new queryProducts(products, req.query)
         .categoryQuery()
+        .searchQuery()
         .priceQuery()
         .ratingQuery()
         .sortByPrice()
@@ -98,6 +99,7 @@ class homeControllers {
 
       const result = new queryProducts(products, req.query)
         .categoryQuery()
+        .searchQuery()
         .ratingQuery()
         .priceQuery()
         .sortByPrice()

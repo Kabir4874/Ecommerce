@@ -17,9 +17,10 @@ import {
   query_product,
 } from "../store/reducers/homeReducer";
 
-const CategoryShop = () => {
+const SearchProducts = () => {
   let [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get("category");
+  const searchValue = searchParams.get("value");
   const dispatch = useDispatch();
   const { products, totalProduct, latest_product, priceRange } = useSelector(
     (state) => state.home
@@ -51,6 +52,7 @@ const CategoryShop = () => {
         rating,
         sortPrice,
         pageNumber,
+        searchValue
       })
     );
   }, [
@@ -60,6 +62,7 @@ const CategoryShop = () => {
     rating,
     pageNumber,
     sortPrice,
+    searchValue,
   ]);
 
   const resetRating = () => {
@@ -339,4 +342,4 @@ const CategoryShop = () => {
   );
 };
 
-export default CategoryShop;
+export default SearchProducts;
