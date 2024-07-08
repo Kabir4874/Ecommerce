@@ -1,5 +1,6 @@
 const categoryModel = require("../../models/categoryModel");
 const productModel = require("../../models/productModel");
+const queryProducts = require("../../utils/queryProducts");
 const { responseReturn } = require("../../utils/response");
 
 class homeControllers {
@@ -87,7 +88,24 @@ class homeControllers {
     req.query.perPage = perPage;
     try {
       const products = await productModel.find({}).sort({ createdAt: -1 });
-      
+
+      const totalProduct = new queryProducts(products, req.query)
+        .categoryQuery()
+        .priceQuery()
+        .ratingQuery()
+        .sortByPrice()
+        .countProducts();
+
+      const result = new queryProducts(products, req.query)
+        .categoryQuery()
+        .ratingQuery()
+        .priceQuery()
+        .sortByPrice()
+        .skip()
+        .limit()
+        .getProducts();
+
+      responseReturn(res, 200, { products: result, totalProduct });
     } catch (error) {
       responseReturn(res, 501, { error: error.message });
     }
