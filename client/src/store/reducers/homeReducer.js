@@ -37,6 +37,20 @@ export const price_range_product = createAsyncThunk(
   }
 );
 
+export const query_product = createAsyncThunk(
+  "product/query_product",
+  async (query, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/home/query-products?category=${query.category}&&rating=${query.rating}&&lowPrice=${query.low}&&highPrice=${query.high}&&sortPrice=${query.sortPrice}&&pageNumber=${query.pageNumber}`
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+);
+
 export const homeReducer = createSlice({
   name: "home",
   initialState: {

@@ -81,6 +81,17 @@ class homeControllers {
       responseReturn(res, 501, { error: error.message });
     }
   };
+
+  query_product = async (req, res) => {
+    const perPage = 12;
+    req.query.perPage = perPage;
+    try {
+      const products = await productModel.find({}).sort({ createdAt: -1 });
+      
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
 }
 
 module.exports = new homeControllers();
