@@ -4,7 +4,7 @@ import { FaEye } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import Ratings from "../Ratings";
 
-const ShopProducts = ({ styles }) => {
+const ShopProducts = ({ styles, products }) => {
   return (
     <div
       className={`w-full grid ${
@@ -13,7 +13,7 @@ const ShopProducts = ({ styles }) => {
           : "grid-cols-1 md-lg:grid-cols-2"
       } gap-3`}
     >
-      {[1, 2, 3, 4, 5, 6].map((p, i) => (
+      {products.map((p, i) => (
         <div
           key={i}
           className={`flex transition-all duration-1000 hover:shadow-md hover:-translate-y-3 ${
@@ -30,7 +30,7 @@ const ShopProducts = ({ styles }) => {
             }
           >
             <img
-              src={`http://localhost:3000/images/products/${p}.webp`}
+              src={p.images[0]}
               alt="product"
               className="h-full w-full rounded-md"
             />
@@ -48,13 +48,13 @@ const ShopProducts = ({ styles }) => {
           </div>
 
           <div className="flex justify-start items-start flex-col gap-1">
-            <h2 className="font-medium text-slate-700">
-              Long Sleeve casual Shirt for Man
-            </h2>
+            <h2 className="font-medium text-slate-700">{p.name}</h2>
             <div className="flex justify-start items-center gap-2">
-              <span className="text-md font-bold text-slate-700">$675</span>
+              <span className="text-md font-bold text-slate-700">
+                ${p.price}
+              </span>
               <div className="flex text-lg">
-                <Ratings ratings={4.5} />
+                <Ratings ratings={p.rating} />
               </div>
             </div>
           </div>

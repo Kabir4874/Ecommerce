@@ -17,7 +17,7 @@ import {
   query_product,
 } from "../store/reducers/homeReducer";
 
-const Shops = () => {
+const CategoryShop = () => {
   const dispatch = useDispatch();
   const { categorys, products, totalProduct, latest_product, priceRange } =
     useSelector((state) => state.home);
@@ -118,31 +118,6 @@ const Shops = () => {
                   : "md:h-auto md:overflow-auto md:mb-0"
               }`}
             >
-              <h2 className="text-3xl font-bold mb-3 text-slate-600">
-                Category
-              </h2>
-              <div className="py-2">
-                {categorys.map((c, i) => (
-                  <div
-                    key={c._id}
-                    className="flex justify-start items-center gap-2 py-1"
-                  >
-                    <input
-                      checked={category === c.name ? true : false}
-                      onChange={(e) => queryCategory(e, c.name)}
-                      type="checkbox"
-                      id={c.name}
-                    />
-                    <label
-                      htmlFor={c.name}
-                      className="text-slate-600 block cursor-pointer"
-                    >
-                      {c.name}
-                    </label>
-                  </div>
-                ))}
-              </div>
-
               <div className="py-2 flex flex-col gap-5">
                 <h2 className="text-3xl font-bold mb-3 text-slate-600">
                   Price
@@ -368,4 +343,4 @@ const Shops = () => {
   );
 };
 
-export default Shops;
+export default CategoryShop;
