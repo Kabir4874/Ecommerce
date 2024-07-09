@@ -18,16 +18,14 @@ const Header = () => {
   const navigate = useNavigate();
   const { categorys } = useSelector((state) => state.home);
   const { pathname } = useLocation();
-  const user = true;
+  const user = false;
   const [showSidebar, setShowSidebar] = useState(true);
   const wishlist = 4;
   const [categoryShow, setCategoryShow] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
   const search = () => {
-    navigate(
-      `/products/search?category=${category}&&value=${searchValue}`
-    );
+    navigate(`/products/search?category=${category}&&value=${searchValue}`);
   };
   return (
     <div className="w-full bg-white">
@@ -85,12 +83,15 @@ const Header = () => {
                     <span>Kabir Ahmed</span>
                   </Link>
                 ) : (
-                  <div className="flex justify-center items-center gap-2 text-sm">
+                  <Link
+                    to={"/login"}
+                    className="flex justify-center items-center gap-2 text-sm"
+                  >
                     <span>
                       <FaLock />
                     </span>
                     <span>Login</span>
-                  </div>
+                  </Link>
                 )}
               </div>
             </div>
