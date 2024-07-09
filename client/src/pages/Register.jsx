@@ -45,6 +45,7 @@ const Register = () => {
                       placeholder="name"
                       onChange={inputHandle}
                       value={state.name}
+                      required
                       className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
                     />
                   </div>
@@ -57,6 +58,7 @@ const Register = () => {
                       placeholder="email"
                       onChange={inputHandle}
                       value={state.email}
+                      required
                       className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
                     />
                   </div>
@@ -69,6 +71,7 @@ const Register = () => {
                       placeholder="password"
                       onChange={inputHandle}
                       value={state.password}
+                      required
                       className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
                     />
                   </div>
