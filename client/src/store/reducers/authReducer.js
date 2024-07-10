@@ -3,12 +3,13 @@ import api from "../../api/api";
 
 export const customer_register = createAsyncThunk(
   "auth/customer_register",
-  async (info, {}) => {
+  async (info, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.post("/customer/customer-register", info);
-      console.log(data);
+      localStorage.setItem("customerToken", data.token);
+      return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -28,10 +29,18 @@ export const authReducer = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // builder
-    //   .addCase(get_category.fulfilled, (state, { payload }) => {
-    //     state.categorys = payload.categorys;
-    //   })
+    builder
+      .addCase(customer_register.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(customer_register.rejected, (state, { payload }) => {
+        state.errorMessage = payload.error;
+        state.loader = false;
+      })
+      .addCase(customer_register.fulfilled, (state, { payload }) => {
+        state.successMessage = payload.message;
+        state.loader = false;
+      });
   },
 });
 
