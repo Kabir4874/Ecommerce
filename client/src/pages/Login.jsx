@@ -3,10 +3,19 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { FaFacebookF } from "react-icons/fa6";
 import { AiOutlineGoogle } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { customer_login, messageClear } from "../store/reducers/authReducer";
+import { FadeLoader } from "react-spinners";
+import toast from "react-hot-toast";
 
 const Login = () => {
-    const [state, setState] = useState({
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loader, successMessage, errorMessage, userInfo } = useSelector(
+    (state) => state.auth
+  );
+  const [state, setState] = useState({
     email: "",
     password: "",
   });
@@ -18,10 +27,15 @@ const Login = () => {
   };
   const login = (e) => {
     e.preventDefault();
-    console.log(state);
+    dispatch(customer_login(state));
   };
   return (
     <div>
+      {loader && (
+        <div className=" w-screen h-screen flex justify-center items-center fixed left-0 top-0 bg-dune z-[999]">
+          <FadeLoader />
+        </div>
+      )}
       <Header />
       <div className="bg-slate-200 mt-4">
         <div className="w-full justify-center items-center p-10 flex">

@@ -3,13 +3,14 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { FaFacebookF } from "react-icons/fa6";
 import { AiOutlineGoogle } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { customer_register, messageClear } from "../store/reducers/authReducer";
 import { FadeLoader } from "react-spinners";
 import toast from "react-hot-toast";
 
 const Register = () => {
+  const navigate = useNavigate();
   const { loader, successMessage, errorMessage, userInfo } = useSelector(
     (state) => state.auth
   );
@@ -32,11 +33,12 @@ const Register = () => {
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
-      messageClear();
+      dispatch(messageClear());
+      navigate("/login");
     }
     if (errorMessage) {
       toast.error(errorMessage);
-      messageClear();
+      dispatch(messageClear());
     }
   }, [successMessage, errorMessage]);
   return (

@@ -13,6 +13,18 @@ export const customer_register = createAsyncThunk(
     }
   }
 );
+export const customer_login = createAsyncThunk(
+  "auth/customer_login",
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/customer/customer-login", info);
+      localStorage.setItem("customerToken", data.token);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const authReducer = createSlice({
   name: "auth",

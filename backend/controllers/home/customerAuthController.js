@@ -27,7 +27,37 @@ class customerAuthController {
         res.cookie("customerToken", token, {
           expiresIn: new Date(Date.now() * 7 * 24 * 60 * 60 * 1000),
         });
-        responseReturn(res, 201, { message: "Register Successfully",token });
+        responseReturn(res, 201, { message: "Register Successfully", token });
+      }
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
+
+  customer_login = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+      const customer = await customerModel
+        .findOne({ email })
+        .select("+password");
+      if (customer) {
+        const match = await bcrypt.compare(password, customer.password);
+        if (match) {
+          const token = await createToken({
+            id: customer.id,
+            name: customer.name,
+            email: customer.email,
+            method: customer.method,
+          });
+          res.cookie("customerToken", token, {
+            expiresIn: new Date(Date.now() * 7 * 24 * 60 * 60 * 1000),
+          });
+          responseReturn(res, 201, { message: "Login Successfully", token });
+        } else {
+          responseReturn(res, 501, { error: "Password Incorrect" });
+        }
+      } else {
+        responseReturn(res, 501, { error: "User not found" });
       }
     } catch (error) {
       responseReturn(res, 501, { error: error.message });
