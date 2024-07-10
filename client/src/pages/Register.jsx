@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { FaFacebookF } from "react-icons/fa6";
 import { AiOutlineGoogle } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { customer_register } from "../store/reducers/authReducer";
+import { customer_register, messageClear } from "../store/reducers/authReducer";
+import { FadeLoader } from "react-spinners";
+import toast from "react-hot-toast";
 
 const Register = () => {
-  const {loader,successMessage,errorMessage,userInfo}= useSelector(state=>state.auth)
+  const { loader, successMessage, errorMessage, userInfo } = useSelector(
+    (state) => state.auth
+  );
   const dispatch = useDispatch();
   const [state, setState] = useState({
     name: "",
@@ -25,8 +29,23 @@ const Register = () => {
     e.preventDefault();
     dispatch(customer_register(state));
   };
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      messageClear();
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      messageClear();
+    }
+  }, [successMessage, errorMessage]);
   return (
     <div>
+      {loader && (
+        <div className=" w-screen h-screen flex justify-center items-center fixed left-0 top-0 bg-dune z-[999]">
+          <FadeLoader />
+        </div>
+      )}
       <Header />
       <div className="bg-slate-200 mt-4">
         <div className="w-full justify-center items-center p-10 flex">
