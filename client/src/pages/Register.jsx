@@ -34,11 +34,13 @@ const Register = () => {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
-      navigate("/login");
     }
     if (errorMessage) {
       toast.error(errorMessage);
       dispatch(messageClear());
+    }
+    if (userInfo) {
+      navigate("/");
     }
   }, [successMessage, errorMessage]);
   return (
