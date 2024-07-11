@@ -1,5 +1,4 @@
 const customerAuthController = require("../../controllers/home/customerAuthController");
-
 const router = require("express").Router();
 router.post(
   "/customer/customer-register",
