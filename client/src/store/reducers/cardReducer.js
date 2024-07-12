@@ -4,13 +4,12 @@ import api from "../../api/api";
 export const add_to_card = createAsyncThunk(
   "auth/add_to_card",
   async (info, { rejectWithValue, fulfillWithValue }) => {
-    // try {
-    //   const { data } = await api.post("/customer/customer-register", info);
-    //   localStorage.setItem("customerToken", data.token);
-    //   return fulfillWithValue(data);
-    // } catch (error) {
-    //   return rejectWithValue(error.response.data);
-    // }
+    try {
+      const { data } = await api.post("/home/product/add-to-card", info);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 

@@ -12,7 +12,13 @@ const FeatureProducts = ({ products }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const add_card = (id) => {
     if (userInfo) {
-      dispatch(add_to_card(id));
+      dispatch(
+        add_to_card({
+          userId: userInfo.id,
+          quantity: 1,
+          productId: id,
+        })
+      );
     } else {
       navigate("/login");
     }
