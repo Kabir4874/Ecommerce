@@ -1,10 +1,22 @@
 import React from "react";
 import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { FaEye } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Ratings from "../Ratings";
+import { useDispatch, useSelector } from "react-redux";
+import { add_to_card } from "../../store/reducers/cardReducer";
 
 const FeatureProducts = ({ products }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
+  const add_card = (id) => {
+    if (userInfo) {
+      dispatch(add_to_card(id));
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <div className="w-[85%] flex flex-wrap mx-auto">
       <div className="w-full">
@@ -42,7 +54,10 @@ const FeatureProducts = ({ products }) => {
                 >
                   <FaEye />
                 </Link>
-                <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-sushi hover:text-white hover:rotate-[720deg] transition-all">
+                <li
+                  onClick={() => add_card(p._id)}
+                  className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-sushi hover:text-white hover:rotate-[720deg] transition-all"
+                >
                   <AiOutlineShoppingCart />
                 </li>
               </ul>
