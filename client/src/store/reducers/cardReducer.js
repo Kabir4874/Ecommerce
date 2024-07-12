@@ -13,6 +13,20 @@ export const add_to_card = createAsyncThunk(
   }
 );
 
+export const get_card_products = createAsyncThunk(
+  "auth/get_card_products",
+  async (userId, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/home/product/get-card-products/${userId}`
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const cardReducer = createSlice({
   name: "card",
   initialState: {
@@ -34,16 +48,12 @@ export const cardReducer = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(add_to_card.pending, (state) => {
-        state.loader = true;
-      })
       .addCase(add_to_card.rejected, (state, { payload }) => {
         state.errorMessage = payload.error;
-        state.loader = false;
       })
       .addCase(add_to_card.fulfilled, (state, { payload }) => {
         state.successMessage = payload.message;
-        state.loader = false;
+        state.card_products_count = state.card_products_count + 1;
       });
   },
 });

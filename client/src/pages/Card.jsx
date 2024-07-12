@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../components/Header";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { get_card_products } from "../store/reducers/cardReducer";
 
 const Card = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
   const card_products = [1, 2];
   const outOfStockProduct = [1, 2];
   const redirect = () => {
@@ -18,6 +22,9 @@ const Card = () => {
       },
     });
   };
+  useEffect(() => {
+    dispatch(get_card_products(userInfo.id));
+  }, []);
   return (
     <div>
       <Header />

@@ -18,9 +18,11 @@ const Header = () => {
   const navigate = useNavigate();
   const { categorys } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
+  const { card_products_count, wishlist_count } = useSelector(
+    (state) => state.card
+  );
   const { pathname } = useLocation();
   const [showSidebar, setShowSidebar] = useState(true);
-  const wishlist = 4;
   const [categoryShow, setCategoryShow] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
@@ -179,18 +181,22 @@ const Header = () => {
                       <span className="text-xl text-red-500">
                         <AiFillHeart />
                       </span>
-                      <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                        {wishlist}
-                      </div>
+                      {wishlist_count !== 0 && (
+                        <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                          {wishlist_count}
+                        </div>
+                      )}
                     </div>
-                    <Link to={"/card"}>
+                    <Link to={`${userInfo ? "/card" : "/login"}`}>
                       <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-mercury">
                         <span className="text-xl text-orange-500">
                           <AiFillShopping />
                         </span>
-                        <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                          {wishlist}
-                        </div>
+                        {card_products_count !== 0 && (
+                          <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                            {card_products_count}
+                          </div>
+                        )}
                       </div>
                     </Link>
                   </div>
