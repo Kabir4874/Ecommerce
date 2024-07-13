@@ -16,6 +16,7 @@ const Card = () => {
     shipping_fee,
     outOfStock_products,
   } = useSelector((state) => state.card);
+  console.log(card_products);
   const redirect = () => {
     navigate("/shipping", {
       state: {
@@ -171,11 +172,8 @@ const Card = () => {
 
                                 <div className="flex gap-2 flex-col">
                                   <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
-                                    <div className="px-3 cursor-pointer">
-                                      {" "}
-                                      -
-                                    </div>
-                                    <div className="px-3">5</div>
+                                    <div className="px-3 cursor-pointer">-</div>
+                                    <div className="px-3">{p.quantity}</div>
                                     <div className="px-3 cursor-pointer">+</div>
                                   </div>
 
