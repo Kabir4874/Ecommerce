@@ -109,7 +109,7 @@ const Card = () => {
                               <div className="flex gap-2 flex-col">
                                 <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
                                   <div className="px-3 cursor-pointer"> -</div>
-                                  <div className="px-3">5</div>
+                                  <div className="px-3">{product.quantity}</div>
                                   <div className="px-3 cursor-pointer">+</div>
                                 </div>
 
@@ -130,20 +130,20 @@ const Card = () => {
                           </h2>
                         </div>
                         <div className="bg-white p-4 flex flex-col gap-2">
-                          {[1, 2].map((p, i) => (
+                          {outOfStock_products.map((p, i) => (
                             <div key={i} className="w-full flex flex-wrap">
                               <div className="flex sm:w-full gap-2 w-7/12">
                                 <div className="flex gap-2 justify-start items-center">
                                   <img
-                                    src={`http://localhost:3000/images/products/${
-                                      i + 1
-                                    }.webp`}
+                                    src={p.products[0].images[0]}
                                     alt="product"
                                     className="w-[80px] h-[80px]"
                                   />
                                   <div className="pr-4 text-slate-600">
-                                    <h2>Long Sleeve casual Shirt for Man</h2>
-                                    <span className="text-sm">Brand: Easy</span>
+                                    <h2>{p.products[0].name}</h2>
+                                    <span className="text-sm">
+                                      Brand: {p.products[0].brand}
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -151,10 +151,22 @@ const Card = () => {
                               <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
                                 <div className="pl-4 sm:pl-0">
                                   <h2 className="text-lg text-orange-500">
-                                    $600
+                                    $
+                                    {p.products[0].price -
+                                      Math.floor(
+                                        (p.products[0].price *
+                                          p.products[0].discount) /
+                                          100
+                                      )}
                                   </h2>
-                                  <p className=" line-through">$665</p>
-                                  <p> -10%</p>
+                                  {p.products[0].discount > 0 && (
+                                    <p className=" line-through">
+                                      ${p.products[0].price}
+                                    </p>
+                                  )}
+                                  {p.products[0].discount > 0 && (
+                                    <p> -{p.products[0].discount}%</p>
+                                  )}
                                 </div>
 
                                 <div className="flex gap-2 flex-col">
