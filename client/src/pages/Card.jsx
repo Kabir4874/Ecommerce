@@ -88,10 +88,22 @@ const Card = () => {
                             <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
                               <div className="pl-4 sm:pl-0">
                                 <h2 className="text-lg text-orange-500">
-                                  $600
+                                  $
+                                  {product.productInfo.price -
+                                    Math.floor(
+                                      (product.productInfo.price *
+                                        product.productInfo.discount) /
+                                        100
+                                    )}
                                 </h2>
-                                <p className=" line-through">$665</p>
-                                <p> -10%</p>
+                                {product.productInfo.discount > 0 && (
+                                  <p className=" line-through">
+                                    ${product.productInfo.price}
+                                  </p>
+                                )}
+                                {product.productInfo.discount > 0 && (
+                                  <p> -{product.productInfo.discount}%</p>
+                                )}
                               </div>
 
                               <div className="flex gap-2 flex-col">
