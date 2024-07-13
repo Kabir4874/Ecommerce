@@ -54,6 +54,13 @@ export const cardReducer = createSlice({
       .addCase(add_to_card.fulfilled, (state, { payload }) => {
         state.successMessage = payload.message;
         state.card_products_count = state.card_products_count + 1;
+      })
+      .addCase(get_card_products.fulfilled, (state, { payload }) => {
+        state.card_products = payload.card_products;
+        state.price = payload.price;
+        state.card_products_count = payload.card_product_count;
+        state.shipping_fee = payload.shipping_fee;
+        state.outOfStock_products = payload.outOfStockProduct;
       });
   },
 });

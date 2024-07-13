@@ -40,6 +40,7 @@ class cardController {
   };
 
   get_card_products = async (req, res) => {
+    const co = 5;
     const { userId } = req.params;
     try {
       const card_products = await cardModel.aggregate([
@@ -74,7 +75,63 @@ class cardController {
         const { quantity } = stockProduct[i];
         card_product_count += quantity;
         const { price, discount } = stockProduct[i].products[0];
+        if (discount !== 0) {
+          calculatePrice +=
+            quantity * (price - Math.floor((price * discount) / 100));
+        } else {
+          calculatePrice += quantity * price;
+        }
       }
+      let p = [];
+      let unique = [
+        ...new Set(stockProduct.map((p) => p.products[0].sellerId.toString())),
+      ];
+      for (let i = 0; i < unique.length; i++) {
+        let price = 0;
+        for (let j = 0; j < stockProduct.length; j++) {
+          const tempProduct = stockProduct[j].products[0];
+          if (unique[i] === tempProduct.sellerId.toString()) {
+            let pri = 0;
+            if (tempProduct.discount !== 0) {
+              pri =
+                tempProduct.price -
+                Math.floor((tempProduct.price * tempProduct.discount) / 100);
+            } else {
+              pri = tempProduct.price;
+            }
+            pri -= Math.floor((pri * co) / 100);
+            price += pri * stockProduct[j].quantity;
+            p[i] = {
+              sellerId: unique[i],
+              shopName: tempProduct.shopName,
+              price,
+              products: p[i]
+                ? [
+                    ...p[i].products,
+                    {
+                      _id: stockProduct[j]._id,
+                      quantity: stockProduct[j].quantity,
+                      productInfo: tempProduct,
+                    },
+                  ]
+                : [
+                    {
+                      _id: stockProduct[j]._id,
+                      quantity: stockProduct[j].quantity,
+                      productInfo: tempProduct,
+                    },
+                  ],
+            };
+          }
+        }
+      }
+      responseReturn(res, 200, {
+        card_products: p,
+        price: calculatePrice,
+        card_product_count,
+        shipping_fee: 85 * p.length,
+        outOfStockProduct,
+      });
     } catch (error) {
       responseReturn(res, 501, { error: error.message });
     }
