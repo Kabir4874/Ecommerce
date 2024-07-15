@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { get_card_products } from "../store/reducers/cardReducer";
-
 const Card = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
