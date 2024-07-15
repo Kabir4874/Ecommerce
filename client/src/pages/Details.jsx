@@ -368,7 +368,6 @@ const Details = () => {
           </div>
         </div>
       </section>
-
       <Footer />
     </div>
   );
