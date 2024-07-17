@@ -4,7 +4,10 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
-import { get_card_products } from "../store/reducers/cardReducer";
+import {
+  delete_card_product,
+  get_card_products,
+} from "../store/reducers/cardReducer";
 const Card = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -114,7 +117,12 @@ const Card = () => {
                                   <div className="px-3 cursor-pointer">+</div>
                                 </div>
 
-                                <button className="px-5 py-[3px] bg-red-500 text-white">
+                                <button
+                                  onClick={() =>
+                                    dispatch(delete_card_product(product._id))
+                                  }
+                                  className="px-5 py-[3px] bg-red-500 text-white"
+                                >
                                   Delete
                                 </button>
                               </div>
@@ -224,7 +232,7 @@ const Card = () => {
                         onClick={redirect}
                         className="px-5 py-[6px] rounded-sm hover:shadow-orange-500/20 hover:shadow-lg bg-orange-500 text-sm text-white uppercase"
                       >
-                        Proceed to checkout
+                        Proceed to checkout {buy_product_item}
                       </button>
                     </div>
                   )}

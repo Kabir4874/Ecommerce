@@ -140,5 +140,8 @@ class cardController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+  delete_card_product = async (req, res) => {
+    console.log(req.params);
+  };
 }
 module.exports = new cardController();
