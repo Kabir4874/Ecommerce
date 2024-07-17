@@ -149,5 +149,16 @@ class cardController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+  quantity_inc = async (req, res) => {
+    const { card_id } = req.params;
+    try {
+      const product = await cardModel.findById(card_id);
+      const { quantity } = product;
+      await cardModel.findByIdAndUpdate(card_id, { quantity: quantity + 1 });
+      responseReturn(res, 200, { message: "Quantity Increment" });
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
 }
 module.exports = new cardController();

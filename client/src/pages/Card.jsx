@@ -23,6 +23,7 @@ const Card = () => {
     buy_product_item,
     price,
     successMessage,
+    quantity,
   } = useSelector((state) => state.card);
   const redirect = () => {
     navigate("/shipping", {
@@ -140,7 +141,7 @@ const Card = () => {
                                         product._id
                                       )
                                     }
-                                    className="px-3 cursor-pointer"
+                                    className="px-3 cursor-pointer select-none"
                                   >
                                     +
                                   </div>
