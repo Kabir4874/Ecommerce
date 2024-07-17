@@ -7,7 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   delete_card_product,
   get_card_products,
+  messageClear,
+  quantity_inc,
 } from "../store/reducers/cardReducer";
+import toast from "react-hot-toast";
 const Card = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,8 +22,8 @@ const Card = () => {
     outOfStock_products,
     buy_product_item,
     price,
+    successMessage,
   } = useSelector((state) => state.card);
-  console.log(card_products);
   const redirect = () => {
     navigate("/shipping", {
       state: {
@@ -34,6 +37,21 @@ const Card = () => {
   useEffect(() => {
     dispatch(get_card_products(userInfo.id));
   }, []);
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+      dispatch(get_card_products(userInfo.id));
+    }
+  }, [successMessage]);
+
+  const inc = (quantity, stock, card_id) => {
+    const temp = quantity + 1;
+    if (temp <= stock) {
+      dispatch(quantity_inc(card_id));
+    }
+  };
   return (
     <div>
       <Header />
@@ -114,7 +132,18 @@ const Card = () => {
                                 <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
                                   <div className="px-3 cursor-pointer"> -</div>
                                   <div className="px-3">{product.quantity}</div>
-                                  <div className="px-3 cursor-pointer">+</div>
+                                  <div
+                                    onClick={() =>
+                                      inc(
+                                        product.quantity,
+                                        product.productInfo.stock,
+                                        product._id
+                                      )
+                                    }
+                                    className="px-3 cursor-pointer"
+                                  >
+                                    +
+                                  </div>
                                 </div>
 
                                 <button
@@ -185,7 +214,12 @@ const Card = () => {
                                     <div className="px-3 cursor-pointer">+</div>
                                   </div>
 
-                                  <button className="px-5 py-[3px] bg-red-500 text-white">
+                                  <button
+                                    onClick={() =>
+                                      dispatch(delete_card_product(p._id))
+                                    }
+                                    className="px-5 py-[3px] bg-red-500 text-white"
+                                  >
                                     Delete
                                   </button>
                                 </div>
