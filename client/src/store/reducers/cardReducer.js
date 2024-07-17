@@ -32,6 +32,7 @@ export const cardReducer = createSlice({
   initialState: {
     card_products: [],
     card_products_count: 0,
+    buy_product_item: 0,
     wishlist_count: 0,
     wishlist: [],
     price: 0,
@@ -61,6 +62,7 @@ export const cardReducer = createSlice({
         state.card_products_count = payload.card_product_count;
         state.shipping_fee = payload.shipping_fee;
         state.outOfStock_products = payload.outOfStockProduct;
+        state.buy_product_item = payload.buy_product_item;
       });
   },
 });

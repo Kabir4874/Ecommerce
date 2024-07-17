@@ -14,6 +14,8 @@ const Card = () => {
     card_products_count,
     shipping_fee,
     outOfStock_products,
+    buy_product_item,
+    price,
   } = useSelector((state) => state.card);
   console.log(card_products);
   const redirect = () => {
@@ -58,8 +60,7 @@ const Card = () => {
                   <div className="flex flex-col gap-3">
                     <div className="bg-white p-4">
                       <h2 className="text-green-500 font-semibold">
-                        Stock Products{" "}
-                        {card_products.length - outOfStock_products.length}
+                        Stock Products {card_products.length}
                       </h2>
                     </div>
                     {card_products.map((p, i) => (
@@ -196,12 +197,12 @@ const Card = () => {
                     <div className="bg-white flex flex-col gap-3 p-3 text-slate-600">
                       <h2 className="text-xl font-bold">Order Summary</h2>
                       <div className="flex justify-between items-center">
-                        <span>4 Items</span>
-                        <span>$3432</span>
+                        <span>{buy_product_item} Items</span>
+                        <span>${price}</span>
                       </div>
                       <div className="flex justify-between items-center">
                         <span>Shipping Fee</span>
-                        <span>$85</span>
+                        <span>${shipping_fee}</span>
                       </div>
                       <div className="flex gap-2">
                         <input
@@ -215,7 +216,9 @@ const Card = () => {
                       </div>
                       <div className="flex justify-between items-center">
                         <span>Total: </span>
-                        <span className="text-lg text-orange-500">$85</span>
+                        <span className="text-lg text-orange-500">
+                          ${price + shipping_fee}
+                        </span>
                       </div>
                       <button
                         onClick={redirect}

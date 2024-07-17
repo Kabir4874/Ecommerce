@@ -60,6 +60,7 @@ class cardController {
           },
         },
       ]);
+      let buy_product_item = 0;
       let calculatePrice = 0;
       let card_product_count = 0;
       const outOfStockProduct = card_products.filter(
@@ -74,6 +75,7 @@ class cardController {
       for (let i = 0; i < stockProduct.length; i++) {
         const { quantity } = stockProduct[i];
         card_product_count += quantity;
+        buy_product_item += quantity;
         const { price, discount } = stockProduct[i].products[0];
         if (discount !== 0) {
           calculatePrice +=
@@ -83,6 +85,7 @@ class cardController {
         }
       }
       let p = [];
+
       let unique = [
         ...new Set(stockProduct.map((p) => p.products[0].sellerId.toString())),
       ];
@@ -131,6 +134,7 @@ class cardController {
         card_product_count,
         shipping_fee: 85 * p.length,
         outOfStockProduct,
+        buy_product_item,
       });
     } catch (error) {
       responseReturn(res, 501, { error: error.message });
