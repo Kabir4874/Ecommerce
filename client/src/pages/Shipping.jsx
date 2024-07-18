@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { place_order } from "../store/reducers/orderReducer";
 
 const Shipping = () => {
   const {
@@ -11,6 +12,8 @@ const Shipping = () => {
   } = useLocation();
   const dispatch = useDispatch();
   const [res, setRes] = useState(false);
+  const { userInfo } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const [state, setState] = useState({
     name: "",
     address: "",
@@ -31,7 +34,17 @@ const Shipping = () => {
     }
   };
   const placeOrder = () => {
-    
+    dispatch(
+      place_order({
+        price,
+        products,
+        shipping_fee,
+        shippingInfo: state,
+        userId: userInfo.id,
+        navigate,
+        items,
+      })
+    );
   };
   return (
     <div>
