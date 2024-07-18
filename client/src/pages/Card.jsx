@@ -18,21 +18,20 @@ const Card = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const {
     card_products,
-    card_products_count,
     shipping_fee,
     outOfStock_products,
     buy_product_item,
     price,
     successMessage,
-    quantity,
   } = useSelector((state) => state.card);
+
   const redirect = () => {
     navigate("/shipping", {
       state: {
-        products: [],
-        price: 500,
-        shipping_fee: 21,
-        items: 4,
+        products: card_products,
+        price: price,
+        shipping_fee: shipping_fee,
+        items: buy_product_item,
       },
     });
   };

@@ -3,9 +3,13 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useLocation, Link } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { useDispatch } from "react-redux";
 
 const Shipping = () => {
-  //   const { state } = useLocation();
+  const {
+    state: { products, price, shipping_fee, items },
+  } = useLocation();
+  const dispatch = useDispatch();
   const [res, setRes] = useState(false);
   const [state, setState] = useState({
     name: "",
@@ -25,6 +29,9 @@ const Shipping = () => {
     if (name && address && phone && post && province && city && area) {
       setRes(true);
     }
+  };
+  const placeOrder = () => {
+    
   };
   return (
     <div>
@@ -184,34 +191,44 @@ const Shipping = () => {
                     </div>
                   )}
                 </div>
-                {[1, 2].map((p, i) => (
+                {products.map((p, i) => (
                   <div key={i} className="flex bg-white p-4 flex-col gap-2">
                     <div className="flex justify-start items-center">
-                      <h2 className="text-slate-600">Kabir Fashion</h2>
+                      <h2 className="text-slate-600">{p.shopName}</h2>
                     </div>
-                    {[1, 2].map((p, i) => (
-                      <div key={i} className="w-full flex flex-wrap">
+                    {p.products.map((c, j) => (
+                      <div key={j} className="w-full flex flex-wrap">
                         <div className="flex sm:w-full gap-2 w-7/12">
                           <div className="flex gap-2 justify-start items-center">
                             <img
-                              src={`http://localhost:3000/images/products/${
-                                i + 1
-                              }.webp`}
+                              src={c.productInfo.images[0]}
                               alt="product"
                               className="w-[80px] h-[80px]"
                             />
                             <div className="pr-4 text-slate-600">
-                              <h2>Long Sleeve casual Shirt for Man</h2>
-                              <span className="text-sm">Brand: Easy</span>
+                              <h2>{c.productInfo.name}</h2>
+                              <span className="text-sm">
+                                Brand: {c.productInfo.brand}
+                              </span>
                             </div>
                           </div>
                         </div>
 
                         <div className="flex justify-end w-5/12 sm:w-full sm:mt-3">
                           <div className="pl-4 sm:pl-0">
-                            <h2 className="text-lg text-orange-500">$600</h2>
-                            <p className=" line-through">$665</p>
-                            <p> -10%</p>
+                            <h2 className="text-lg text-orange-500">
+                              $
+                              {c.productInfo.price -
+                                Math.floor(
+                                  (c.productInfo.price *
+                                    c.productInfo.discount) /
+                                    100
+                                )}
+                            </h2>
+                            <p className=" line-through">
+                              ${c.productInfo.price}
+                            </p>
+                            <p> -{c.productInfo.discount}%</p>
                           </div>
                         </div>
                       </div>
@@ -225,22 +242,23 @@ const Shipping = () => {
                 <div className="bg-white font-medium p-5 text-slate-600 flex flex-col gap-3">
                   <h2 className="text-xl font-semibold">Order Summary</h2>
                   <div className="flex justify-between items-center">
-                    <span>Items Total: </span>
-                    <span>$853</span>
+                    <span>Items Total({items}): </span>
+                    <span>${price}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span>Delivery Fee: </span>
-                    <span>$5</span>
+                    <span>${shipping_fee}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span>Total Payment: </span>
-                    <span>$858</span>
+                    <span>${price + shipping_fee}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span>Total: </span>
-                    <span>$958</span>
+                    <span>${price + shipping_fee}</span>
                   </div>
                   <button
+                    onClick={placeOrder}
                     disabled={res ? false : true}
                     className={`px-5 py-[6px] rounded-sm hover:shadow-orange-500/20 hover:shadow-lg ${
                       res ? "bg-orange-500" : "bg-orange-300"
