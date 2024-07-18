@@ -9,6 +9,7 @@ import {
   get_card_products,
   messageClear,
   quantity_inc,
+  quantity_dec,
 } from "../store/reducers/cardReducer";
 import toast from "react-hot-toast";
 const Card = () => {
@@ -51,6 +52,12 @@ const Card = () => {
     const temp = quantity + 1;
     if (temp <= stock) {
       dispatch(quantity_inc(card_id));
+    }
+  };
+  const dec = (quantity, card_id) => {
+    const temp = quantity - 1;
+    if (temp !== 0) {
+      dispatch(quantity_dec(card_id));
     }
   };
   return (
@@ -131,7 +138,15 @@ const Card = () => {
 
                               <div className="flex gap-2 flex-col">
                                 <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
-                                  <div className="px-3 cursor-pointer"> -</div>
+                                  <div
+                                    onClick={() =>
+                                      dec(product.quantity, product._id)
+                                    }
+                                    className="px-3 cursor-pointer select-none"
+                                  >
+                                    {" "}
+                                    -
+                                  </div>
                                   <div className="px-3">{product.quantity}</div>
                                   <div
                                     onClick={() =>
@@ -210,9 +225,25 @@ const Card = () => {
 
                                 <div className="flex gap-2 flex-col">
                                   <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
-                                    <div className="px-3 cursor-pointer">-</div>
+                                    <div
+                                      onClick={() => dec(p.quantity, p._id)}
+                                      className="px-3 cursor-pointer select-none"
+                                    >
+                                      -
+                                    </div>
                                     <div className="px-3">{p.quantity}</div>
-                                    <div className="px-3 cursor-pointer">+</div>
+                                    <div
+                                      onClick={() =>
+                                        inc(
+                                          p.quantity,
+                                          p.products[0].stock,
+                                          p._id
+                                        )
+                                      }
+                                      className="px-3 cursor-pointer select-none"
+                                    >
+                                      +
+                                    </div>
                                   </div>
 
                                   <button
