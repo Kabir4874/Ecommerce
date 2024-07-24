@@ -44,14 +44,15 @@ class productController {
           shopName: shopName[0],
           category: category[0].trim(),
           description: description[0].trim(),
-          stock: parseInt(stock),
-          price: parseInt(price),
-          discount: parseInt(discount),
+          stock: parseInt(stock[0]),
+          price: parseInt(price[0]),
+          discount: parseInt(discount[0]),
           images: allImageUrl,
           brand: brand[0].trim(),
         });
         responseReturn(res, 201, { message: "Product Added Successfully" });
       } catch (error) {
+        console.log(error);
         responseReturn(res, 500, { error: error.message });
       }
     });
