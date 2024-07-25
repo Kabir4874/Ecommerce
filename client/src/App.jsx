@@ -11,6 +11,9 @@ import { useDispatch } from "react-redux";
 import { get_category } from "./store/reducers/homeReducer";
 import CategoryShop from "./pages/CategoroyShop";
 import SearchProducts from "./pages/SearchProducts";
+import Payment from "./pages/Payment";
+import ProtectUser from "./utils/ProtectUser";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -28,7 +31,12 @@ const App = () => {
         <Route path="/products/search?" element={<SearchProducts />} />
         <Route path="/card" element={<Card />} />
         <Route path="/shipping" element={<Shipping />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/product/details/:slug" element={<Details />} />
+
+        <Route path="/dashboard" element={<ProtectUser />}>
+          <Route path="" element={<Dashboard />}></Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
