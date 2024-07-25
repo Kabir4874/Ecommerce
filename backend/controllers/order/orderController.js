@@ -1,8 +1,26 @@
-const authorModel = require("../../models/authOrderModel");
 const customerOrderModel = require("../../models/customerOrderModel");
 const moment = require("moment");
 const { responseReturn } = require("../../utils/response");
+const authOrderModel = require("../../models/authOrderModel");
+const cardModel = require("../../models/cardModel");
 class orderController {
+  paymentCheck = async (id) => {
+    try {
+      const order = await customerOrderModel.findById(id);
+      if (order.payment_status === "unpaid") {
+        await customerOrderModel.findByIdAndUpdate(id, {
+          delivery_status: "cancelled",
+        });
+        await authOrderModel.updateMany(
+          { orderId: id },
+          { delivery_status: "cancelled" }
+        );
+      }
+      return true;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   place_order = async (req, res) => {
     const { price, products, shipping_fee, shippingInfo, userId } = req.body;
     let authorOrderData = [];
@@ -39,7 +57,24 @@ class orderController {
           tempPro.quantity = pro[j].quantity;
           storePro.push(tempPro);
         }
+        authorOrderData.push({
+          orderId: order.id,
+          sellerId,
+          products: storePro,
+          price: pri,
+          payment_status: "unpaid",
+          shippingInfo: "Dhaka MyShop Warehouse",
+          delivery_status: "pending",
+          date: tempDate,
+        });
       }
+      await authOrderModel.insertMany(authorOrderData);
+      for (let k = 0; k < cardId.length; k++) {
+        await cardModel.findByIdAndDelete(cardId[k]);
+      }
+      setTimeout(() => {
+        this.paymentCheck(order.id);
+      }, 5 * 60 * 1000);
       responseReturn(res, 201, { message: "Order Placed Successfully" });
     } catch (error) {
       responseReturn(res, 501, { error: error.message });
