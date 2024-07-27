@@ -14,10 +14,10 @@ import SearchProducts from "./pages/SearchProducts";
 import Payment from "./pages/Payment";
 import ProtectUser from "./utils/ProtectUser";
 import Dashboard from "./pages/Dashboard";
-import Index from "./components/dashboard/Index";
 import Orders from "./components/dashboard/Orders";
 import Wishlist from "./components/dashboard/Wishlist";
 import ChangePassword from "./components/dashboard/ChangePassword";
+import ClientDashboard from "./components/dashboard/ClientDashboard";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const App = () => {
 
         <Route path="/dashboard" element={<ProtectUser />}>
           <Route path="" element={<Dashboard />}>
-            <Route path="" element={<Index />} />
+            <Route path="" element={<ClientDashboard />} />
             <Route path="my-orders" element={<Orders />} />
             <Route path="my-wishlist" element={<Wishlist />} />
             <Route path="change-password" element={<ChangePassword />} />

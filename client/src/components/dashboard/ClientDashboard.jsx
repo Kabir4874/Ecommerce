@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
-
-const index = () => {
+import { useSelector, useDispatch } from "react-redux";
+import { get_dashboard_index_data } from "../../store/reducers/dashboardReducer";
+const ClientDashboard = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+  const { totalOrder } = useSelector((state) => state.dashboard);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(get_dashboard_index_data(userInfo.id));
+  });
   return (
     <div>
       <div className="grid grid-cols-3 md:grid-cols-1 gap-5">
@@ -99,4 +106,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default ClientDashboard;
