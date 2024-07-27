@@ -1,15 +1,26 @@
 import React, { useEffect } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { get_dashboard_index_data } from "../../store/reducers/dashboardReducer";
 const ClientDashboard = () => {
+  const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
-  const { totalOrder } = useSelector((state) => state.dashboard);
+  const { totalOrder, pendingOrder, recentOrders, cancelledOrder } =
+    useSelector((state) => state.dashboard);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(get_dashboard_index_data(userInfo.id));
   });
+  const redirect = (order) => {
+    let items = 0;
+    for (let i = 0; i < order.length; i++) {
+      items = order.products[i].quantity + items;
+    }
+    navigate("/payment", {
+      state: { price: order.price, items, orderId: order._id },
+    });
+  };
   return (
     <div>
       <div className="grid grid-cols-3 md:grid-cols-1 gap-5">
@@ -20,7 +31,7 @@ const ClientDashboard = () => {
             </span>
           </div>
           <div className="flex flex-col justify-start items-start text-slate-600">
-            <h2 className="text-3xl font-bold">20</h2>
+            <h2 className="text-3xl font-bold">{totalOrder}</h2>
             <span>Orders</span>
           </div>
         </div>
@@ -31,7 +42,7 @@ const ClientDashboard = () => {
             </span>
           </div>
           <div className="flex flex-col justify-start items-start text-slate-600">
-            <h2 className="text-3xl font-bold">10</h2>
+            <h2 className="text-3xl font-bold">{pendingOrder}</h2>
             <span>Pending Orders</span>
           </div>
         </div>
@@ -42,7 +53,7 @@ const ClientDashboard = () => {
             </span>
           </div>
           <div className="flex flex-col justify-start items-start text-slate-600">
-            <h2 className="text-3xl font-bold">5</h2>
+            <h2 className="text-3xl font-bold">{cancelledOrder}</h2>
             <span>Cancelled Orders</span>
           </div>
         </div>
@@ -73,30 +84,35 @@ const ClientDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="bg-white border-b">
-                  <td className="px-6 py-4 font-medium whitespace-nowrap">
-                    324324324
-                  </td>
-                  <td className="px-6 py-4 font-medium whitespace-nowrap">
-                    $23
-                  </td>
-                  <td className="px-6 py-4 font-medium whitespace-nowrap">
-                    pending
-                  </td>
-                  <td className="px-6 py-4 font-medium whitespace-nowrap">
-                    pending
-                  </td>
-                  <td className="px-6 py-4">
-                    <Link to={`/dashboard/order/details/4343`}>
-                      <span className="bg-green-100 text-green-800 text-sm mr-2 px-2.5 py-[1px] rounded">
-                        view
+                {recentOrders.map((o, i) => (
+                  <tr key={o._id} className="bg-white border-b">
+                    <td className="px-6 py-4 font-medium whitespace-nowrap">
+                      {o._id}
+                    </td>
+                    <td className="px-6 py-4 font-medium whitespace-nowrap">
+                      ${o.price}
+                    </td>
+                    <td className="px-6 py-4 font-medium whitespace-nowrap">
+                      {o.payment_status}
+                    </td>
+                    <td className="px-6 py-4 font-medium whitespace-nowrap">
+                      {o.delivery_status}
+                    </td>
+                    <td className="px-6 py-4">
+                      <Link to={`/dashboard/order/details/${o._id}`}>
+                        <span className="bg-green-100 text-green-800 text-sm mr-2 px-2.5 py-[1px] rounded">
+                          view
+                        </span>
+                      </Link>
+                      <span
+                        onClick={() => redirect(o)}
+                        className="bg-red-100 text-red-800 text-sm mr-2 px-2.5 py-[1px] rounded cursor-pointer"
+                      >
+                        Pay Now
                       </span>
-                    </Link>
-                    <span className="bg-red-100 text-red-800 text-sm mr-2 px-2.5 py-[1px] rounded cursor-pointer">
-                      Pay Now
-                    </span>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

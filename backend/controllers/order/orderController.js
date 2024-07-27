@@ -89,7 +89,7 @@ class orderController {
   get_customer_dashboard_data = async (req, res) => {
     const { userId } = req.params;
     try {
-      const recentOrder = await customerOrderModel
+      const recentOrders = await customerOrderModel
         .find({
           customerId: new ObjectId(userId),
         })
@@ -112,7 +112,7 @@ class orderController {
         })
         .countDocuments();
       responseReturn(res, 201, {
-        recentOrder,
+        recentOrders,
         pendingOrder,
         cancelledOrder,
         totalOrder,
