@@ -44,7 +44,20 @@ export const get_orders = createAsyncThunk(
       const { data } = await api.get(
         `/home/customer/get-orders/${customerId}/${status}`
       );
-      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+);
+export const get_order_details = createAsyncThunk(
+  "order/get_order_details",
+  async ({ orderId }, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/home/customer/get-order-details/${orderId}`
+      );
+      return fulfillWithValue(data);
     } catch (error) {
       console.log(error.message);
     }
@@ -66,10 +79,9 @@ export const orderReducer = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // builder
-    //   .addCase(add_to_card.rejected, (state, { payload }) => {
-    //     state.errorMessage = payload.error;
-    //   })
+    builder.addCase(get_orders.fulfilled, (state, { payload }) => {
+      state.myOrders = payload.orders;
+    });
   },
 });
 export const { messageClear } = orderReducer.actions;
