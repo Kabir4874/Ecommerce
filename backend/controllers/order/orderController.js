@@ -121,5 +121,8 @@ class orderController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+  get_orders = async (req, res) => {
+    console.log(req.params);
+  };
 }
 module.exports = new orderController();

@@ -15,7 +15,7 @@ const ClientDashboard = () => {
   const redirect = (order) => {
     let items = 0;
     for (let i = 0; i < order.length; i++) {
-      items = order.products[i].quantity + items;
+      items = order.products[i].quantity + items; 
     }
     navigate("/payment", {
       state: { price: order.price, items, orderId: order._id },
