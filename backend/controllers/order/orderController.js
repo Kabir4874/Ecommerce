@@ -122,7 +122,23 @@ class orderController {
     }
   };
   get_orders = async (req, res) => {
-    console.log(req.params);
+    const { customerId, status } = req.params;
+    try {
+      let orders = [];
+      if (status !== "all") {
+        orders = await customerOrderModel.find({
+          customerId: new ObjectId(customerId),
+          delivery_status: status,
+        });
+      } else {
+        orders = await customerOrderModel.find({
+          customerId: new ObjectId(customerId),
+        });
+      }
+      responseReturn(res, 200, { orders });
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
   };
 }
 module.exports = new orderController();

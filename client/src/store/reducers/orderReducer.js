@@ -44,6 +44,7 @@ export const get_orders = createAsyncThunk(
       const { data } = await api.get(
         `/home/customer/get-orders/${customerId}/${status}`
       );
+      console.log(data);
     } catch (error) {
       console.log(error.message);
     }
