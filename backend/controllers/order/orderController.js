@@ -140,5 +140,15 @@ class orderController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+
+  get_order_details = async (req, res) => {
+    const { orderId } = req.params;
+    try {
+      const order = await customerOrderModel.findById(orderId);
+      responseReturn(res, 200, { order });
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
 }
 module.exports = new orderController();
