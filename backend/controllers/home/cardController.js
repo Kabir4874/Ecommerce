@@ -178,13 +178,22 @@ class cardController {
     try {
       const product = await wishlistModel.findOne({ slug });
       if (product) {
-        responseReturn(res, 404, { error: "Already Added" });
+        responseReturn(res, 404, { error: "Already added to wishlist" });
       } else {
         await wishlistModel.create(req.body);
+        responseReturn(res, 201, { message: "Added to wishlist" });
       }
     } catch (error) {
       responseReturn(res, 501, { error: error.message });
     }
+  };
+
+  get_wishlist_products = async (req, res) => {
+    const { userId } = req.params;
+    try {
+      const wishlists = await wishlistModel.find({ userId });
+      responseReturn(res, 200, { wishlist_count: wishlists.length, wishlists });
+    } catch (error) {}
   };
 }
 module.exports = new cardController();

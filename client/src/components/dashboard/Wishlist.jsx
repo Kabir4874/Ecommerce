@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { FaEye } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import Ratings from "../Ratings";
+import { useDispatch, useSelector } from "react-redux";
+import { get_wishlist_products } from "../../store/reducers/cardReducer";
 
 const Wishlist = () => {
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
+  useEffect(() => {
+    dispatch(get_wishlist_products(userInfo.id));
+  }, []);
   return (
     <div className="w-full grid grid-cols-4 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
       {[1, 2, 3, 4, 5, 6, 7].map((p, i) => (
