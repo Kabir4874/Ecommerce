@@ -4,7 +4,11 @@ import { FaEye } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import Ratings from "../Ratings";
 import { useDispatch, useSelector } from "react-redux";
-import { add_to_card, messageClear } from "../../store/reducers/cardReducer";
+import {
+  add_to_card,
+  add_to_wishlist,
+  messageClear,
+} from "../../store/reducers/cardReducer";
 import toast from "react-hot-toast";
 
 const FeatureProducts = ({ products }) => {
@@ -35,6 +39,22 @@ const FeatureProducts = ({ products }) => {
       dispatch(messageClear());
     }
   }, [successMessage, errorMessage]);
+
+  const add_wishlist = (pro) => {
+    dispatch(
+      add_to_wishlist({
+        userId: userInfo.id,
+        productId: pro._id,
+        name: pro.name,
+        image: pro.images[0],
+        price: pro.price,
+        discount: pro.discount,
+        rating: pro.rating,
+        slug: pro.slug,
+      })
+    );
+  };
+
   return (
     <div className="w-[85%] flex flex-wrap mx-auto">
       <div className="w-full">
@@ -63,7 +83,10 @@ const FeatureProducts = ({ products }) => {
                 className="w-full h-[240px]"
               />
               <ul className="flex transition-all duration-700 -bottom-10 justify-center items-center gap-2 absolute w-full group-hover:bottom-3">
-                <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-sushi hover:text-white hover:rotate-[720deg] transition-all">
+                <li
+                  onClick={() => add_wishlist(p)}
+                  className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-sushi hover:text-white hover:rotate-[720deg] transition-all"
+                >
                   <AiFillHeart />
                 </li>
                 <Link

@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
 export const add_to_card = createAsyncThunk(
-  "auth/add_to_card",
+  "card/add_to_card",
   async (info, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.post("/home/product/add-to-card", info);
@@ -14,7 +14,7 @@ export const add_to_card = createAsyncThunk(
 );
 
 export const get_card_products = createAsyncThunk(
-  "auth/get_card_products",
+  "card/get_card_products",
   async (userId, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.get(
@@ -27,7 +27,7 @@ export const get_card_products = createAsyncThunk(
   }
 );
 export const delete_card_product = createAsyncThunk(
-  "auth/delete_card_product",
+  "card/delete_card_product",
   async (card_id, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.delete(
@@ -40,7 +40,7 @@ export const delete_card_product = createAsyncThunk(
   }
 );
 export const quantity_inc = createAsyncThunk(
-  "auth/quantity_inc",
+  "card/quantity_inc",
   async (card_id, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.put(`/home/product/quantity-inc/${card_id}`);
@@ -51,10 +51,23 @@ export const quantity_inc = createAsyncThunk(
   }
 );
 export const quantity_dec = createAsyncThunk(
-  "auth/quantity_dec",
+  "card/quantity_dec",
   async (card_id, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.put(`/home/product/quantity-dec/${card_id}`);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const add_to_wishlist = createAsyncThunk(
+  "wishlist/add_to_wishlist",
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/home/product/add-to-wishlist", info);
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

@@ -13,4 +13,6 @@ router.delete(
 router.put("/home/product/quantity-inc/:card_id", cardController.quantity_inc);
 router.put("/home/product/quantity-dec/:card_id", cardController.quantity_dec);
 
+router.post("/home/product/add-to-wishlist", cardController.add_to_wishlist);
+
 module.exports = router;

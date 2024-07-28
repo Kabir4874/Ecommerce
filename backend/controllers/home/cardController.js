@@ -1,4 +1,5 @@
 const cardModel = require("../../models/cardModel");
+const wishlistModel = require("../../models/wishlistModel");
 const { responseReturn } = require("../../utils/response");
 const {
   mongo: { ObjectId },
@@ -167,6 +168,20 @@ class cardController {
       const { quantity } = product;
       await cardModel.findByIdAndUpdate(card_id, { quantity: quantity - 1 });
       responseReturn(res, 200, { message: "Quantity Decrease" });
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
+
+  add_to_wishlist = async (req, res) => {
+    const { slug } = req.body;
+    try {
+      const product = await wishlistModel.findOne({ slug });
+      if (product) {
+        responseReturn(res, 404, { error: "Already Added" });
+      } else {
+        await wishlistModel.create(req.body);
+      }
     } catch (error) {
       responseReturn(res, 501, { error: error.message });
     }
