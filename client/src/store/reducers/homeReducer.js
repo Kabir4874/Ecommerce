@@ -30,7 +30,6 @@ export const get_product_details = createAsyncThunk(
   async (slug, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/home/get-product-details/${slug}`);
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.response);
@@ -83,6 +82,9 @@ export const homeReducer = createSlice({
       low: 0,
       high: 100,
     },
+    product: {},
+    relatedProducts: [],
+    moreProducts: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -103,6 +105,11 @@ export const homeReducer = createSlice({
       .addCase(query_product.fulfilled, (state, { payload }) => {
         state.products = payload.products;
         state.totalProduct = payload.totalProduct;
+      })
+      .addCase(get_product_details.fulfilled, (state, { payload }) => {
+        state.product = payload.product;
+        state.relatedProducts = payload.relatedProducts;
+        state.moreProducts = payload.moreProducts;
       });
   },
 });

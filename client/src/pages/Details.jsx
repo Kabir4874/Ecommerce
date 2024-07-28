@@ -12,13 +12,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { get_product_details } from "../store/reducers/homeReducer";
 const Details = () => {
   const dispatch = useDispatch();
   const { slug } = useParams();
-  const [image, setImage] = useState("");
   const [state, setState] = useState("reviews");
+  const [image, setImage] = useState("");
+  const { product, relatedProducts, moreProducts } = useSelector(
+    (state) => state.home
+  );
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -49,10 +52,6 @@ const Details = () => {
       items: 1,
     },
   };
-
-  const images = [1, 2, 3];
-  const discount = 5;
-  const stock = 5;
   useEffect(() => {
     dispatch(get_product_details(slug));
   }, [slug]);
@@ -76,11 +75,11 @@ const Details = () => {
             <span className="pt-1">
               <MdOutlineKeyboardArrowRight />
             </span>
-            <Link to={"/"}>Sports</Link>
+            <Link to={"/"}>{product?.category}</Link>
             <span className="pt-1">
               <MdOutlineKeyboardArrowRight />
             </span>
-            <span>Long Sleeve casual Shirt for Man</span>
+            <span>{product?.name}</span>
           </div>
         </div>
       </section>
@@ -91,33 +90,26 @@ const Details = () => {
             <div>
               <div className="p-5 border">
                 <img
-                  src={
-                    image
-                      ? `http://localhost:3000/images/products/${image}.webp`
-                      : `http://localhost:3000/images/products/${images[1]}.webp`
-                  }
+                  src={image ? image : product.images?.[0]}
                   alt=""
                   className="h-[500px] w-full"
                 />
               </div>
               <div className="py-3">
-                {images && (
+                {product?.images && (
                   <Carousel
                     autoPlay={true}
                     infinite={true}
                     responsive={responsive}
                     transitionDuration={500}
                   >
-                    {images.map((img, i) => (
+                    {product.images.map((img, i) => (
                       <div
                         key={i}
                         onClick={() => setImage(img)}
                         className=" cursor-pointer"
                       >
-                        <img
-                          src={`http://localhost:3000/images/products/${img}.webp`}
-                          alt=""
-                        />
+                        <img src={img} alt="products" className="h-[100px]" />
                       </div>
                     ))}
                   </Carousel>
@@ -127,42 +119,39 @@ const Details = () => {
 
             <div className="flex flex-col gap-5">
               <div className="text-3xl text-slate-600 font-bold">
-                <h2>Long Sleeve casual Shirt for Man</h2>
+                <h2>{product?.name}</h2>
               </div>
               <div className="flex justify-start items-center gap-4">
                 <div className="flex text-xl">
-                  <Ratings ratings={3.5} />
+                  <Ratings ratings={product?.rating} />
                 </div>
                 <span className="text-green-500">(23 reviews)</span>
               </div>
 
               <div className="text-2xl text-red-500 font-bold flex gap-2">
-                {discount ? (
+                {product?.discount ? (
                   <>
-                    <h2 className="line-through">$500</h2>
+                    <h2 className="line-through">${product?.price}</h2>
                     <h2>
-                      ${500 - Math.floor((500 * discount) / 100)} (-{discount}%)
+                      $
+                      {product.price -
+                        Math.floor(
+                          (product.price * product.discount) / 100
+                        )}{" "}
+                      (-{product.discount}%)
                     </h2>
                   </>
                 ) : (
-                  <h2>Price: $500</h2>
+                  <h2>Price: ${product.price}</h2>
                 )}
               </div>
 
               <div className="text-slate-600">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
-                  aliquid reprehenderit autem amet omnis blanditiis perferendis
-                  tempora! Tempora, animi molestias laboriosam rem perferendis
-                  cumque! Quod, id quos laudantium eligendi vero sint assumenda
-                  provident magnam molestias obcaecati aliquid. Ipsa, delectus
-                  exercitationem qui ullam reiciendis quasi error. In animi id
-                  fuga mollitia.
-                </p>
+                <p>{product?.description}</p>
               </div>
 
               <div className="flex gap-3 pb-10 border-b">
-                {stock ? (
+                {product?.stock ? (
                   <>
                     <div className="flex bg-slate-200 h-[50px] justify-center items-center text-xl">
                       <div className="px-6 cursor-pointer">-</div>
@@ -191,8 +180,12 @@ const Details = () => {
                   <span>Share on</span>
                 </div>
                 <div className="flex flex-col gap-5">
-                  <span className={`text-${stock ? "green" : "reed"}-500`}>
-                    {stock ? `In Stock (${stock})` : "Out of Stock"}
+                  <span
+                    className={`text-${product?.stock ? "green" : "reed"}-500`}
+                  >
+                    {product.stock
+                      ? `In Stock (${product.stock})`
+                      : "Out of Stock"}
                   </span>
                   <ul className="flex justify-start items-center gap-3">
                     <li>
@@ -232,7 +225,7 @@ const Details = () => {
               </div>
 
               <div className="flex gap-3">
-                {stock ? (
+                {product.stock ? (
                   <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white">
                     Buy Now
                   </button>
