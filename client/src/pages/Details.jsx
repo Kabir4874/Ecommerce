@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import Ratings from "../components/Ratings";
 import { AiFillGithub, AiOutlineTwitter, AiFillHeart } from "react-icons/ai";
@@ -12,7 +12,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
+import { useDispatch } from "react-redux";
 const Details = () => {
+  const dispatch = useDispatch();
+  const { slug } = useParams();
   const [image, setImage] = useState("");
   const [state, setState] = useState("reviews");
   const responsive = {
@@ -49,6 +52,7 @@ const Details = () => {
   const images = [1, 2, 3];
   const discount = 5;
   const stock = 5;
+  console.log(slug);
   return (
     <div>
       <Header />
@@ -103,6 +107,7 @@ const Details = () => {
                   >
                     {images.map((img, i) => (
                       <div
+                        key={i}
                         onClick={() => setImage(img)}
                         className=" cursor-pointer"
                       >
@@ -288,7 +293,7 @@ const Details = () => {
                 </div>
                 <div className="flex flex-col gap-5 mt-3 border p-3">
                   {[1, 2, 3].map((p, i) => (
-                    <Link className="block">
+                    <Link key={i} className="block">
                       <div className="relative h-[270px]">
                         <img
                           src={`http://localhost:3000/images/products/${p}.webp`}
@@ -331,7 +336,7 @@ const Details = () => {
               className="mySwiper"
             >
               {[1, 2, 3, 4, 5, 6, 7].map((p, i) => (
-                <SwiperSlide>
+                <SwiperSlide key={i}>
                   <Link className="block">
                     <div className="relative h-[270px]">
                       <div className="w-full h-full">

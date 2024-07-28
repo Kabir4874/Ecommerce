@@ -18,5 +18,9 @@ router.get(
   "/home/product/get-wishlist-products/:userId",
   cardController.get_wishlist_products
 );
+router.delete(
+  "/home/product/remove-wishlist/:productId",
+  cardController.remove_wishlist
+);
 
 module.exports = router;
