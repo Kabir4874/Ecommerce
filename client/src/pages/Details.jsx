@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
@@ -13,6 +13,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { useDispatch } from "react-redux";
+import { get_product_details } from "../store/reducers/homeReducer";
 const Details = () => {
   const dispatch = useDispatch();
   const { slug } = useParams();
@@ -52,7 +53,9 @@ const Details = () => {
   const images = [1, 2, 3];
   const discount = 5;
   const stock = 5;
-  console.log(slug);
+  useEffect(() => {
+    dispatch(get_product_details(slug));
+  }, [slug]);
   return (
     <div>
       <Header />
