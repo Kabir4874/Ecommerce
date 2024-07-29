@@ -165,6 +165,7 @@ class homeControllers {
         name,
         rating,
         date: moment(Date.now()).format("LL"),
+        review,
       });
       let rat = 0;
       const reviews = await reviewModel.find({ productId });

@@ -15,6 +15,7 @@ const Reviews = ({ product }) => {
   const [perPage, setPerPage] = useState(10);
   const [rat, setRat] = useState("");
   const [re, setRe] = useState("");
+  console.log(re);
   const review_submit = (e) => {
     e.preventDefault();
     const obj = {
