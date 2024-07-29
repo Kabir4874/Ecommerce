@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosCall, IoIosMail } from "react-icons/io";
 import {
   FaFacebookF,

@@ -6,11 +6,25 @@ import RatingReact from "react-rating";
 import { CiStar } from "react-icons/ci";
 import { AiFillStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
-const Reviews = () => {
+import { useDispatch, useSelector } from "react-redux";
+import { customer_review } from "../store/reducers/homeReducer";
+const Reviews = ({ product }) => {
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const userInfo = {};
   const [rat, setRat] = useState("");
+  const [re, setRe] = useState("");
+  const review_submit = (e) => {
+    e.preventDefault();
+    const obj = {
+      name: userInfo.name,
+      review: re,
+      rating: rat,
+      productId: product._id,
+    };
+    dispatch(customer_review(obj));
+  };
   return (
     <div className="mt-8">
       <div className="flex gap-10 md:flex-col">
@@ -134,8 +148,9 @@ const Reviews = () => {
                 }
               />
             </div>
-            <form action="">
+            <form action="" onSubmit={review_submit}>
               <textarea
+                onChange={(e) => setRe(e.target.value)}
                 name=""
                 id=""
                 rows={5}

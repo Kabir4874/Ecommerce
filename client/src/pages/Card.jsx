@@ -55,7 +55,18 @@ const Card = () => {
   };
   const dec = (quantity, card_id) => {
     const temp = quantity - 1;
-    if (temp !== 0) {
+    if (temp !== 0) { const inc = (quantity, stock, card_id) => {
+      const temp = quantity + 1;
+      if (temp <= stock) {
+        dispatch(quantity_inc(card_id));
+      }
+    };
+    const dec = (quantity, card_id) => {
+      const temp = quantity - 1;
+      if (temp !== 0) {
+        dispatch(quantity_dec(card_id));
+      }
+    };
       dispatch(quantity_dec(card_id));
     }
   };

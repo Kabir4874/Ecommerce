@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import Ratings from "../components/Ratings";
 import { AiFillGithub, AiOutlineTwitter, AiFillHeart } from "react-icons/ai";
@@ -14,14 +14,23 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { useDispatch, useSelector } from "react-redux";
 import { get_product_details } from "../store/reducers/homeReducer";
+import toast from "react-hot-toast";
+import {
+  add_to_card,
+  add_to_wishlist,
+  messageClear,
+} from "../store/reducers/cardReducer";
 const Details = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { slug } = useParams();
   const [state, setState] = useState("reviews");
   const [image, setImage] = useState("");
   const { product, relatedProducts, moreProducts } = useSelector(
     (state) => state.home
   );
+  const { userInfo } = useSelector((state) => state.auth);
+  const { successMessage, errorMessage } = useSelector((state) => state.card);
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -52,9 +61,102 @@ const Details = () => {
       items: 1,
     },
   };
+
+  const [quantity, setQuantity] = useState(1);
+
+  const inc = () => {
+    if (quantity >= product.stock) {
+      toast.error("Out of stock");
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const dec = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const add_card = () => {
+    if (userInfo) {
+      dispatch(
+        add_to_card({
+          userId: userInfo.id,
+          quantity,
+          productId: product._id,
+        })
+      );
+    } else {
+      navigate("/login");
+    }
+  };
+
   useEffect(() => {
     dispatch(get_product_details(slug));
   }, [slug]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
+
+  const add_wishlist = () => {
+    if (userInfo) {
+      dispatch(
+        add_to_wishlist({
+          userId: userInfo.id,
+          productId: product._id,
+          name: product.name,
+          image: product.images[0],
+          price: product.price,
+          discount: product.discount,
+          rating: product.rating,
+          slug: product.slug,
+        })
+      );
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const buy = () => {
+    let price = 0;
+    if (product.discount) {
+      price =
+        product.price - Math.floor((product.price * product.discount) / 100);
+    } else {
+      price = product.price;
+    }
+    const obj = [
+      {
+        sellerId: product.sellerId,
+        shopName: product.shopName,
+        price: quantity * (price - Math.floor((price * 5) / 100)),
+        products: [
+          {
+            quantity,
+            productInfo: product,
+          },
+        ],
+      },
+    ];
+    navigate("/shipping", {
+      state: {
+        products: obj,
+        price: price * quantity,
+        shipping_fee: 85,
+        items: 1,
+      },
+    });
+  };
+
   return (
     <div>
       <Header />
@@ -154,12 +256,25 @@ const Details = () => {
                 {product?.stock ? (
                   <>
                     <div className="flex bg-slate-200 h-[50px] justify-center items-center text-xl">
-                      <div className="px-6 cursor-pointer">-</div>
-                      <div className="px-5">5</div>
-                      <div className="px-6 cursor-pointer">+</div>
+                      <div
+                        onClick={dec}
+                        className="px-6 cursor-pointer select-none"
+                      >
+                        -
+                      </div>
+                      <div className="px-5">{quantity}</div>
+                      <div
+                        onClick={inc}
+                        className="px-6 cursor-pointer select-none"
+                      >
+                        +
+                      </div>
                     </div>
                     <div>
-                      <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white">
+                      <button
+                        onClick={add_card}
+                        className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white"
+                      >
                         Add to Cart
                       </button>
                     </div>
@@ -168,7 +283,10 @@ const Details = () => {
                   ""
                 )}
                 <div>
-                  <div className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white">
+                  <div
+                    onClick={add_wishlist}
+                    className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white"
+                  >
                     <AiFillHeart />
                   </div>
                 </div>
@@ -226,7 +344,10 @@ const Details = () => {
 
               <div className="flex gap-3">
                 {product.stock ? (
-                  <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white">
+                  <button
+                    onClick={buy}
+                    className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white"
+                  >
                     Buy Now
                   </button>
                 ) : (
@@ -270,7 +391,7 @@ const Details = () => {
                 </div>
                 <div>
                   {state === "reviews" ? (
-                    <Reviews />
+                    <Reviews product={product} />
                   ) : (
                     <p className="py-5 text-slate-600">{product.description}</p>
                   )}
@@ -298,8 +419,13 @@ const Details = () => {
                         )}
                       </div>
                       <h2 className="text-slate-600 py-1">{p.name}</h2>
-                      <div className="flex items-center gap-2">
-                        <Ratings ratings={p.rating} />
+                      <div className="flex gap-2">
+                        <h2 className=" text-malibu text-lg font-bold">
+                          ${p.price}
+                        </h2>
+                        <div className="flex items-center gap-2">
+                          <Ratings ratings={p.rating} />
+                        </div>
                       </div>
                     </Link>
                   ))}
