@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Ratings from "./Ratings";
 import RatingTemp from "./RatingTemp";
 import Pagination from "./Pagination";
@@ -7,15 +7,16 @@ import { CiStar } from "react-icons/ci";
 import { AiFillStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { customer_review } from "../store/reducers/homeReducer";
+import { customer_review, messageClear } from "../store/reducers/homeReducer";
+import toast from "react-hot-toast";
 const Reviews = ({ product }) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
+  const { successMessage } = useSelector((state) => state.home);
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [rat, setRat] = useState("");
   const [re, setRe] = useState("");
-  console.log(re);
   const review_submit = (e) => {
     e.preventDefault();
     const obj = {
@@ -25,7 +26,15 @@ const Reviews = ({ product }) => {
       productId: product._id,
     };
     dispatch(customer_review(obj));
+    setRat("");
+    setRe("");
   };
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage]);
   return (
     <div className="mt-8">
       <div className="flex gap-10 md:flex-col">
@@ -152,6 +161,7 @@ const Reviews = ({ product }) => {
             <form action="" onSubmit={review_submit}>
               <textarea
                 onChange={(e) => setRe(e.target.value)}
+                value={re}
                 name=""
                 id=""
                 rows={5}
