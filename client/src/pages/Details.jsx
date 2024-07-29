@@ -272,12 +272,7 @@ const Details = () => {
                   {state === "reviews" ? (
                     <Reviews />
                   ) : (
-                    <p className="py-5 text-slate-600">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Illo quos, et mollitia nam quasi alias dolorem cumque aut,
-                      voluptate quo pariatur magni facere. At numquam voluptatum
-                      beatae, ab sed porro.
-                    </p>
+                    <p className="py-5 text-slate-600">{product.description}</p>
                   )}
                 </div>
               </div>
@@ -285,26 +280,26 @@ const Details = () => {
             <div className="w-[28%] md-lg:w-full">
               <div className="pl-4 md-lg:pl-0">
                 <div className="px-3 py-2 text-slate-600 bg-slate-200">
-                  <h2>Kabir Fashion</h2>
+                  <h2>From {product.shopName}</h2>
                 </div>
                 <div className="flex flex-col gap-5 mt-3 border p-3">
-                  {[1, 2, 3].map((p, i) => (
+                  {moreProducts.map((p, i) => (
                     <Link key={i} className="block">
                       <div className="relative h-[270px]">
                         <img
-                          src={`http://localhost:3000/images/products/${p}.webp`}
+                          src={p.images?.[0]}
                           alt="product"
                           className="h-full w-full"
                         />
-                        <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
-                          6%
-                        </div>
+                        {p?.discount && (
+                          <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
+                            {p.discount}%
+                          </div>
+                        )}
                       </div>
-                      <h2 className="text-slate-600 py-1">
-                        Lorem ipsum dolor sit amet.
-                      </h2>
+                      <h2 className="text-slate-600 py-1">{p.name}</h2>
                       <div className="flex items-center gap-2">
-                        <Ratings ratings={4.5} />
+                        <Ratings ratings={p.rating} />
                       </div>
                     </Link>
                   ))}
@@ -315,60 +310,66 @@ const Details = () => {
         </div>
       </section>
 
-      <section>
-        <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
-          <h2 className="text-2xl py-8 text-slate-600">Related Products</h2>
-          <div>
-            <Swiper
-              slidesPerView={"auto"}
-              breakpoints={{
-                1280: { slidesPerView: 3 },
-                565: { slidesPerView: 2 },
-              }}
-              spaceBetween={25}
-              loop={true}
-              pagination={{ clickable: true, el: ".custom_bullet" }}
-              modules={[Pagination]}
-              className="mySwiper"
-            >
-              {[1, 2, 3, 4, 5, 6, 7].map((p, i) => (
-                <SwiperSlide key={i}>
-                  <Link className="block">
-                    <div className="relative h-[270px]">
-                      <div className="w-full h-full">
-                        <img
-                          src={`http://localhost:3000/images/products/${p}.webp`}
-                          alt="product"
-                          className="h-full w-full"
-                        />
-                        <div className=" absolute h-full w-full top-0 left-0 bg-black opacity-25 hover:opacity-50 transition-all duration-500"></div>
-                      </div>
+      {relatedProducts.length > 0 && (
+        <section>
+          <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
+            <h2 className="text-2xl py-8 text-slate-600">Related Products</h2>
+            <div>
+              <Swiper
+                slidesPerView={"auto"}
+                breakpoints={{
+                  1280: { slidesPerView: 3 },
+                  565: { slidesPerView: 2 },
+                }}
+                spaceBetween={25}
+                loop={true}
+                pagination={{ clickable: true, el: ".custom_bullet" }}
+                modules={[Pagination]}
+                className="mySwiper"
+              >
+                {relatedProducts.map((p, i) => (
+                  <SwiperSlide key={i}>
+                    <Link className="block">
+                      <div className="relative h-[270px]">
+                        <div className="w-full h-full">
+                          <img
+                            src={p.images?.[0]}
+                            alt="product"
+                            className="h-full w-full"
+                          />
+                          <div className=" absolute h-full w-full top-0 left-0 bg-black opacity-25 hover:opacity-50 transition-all duration-500"></div>
+                        </div>
 
-                      <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
-                        6%
+                        {p?.discount && (
+                          <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
+                            {p.discount}%
+                          </div>
+                        )}
                       </div>
-                    </div>
-                    <div className="p-4 flex flex-col gap-1">
-                      <h2 className="text-slate-600 py-1 text-lg font-semibold">
-                        Lorem ipsum dolor sit amet.
-                      </h2>
-                      <div className="flex justify-start items-center gap-3">
-                        <h2 className=" text-malibu text-lg font-bold">$555</h2>
-                        <div className="flex">
-                          <Ratings ratings={4.5} />
+                      <div className="p-4 flex flex-col gap-1">
+                        <h2 className="text-slate-600 py-1 text-lg font-semibold">
+                          {p.name}
+                        </h2>
+                        <div className="flex justify-start items-center gap-3">
+                          <h2 className=" text-malibu text-lg font-bold">
+                            ${p.price}
+                          </h2>
+                          <div className="flex">
+                            <Ratings ratings={p.rating} />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                    </Link>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+            <div className="w-full flex justify-center items-center py-10">
+              <div className="custom_bullet justify-center gap-3 !w-auto"></div>
+            </div>
           </div>
-          <div className="w-full flex justify-center items-center py-10">
-            <div className="custom_bullet justify-center gap-3 !w-auto"></div>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
       <Footer />
     </div>
   );
