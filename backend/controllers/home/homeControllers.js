@@ -184,6 +184,26 @@ class homeControllers {
       responseReturn(res, 501, { error: error.message });
     }
   };
+
+  get_reviews = async (req, res) => {
+    const { productId } = req.params;
+    const { pageNum } = req.query;
+    const limit=10;
+    const skipPage= limit*(pageNum-1);
+    try {
+      let getRating= await reviewModel.aggregate([
+        {
+          $match:{
+            productId:{
+              $eq: new Object
+            }
+          }
+        }
+      ])
+    } catch (error) {
+      
+    }
+  };
 }
 
 module.exports = new homeControllers();

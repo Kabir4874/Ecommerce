@@ -81,6 +81,21 @@ export const customer_review = createAsyncThunk(
   }
 );
 
+export const get_reviews = createAsyncThunk(
+  "review/get_reviews",
+  async ({ productId, pageNumber }, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/home/customer/get-reviews/${productId}?pageNum=${pageNumber}`
+      );
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+);
+
 export const homeReducer = createSlice({
   name: "home",
   initialState: {

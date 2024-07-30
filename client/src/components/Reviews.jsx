@@ -7,7 +7,11 @@ import { CiStar } from "react-icons/ci";
 import { AiFillStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { customer_review, messageClear } from "../store/reducers/homeReducer";
+import {
+  customer_review,
+  get_reviews,
+  messageClear,
+} from "../store/reducers/homeReducer";
 import toast from "react-hot-toast";
 const Reviews = ({ product }) => {
   const dispatch = useDispatch();
@@ -35,6 +39,16 @@ const Reviews = ({ product }) => {
       dispatch(messageClear());
     }
   }, [successMessage]);
+  useEffect(() => {
+    if (product._id) {
+      dispatch(
+        get_reviews({
+          productId: product._id,
+          pageNumber,
+        })
+      );
+    }
+  }, [pageNumber, product]);
   return (
     <div className="mt-8">
       <div className="flex gap-10 md:flex-col">
