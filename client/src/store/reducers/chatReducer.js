@@ -4,11 +4,11 @@ import { jwtDecode } from "jwt-decode";
 
 export const add_friend = createAsyncThunk("chat/add_friend", async (info) => {
   try {
-    const { data } = await api.post(
-      "/chat/customer/add-customer-friend",
-      info
-    );
-  } catch (error) {}
+    const { data } = await api.post("/chat/customer/add-customer-friend", info);
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export const chatReducer = createSlice({

@@ -17,14 +17,12 @@ const Chat = () => {
     socket.emit("add_user", userInfo.id, userInfo);
   }, []);
   useEffect(() => {
-    if (sellerId) {
-      dispatch(
-        add_friend({
-          sellerId: sellerId || "",
-          userId: userInfo.id,
-        })
-      );
-    }
+    dispatch(
+      add_friend({
+        sellerId: sellerId || "",
+        userId: userInfo.id,
+      })
+    );
   }, [sellerId]);
   return (
     <div className="bg-white p-3 rounded-md">
