@@ -26,7 +26,7 @@ const Details = () => {
   const { slug } = useParams();
   const [state, setState] = useState("reviews");
   const [image, setImage] = useState("");
-  const { product, relatedProducts, moreProducts } = useSelector(
+  const { product, relatedProducts, moreProducts, totalReview } = useSelector(
     (state) => state.home
   );
   const { userInfo } = useSelector((state) => state.auth);
@@ -227,7 +227,7 @@ const Details = () => {
                 <div className="flex text-xl">
                   <Ratings ratings={product?.rating} />
                 </div>
-                <span className="text-green-500">(23 reviews)</span>
+                <span className="text-green-500">({totalReview} reviews)</span>
               </div>
 
               <div className="text-2xl text-red-500 font-bold flex gap-2">
@@ -353,9 +353,12 @@ const Details = () => {
                 ) : (
                   ""
                 )}
-                <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-lime-500/40 bg-lime-500 text-white">
+                <Link
+                  to={`/dashboard/chat/${product.sellerId}`}
+                  className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-lime-500/40 bg-lime-500 text-white block"
+                >
                   Chat Seller
-                </button>
+                </Link>
               </div>
             </div>
           </div>

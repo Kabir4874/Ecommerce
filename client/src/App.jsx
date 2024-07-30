@@ -19,6 +19,7 @@ import Wishlist from "./components/dashboard/Wishlist";
 import ChangePassword from "./components/dashboard/ChangePassword";
 import ClientDashboard from "./components/dashboard/ClientDashboard";
 import OrderDetails from "./components/dashboard/OrderDetails";
+import Chat from "./components/dashboard/Chat";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,8 @@ const App = () => {
             <Route path="my-wishlist" element={<Wishlist />} />
             <Route path="order/details/:orderId" element={<OrderDetails />} />
             <Route path="change-password" element={<ChangePassword />} />
+            <Route path="chat" element={<Chat />} />
+            <Route path="chat/:sellerId" element={<Chat />} />
           </Route>
         </Route>
       </Routes>

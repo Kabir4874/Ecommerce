@@ -4,6 +4,9 @@ const reviewModel = require("../../models/reviewModel");
 const queryProducts = require("../../utils/queryProducts");
 const { responseReturn } = require("../../utils/response");
 const moment = require("moment");
+const {
+  mongo: { ObjectId },
+} = require("mongoose");
 
 class homeControllers {
   formateProduct = (products) => {
@@ -188,20 +191,78 @@ class homeControllers {
   get_reviews = async (req, res) => {
     const { productId } = req.params;
     const { pageNum } = req.query;
-    const limit=10;
-    const skipPage= limit*(pageNum-1);
+    const limit = 10;
+    const skipPage = limit * (pageNum - 1);
     try {
-      let getRating= await reviewModel.aggregate([
+      let getRating = await reviewModel.aggregate([
         {
-          $match:{
-            productId:{
-              $eq: new Object
-            }
+          $match: {
+            productId: {
+              $eq: new ObjectId(productId),
+            },
+            rating: {
+              $not: {
+                $size: 0,
+              },
+            },
+          },
+        },
+        {
+          $unwind: "$rating",
+        },
+        {
+          $group: {
+            _id: "$rating",
+            count: {
+              $sum: 1,
+            },
+          },
+        },
+      ]);
+      let rating_review = [
+        {
+          rating: 5,
+          sum: 0,
+        },
+        {
+          rating: 4,
+          sum: 0,
+        },
+        {
+          rating: 3,
+          sum: 0,
+        },
+        {
+          rating: 2,
+          sum: 0,
+        },
+        {
+          rating: 1,
+          sum: 0,
+        },
+      ];
+
+      for (let i = 0; i < rating_review.length; i++) {
+        for (let j = 0; j < getRating.length; j++) {
+          if (rating_review[i].rating === getRating[j]._id) {
+            rating_review[i].sum = getRating[j].count;
+            break;
           }
         }
-      ])
+      }
+      const getAll = await reviewModel.find({ productId });
+      const reviews = await reviewModel
+        .find({ productId })
+        .skip(skipPage)
+        .limit(limit)
+        .sort({ createAt: -1 });
+      responseReturn(res, 200, {
+        reviews,
+        totalReview: getAll.length,
+        rating_review,
+      });
     } catch (error) {
-      
+      responseReturn(res, 501, { error: error.message });
     }
   };
 }
