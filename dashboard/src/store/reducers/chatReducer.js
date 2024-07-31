@@ -56,9 +56,14 @@ export const chatReducer = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(get_customer.fulfilled, (state, { payload }) => {
-      state.customers = payload.customers;
-    });
+    builder
+      .addCase(get_customer.fulfilled, (state, { payload }) => {
+        state.customers = payload.customers;
+      })
+      .addCase(get_customer_message.fulfilled, (state, { payload }) => {
+        state.messages = payload.messages;
+        state.currentCustomer = payload.currentCustomer;
+      });
   },
 });
 

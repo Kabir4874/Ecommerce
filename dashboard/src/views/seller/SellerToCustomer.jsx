@@ -3,13 +3,18 @@ import { IoMdClose } from "react-icons/io";
 import { FaList } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { get_customer,get_customer_message } from "../../store/reducers/chatReducer";
+import {
+  get_customer,
+  get_customer_message,
+} from "../../store/reducers/chatReducer";
 import { Link } from "react-router-dom";
 
 const SellerToCustomer = () => {
   const { customerId } = useParams();
   const { userInfo } = useSelector((state) => state.auth);
-  const { customers } = useSelector((state) => state.chat);
+  const { customers, currentCustomer, messages } = useSelector(
+    (state) => state.chat
+  );
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const sellerId = 32;
@@ -72,14 +77,14 @@ const SellerToCustomer = () => {
                 <div className="flex justify-start items-center gap-3">
                   <div className="relative">
                     <img
-                      src="http://localhost:3000/images/admin.jpg"
+                      src={currentCustomer.image}
                       alt=""
                       className="w-[42px] h-[42px] border-green-500 border-2 max-w-[42px] p-[3px] rounded-full"
                     />
                     <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
                   </div>
                   <h2 className="text-white font-semibold">
-                    Kabir Ahmed Ridoy
+                    {currentCustomer.name}
                   </h2>
                 </div>
               )}
@@ -95,35 +100,51 @@ const SellerToCustomer = () => {
 
             <div className="py-4">
               <div className="bg-slate-800 h-[calc(100vh-290px)] rounded-md p-3 overflow-y-auto">
-                <div className="w-full flex justify-start items-center">
-                  <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
-                    <div>
-                      <img
-                        src="http://localhost:3000/images/admin.jpg"
-                        alt=""
-                        className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
-                      />
-                    </div>
-                    <div className="flex justify-center items-start flex-col w-full bg-orange-500 text-white p-1 px-2 rounded-sm">
-                      <span>How are you?</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="w-full flex justify-end items-center">
-                  <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
-                    <div className="flex justify-center items-start flex-col w-full bg-blue-500 text-white p-1 px-2 rounded-sm">
-                      <span>How are you?</span>
-                    </div>
-                    <div>
-                      <img
-                        src="http://localhost:3000/images/admin.jpg"
-                        alt=""
-                        className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
-                      />
-                    </div>
-                  </div>
-                </div>
+                {customerId
+                  ? messages.map((m, i) => {
+                      if (m.senderId === customerId) {
+                        return (
+                          <div
+                            key={i}
+                            className="w-full flex justify-start items-center"
+                          >
+                            <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
+                              <div>
+                                <img
+                                  src={m.image}
+                                  alt=""
+                                  className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
+                                />
+                              </div>
+                              <div className="flex justify-center items-start flex-col w-full bg-orange-500 text-white p-1 px-2 rounded-sm">
+                                <span>{m.message}</span>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div
+                            key={i}
+                            className="w-full flex justify-end items-center"
+                          >
+                            <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
+                              <div className="flex justify-center items-start flex-col w-full bg-blue-500 text-white p-1 px-2 rounded-sm">
+                                <span>{m.message}</span>
+                              </div>
+                              <div>
+                                <img
+                                  src={m.image}
+                                  alt=""
+                                  className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }
+                    })
+                  : ""}
               </div>
             </div>
 
