@@ -10,5 +10,6 @@ router.post(
   "/chat/customer/send-message-to-seller",
   chatController.send_message_add
 );
+router.get("/chat/seller/get-customers/:sellerId", chatController.get_customers);
 
 module.exports = router;

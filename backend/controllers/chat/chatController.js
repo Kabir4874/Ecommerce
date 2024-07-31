@@ -169,5 +169,15 @@ class chatController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+
+  get_customers = async (req, res) => {
+    const { sellerId } = req.params;
+    try {
+      const data = await sellerCustomerModel.findOne({ myId: sellerId });
+      responseReturn(res, 200, { customers: data.myFriends });
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
 }
 module.exports = new chatController();

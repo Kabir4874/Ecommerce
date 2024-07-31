@@ -3,12 +3,9 @@ import api from "../../api/api";
 
 export const get_customer = createAsyncThunk(
   "chat/get_customer",
-  async (
-    { perPage, page, searchValue },
-    { fulfillWithValue, rejectWithValue }
-  ) => {
+  async (sellerId, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/chat/seller/get-customers`, {
+      const { data } = await api.get(`/chat/seller/get-customers/${sellerId}`, {
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -42,10 +39,9 @@ export const chatReducer = createSlice({
   },
 
   extraReducers: (builder) => {
-    // builder
-    // .addCase(get_seller_request.pending, (state) => {
-    //   state.loader = true;
-    // })
+    builder.addCase(get_customer.fulfilled, (state, { payload }) => {
+      state.customers = payload.customers;
+    });
   },
 });
 
