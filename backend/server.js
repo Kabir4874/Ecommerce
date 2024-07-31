@@ -13,7 +13,7 @@ const port = process.env.PORT;
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "http://localhost:3001"],
     credentials: true,
   })
 );
@@ -26,6 +26,7 @@ const io = socket(server, {
 });
 
 let allCustomer = [];
+let allSeller = [];
 
 const addUser = (customerId, socketId, userInfo) => {
   const checkUser = allCustomer.some((u) => u.customerId === customerId);
@@ -38,10 +39,24 @@ const addUser = (customerId, socketId, userInfo) => {
   }
 };
 
+const addSeller = (sellerId, socketId, userInfo) => {
+  const checkSeller = allSeller.some((u) => u.sellerId === sellerId);
+  if (!checkSeller) {
+    allSeller.push({
+      sellerId,
+      socketId,
+      userInfo,
+    });
+  }
+};
+
 io.on("connection", (soc) => {
   console.log("Socket server is running");
   soc.on("add_user", (customerId, userInfo) => {
     addUser(customerId, soc.id, userInfo);
+  });
+  soc.on("add_seller", (sellerId, userInfo) => {
+    addSeller(sellerId, userInfo);
   });
 });
 app.use(cookieParser());
