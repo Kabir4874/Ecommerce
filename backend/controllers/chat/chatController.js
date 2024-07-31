@@ -214,5 +214,9 @@ class chatController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+
+  seller_message_add = async (req, res) => {
+    console.log(req.body);
+  };
 }
 module.exports = new chatController();

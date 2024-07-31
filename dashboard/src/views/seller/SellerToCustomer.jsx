@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   get_customer,
   get_customer_message,
+  send_message,
 } from "../../store/reducers/chatReducer";
 import { Link } from "react-router-dom";
 
@@ -17,8 +18,8 @@ const SellerToCustomer = () => {
   );
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
-  const sellerId = 32;
-
+  const sellerId = userInfo._id;
+  const [text, setText] = useState("");
   useEffect(() => {
     dispatch(get_customer(userInfo._id));
   }, []);
@@ -28,6 +29,18 @@ const SellerToCustomer = () => {
       dispatch(get_customer_message(customerId));
     }
   }, [customerId]);
+  const send = (e) => {
+    e.preventDefault();
+    dispatch(
+      send_message({
+        senderId: userInfo._id,
+        receiverId: customerId,
+        text,
+        name: userInfo?.shopInfo?.shopName,
+      })
+    );
+    setText("");
+  };
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -148,8 +161,10 @@ const SellerToCustomer = () => {
               </div>
             </div>
 
-            <form className="flex gap-3">
+            <form className="flex gap-3" onSubmit={send}>
               <input
+                onChange={(e) => setText(e.target.value)}
+                value={text}
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-iron"
                 type="text"
                 placeholder="input your message"
