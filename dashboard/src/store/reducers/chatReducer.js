@@ -15,6 +15,23 @@ export const get_customer = createAsyncThunk(
   }
 );
 
+export const get_customer_message = createAsyncThunk(
+  "chat/get_customer_message",
+  async (customerId, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/chat/seller/get-customer-message/${customerId}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const chatReducer = createSlice({
   name: "chat",
   initialState: {

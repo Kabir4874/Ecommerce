@@ -3,7 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import { FaList } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { get_customer } from "../../store/reducers/chatReducer";
+import { get_customer,get_customer_message } from "../../store/reducers/chatReducer";
 import { Link } from "react-router-dom";
 
 const SellerToCustomer = () => {
@@ -17,6 +17,12 @@ const SellerToCustomer = () => {
   useEffect(() => {
     dispatch(get_customer(userInfo._id));
   }, []);
+
+  useEffect(() => {
+    if (customerId) {
+      dispatch(get_customer_message(customerId));
+    }
+  }, [customerId]);
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -39,6 +45,7 @@ const SellerToCustomer = () => {
               {customers.map((c, i) => (
                 <Link
                   key={i}
+                  to={`/seller/dashboard/chat-customer/${c.fdId}`}
                   className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-sm cursor-pointer bg-slate-700`}
                 >
                   <div className="relative">
