@@ -1,3 +1,4 @@
+const sellerCustomerMessageModel = require("../../models/chat/sellerCustomerMessageModel");
 const sellerCustomerModel = require("../../models/chat/sellerCustomerModel");
 const customerModel = require("../../models/customerModel");
 const sellerModel = require("../../models/sellerModel");
@@ -76,6 +77,30 @@ class chatController {
             }
           );
         }
+        const messages = await sellerCustomerMessageModel.find({
+          $or: [
+            {
+              $and: [
+                {
+                  receiverId: { $eq: sellerId },
+                },
+                {
+                  senderId: { $eq: userId },
+                },
+              ],
+            },
+            {
+              $and: [
+                {
+                  receiverId: { $eq: userId },
+                },
+                {
+                  senderId: { $eq: sellerId },
+                },
+              ],
+            },
+          ],
+        });
         responseReturn(res, 200, { message: "OK" });
       } else {
         const MyFriends = await sellerCustomerModel.findOne({ myId: userId });
