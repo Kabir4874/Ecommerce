@@ -101,7 +101,15 @@ class chatController {
             },
           ],
         });
-        responseReturn(res, 200, { message: "OK" });
+        const MyFriends = await sellerCustomerModel.findOne({
+          myId: userId,
+        });
+        const currentFd = MyFriends.myFriends.find((s) => s.fdId === sellerId);
+        responseReturn(res, 200, {
+          myFriends: MyFriends.myFriends,
+          currentFd,
+          messages,
+        });
       } else {
         const MyFriends = await sellerCustomerModel.findOne({ myId: userId });
         responseReturn(res, 200, { myFriends: MyFriends.myFriends });
