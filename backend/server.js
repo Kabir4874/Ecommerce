@@ -50,6 +50,10 @@ const addSeller = (sellerId, socketId, userInfo) => {
   }
 };
 
+const findCustomer = (customerId) => {
+  return allCustomer.find((c) => c.customerId === customerId);
+};
+
 io.on("connection", (soc) => {
   console.log("Socket server is running");
   soc.on("add_user", (customerId, userInfo) => {
@@ -57,6 +61,12 @@ io.on("connection", (soc) => {
   });
   soc.on("add_seller", (sellerId, userInfo) => {
     addSeller(sellerId, userInfo);
+  });
+  soc.on("send_seller_message", (msg) => {
+    const customer = findCustomer(msg.receiverId);
+    if (customer !== undefined) {
+      soc.to(customer.socketId).emit("seller_message", msg);
+    }
   });
 });
 app.use(cookieParser());

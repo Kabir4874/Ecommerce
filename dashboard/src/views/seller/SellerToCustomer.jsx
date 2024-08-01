@@ -6,14 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   get_customer,
   get_customer_message,
+  messageClear,
   send_message,
 } from "../../store/reducers/chatReducer";
 import { Link } from "react-router-dom";
+import { socket } from "../../utils/utils";
 
 const SellerToCustomer = () => {
   const { customerId } = useParams();
   const { userInfo } = useSelector((state) => state.auth);
-  const { customers, currentCustomer, messages } = useSelector(
+  const { customers, currentCustomer, messages, successMessage } = useSelector(
     (state) => state.chat
   );
   const dispatch = useDispatch();
@@ -41,6 +43,13 @@ const SellerToCustomer = () => {
     );
     setText("");
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      socket.emit("send_seller_message", messages[messages.length - 1]);
+      dispatch(messageClear());
+    }
+  }, [successMessage]);
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">

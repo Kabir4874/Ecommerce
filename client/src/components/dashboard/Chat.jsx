@@ -5,7 +5,8 @@ import { IoSend } from "react-icons/io5";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
-import { add_friend, send_message } from "../../store/reducers/chatReducer";
+import { add_friend, send_message,updateMessage } from "../../store/reducers/chatReducer";
+import { toast } from "react-hot-toast";
 
 const socket = io("http://localhost:5000");
 
@@ -17,6 +18,7 @@ const Chat = () => {
   const { fd_messages, currentFd, my_friends } = useSelector(
     (state) => state.chat
   );
+  const [receiverMessage, setReceiverMessage] = useState("");
   useEffect(() => {
     socket.emit("add_user", userInfo.id, userInfo);
   }, []);
@@ -42,6 +44,25 @@ const Chat = () => {
       setText("");
     }
   };
+
+  useEffect(() => {
+    socket.on("seller_message", (msg) => {
+      setReceiverMessage(msg);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (receiverMessage) {
+      if (
+        sellerId === receiverMessage.senderId &&
+        userInfo.id === receiverMessage.receiverId
+      ) {
+        dispatch(updateMessage(receiverMessage));
+      }
+    } else {
+      toast.success(receiverMessage.senderName + " send a message");
+    }
+  }, [receiverMessage]);
   return (
     <div className="bg-white p-3 rounded-md">
       <div className="w-full flex">

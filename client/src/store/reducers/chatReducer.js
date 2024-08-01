@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
-import { jwtDecode } from "jwt-decode";
 
 export const add_friend = createAsyncThunk(
   "chat/add_friend",
@@ -47,6 +46,9 @@ export const chatReducer = createSlice({
       state.errorMessage = "";
       state.successMessage = "";
     },
+    updateMessage: (state, { payload }) => {
+      state.fd_messages = [...state.fd_messages, payload];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -72,5 +74,5 @@ export const chatReducer = createSlice({
       });
   },
 });
-export const { messageClear } = chatReducer.actions;
+export const { messageClear, updateMessage } = chatReducer.actions;
 export default chatReducer.reducer;
