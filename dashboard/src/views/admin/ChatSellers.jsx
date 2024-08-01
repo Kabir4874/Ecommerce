@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaList } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { get_sellers } from "../../store/reducers/chatReducer";
 
 const ChatSellers = () => {
+  const dispatch= useDispatch();
   const [show, setShow] = useState(false);
   const sellerId = 32;
+
+  useEffect(()=>{
+    dispatch(get_sellers())
+  },[])
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">
