@@ -4,10 +4,10 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { socket } from "../utils/utils";
-import { updateCustomer } from "../store/reducers/chatReducer";
+import { updateCustomer,updateSellers } from "../store/reducers/chatReducer";
 
 const MainLayout = () => {
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const [showSidebar, setShowSidebar] = useState(false);
   useEffect(() => {
@@ -17,12 +17,15 @@ const MainLayout = () => {
       socket.emit("add_admin", userInfo);
     }
   }, [userInfo]);
-  
-  useEffect(()=>{
-    socket.on('activeCustomer',(customers)=>{
-      dispatch(updateCustomer(customers))
-    })
-  })
+
+  useEffect(() => {
+    socket.on("activeCustomer", (customers) => {
+      dispatch(updateCustomer(customers));
+    });
+    socket.on("activeSeller", (sellers) => {
+      dispatch(updateSellers(sellers));
+    });
+  });
   return (
     <div className="bg-mirage w-full min-h-screen">
       <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} />

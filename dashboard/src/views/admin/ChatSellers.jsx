@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaList } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { get_sellers } from "../../store/reducers/chatReducer";
 
 const ChatSellers = () => {
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
+  const { sellers } = useSelector((state) => state.chat);
   const [show, setShow] = useState(false);
   const sellerId = 32;
 
-  useEffect(()=>{
-    dispatch(get_sellers())
-  },[])
+  useEffect(() => {
+    dispatch(get_sellers());
+  }, []);
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -31,57 +32,26 @@ const ChatSellers = () => {
                   <IoMdClose />
                 </span>
               </div>
-              <div
-                className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-sm cursor-pointer bg-slate-700`}
-              >
-                <div className="relative">
-                  <img
-                    src="http://localhost:3000/images/admin.jpg"
-                    alt=""
-                    className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
-                  />
-                  <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
-                </div>
-                <div className="flex justify-center items-start flex-col w-full">
-                  <div className="flex justify-between items-center w-full">
-                    <h2 className=" font-semibold">Kabir Ahmed Ridoy</h2>
+              {sellers.map((s, i) => (
+                <div
+                key={i}
+                  className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-sm cursor-pointer bg-slate-700`}
+                >
+                  <div className="relative">
+                    <img
+                      src={s.image}
+                      alt="profile"
+                      className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
+                    />
+                    <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                  </div>
+                  <div className="flex justify-center items-start flex-col w-full">
+                    <div className="flex justify-between items-center w-full">
+                      <h2 className=" font-semibold">{s.name}</h2>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-sm cursor-pointer`}
-              >
-                <div className="relative">
-                  <img
-                    src="http://localhost:3000/images/admin.jpg"
-                    alt=""
-                    className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
-                  />
-                  <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
-                </div>
-                <div className="flex justify-center items-start flex-col w-full">
-                  <div className="flex justify-between items-center w-full">
-                    <h2 className=" font-semibold">Kabir Ahmed Ridoy</h2>
-                  </div>
-                </div>
-              </div>
-              <div
-                className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-sm cursor-pointer`}
-              >
-                <div className="relative">
-                  <img
-                    src="http://localhost:3000/images/admin.jpg"
-                    alt=""
-                    className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
-                  />
-                  <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
-                </div>
-                <div className="flex justify-center items-start flex-col w-full">
-                  <div className="flex justify-between items-center w-full">
-                    <h2 className=" font-semibold">Kabir Ahmed Ridoy</h2>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
