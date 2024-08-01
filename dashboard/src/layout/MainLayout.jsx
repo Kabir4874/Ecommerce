@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { socket } from "../utils/utils";
+import { updateCustomer } from "../store/reducers/chatReducer";
 
 const MainLayout = () => {
+  const dispatch= useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const [showSidebar, setShowSidebar] = useState(false);
   useEffect(() => {
@@ -15,6 +17,12 @@ const MainLayout = () => {
       socket.emit("add_admin", userInfo);
     }
   }, [userInfo]);
+  
+  useEffect(()=>{
+    socket.on('activeCustomer',(customers)=>{
+      dispatch(updateCustomer(customers))
+    })
+  })
   return (
     <div className="bg-mirage w-full min-h-screen">
       <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} />

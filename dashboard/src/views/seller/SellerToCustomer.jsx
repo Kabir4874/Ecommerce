@@ -8,16 +8,23 @@ import {
   get_customer_message,
   messageClear,
   send_message,
+  updateMessage,
 } from "../../store/reducers/chatReducer";
 import { Link } from "react-router-dom";
 import { socket } from "../../utils/utils";
+import { toast } from "react-hot-toast";
 
 const SellerToCustomer = () => {
   const { customerId } = useParams();
   const { userInfo } = useSelector((state) => state.auth);
-  const { customers, currentCustomer, messages, successMessage } = useSelector(
-    (state) => state.chat
-  );
+  const {
+    customers,
+    currentCustomer,
+    messages,
+    successMessage,
+    activeCustomers,
+  } = useSelector((state) => state.chat);
+  const [receiverMessage, setReceiverMessage] = useState("");
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const sellerId = userInfo._id;
@@ -50,6 +57,29 @@ const SellerToCustomer = () => {
       dispatch(messageClear());
     }
   }, [successMessage]);
+
+  useEffect(() => {
+    socket.on("customer_message", (msg) => {
+      setReceiverMessage(msg);
+    });
+    // socket.on("activeSeller", (sellers) => {
+    //   setActiveSeller(sellers);
+    // });
+  }, []);
+
+  useEffect(() => {
+    if (receiverMessage) {
+      if (
+        customerId === receiverMessage.senderId &&
+        userInfo._id === receiverMessage.receiverId
+      ) {
+        dispatch(updateMessage(receiverMessage));
+      } else {
+        toast.success(receiverMessage.senderName + " send a message");
+        dispatch(messageClear());
+      }
+    }
+  }, [receiverMessage]);
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -79,9 +109,11 @@ const SellerToCustomer = () => {
                     <img
                       src={c.image}
                       alt="profile"
-                      className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
+                      className="w-[38px] h-[38px] max-w-[38px] p-[2px] rounded-full"
                     />
-                    <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                    {activeCustomers.some((a) => a.customerId === c.fdId) && (
+                      <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                    )}
                   </div>
                   <div className="flex justify-center items-start flex-col w-full">
                     <div className="flex justify-between items-center w-full">
@@ -101,9 +133,13 @@ const SellerToCustomer = () => {
                     <img
                       src={currentCustomer.image}
                       alt=""
-                      className="w-[42px] h-[42px] border-green-500 border-2 max-w-[42px] p-[3px] rounded-full"
+                      className="w-[42px] h-[42px] max-w-[42px] p-[3px] rounded-full"
                     />
-                    <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                    {activeCustomers.some(
+                      (a) => a.customerId === currentCustomer.fdId
+                    ) && (
+                      <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                    )}
                   </div>
                   <h2 className="text-white font-semibold">
                     {currentCustomer.name}
