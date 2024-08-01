@@ -12,10 +12,12 @@ import {
   updateMessage,
 } from "../../store/reducers/chatReducer";
 import { toast } from "react-hot-toast";
+import { useRef } from "react";
 
 const socket = io("http://localhost:5000");
 
 const Chat = () => {
+  const scrollRef = useRef();
   const dispatch = useDispatch();
   const [text, setText] = useState("");
   const { sellerId } = useParams();
@@ -80,6 +82,10 @@ const Chat = () => {
       }
     }
   }, [receiverMessage]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [fd_messages]);
   return (
     <div className="bg-white p-3 rounded-md">
       <div className="w-full flex">
@@ -134,6 +140,7 @@ const Chat = () => {
                       return (
                         <div
                           key={i}
+                          ref={scrollRef}
                           className="w-full flex gap-2 justify-start items-center text-[14px]"
                         >
                           <img
@@ -150,6 +157,7 @@ const Chat = () => {
                       return (
                         <div
                           key={i}
+                          ref={scrollRef}
                           className="w-full flex gap-2 justify-end items-center text-[14px]"
                         >
                           <div className="p-2 bg-cyan-500 text-white rounded-md">
