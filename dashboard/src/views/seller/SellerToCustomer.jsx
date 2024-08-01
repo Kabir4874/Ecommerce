@@ -136,7 +136,7 @@ const SellerToCustomer = () => {
                       className="w-[42px] h-[42px] max-w-[42px] p-[3px] rounded-full"
                     />
                     {activeCustomers.some(
-                      (a) => a.customerId === currentCustomer.fdId
+                      (a) => a.customerId === currentCustomer._id
                     ) && (
                       <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
                     )}
