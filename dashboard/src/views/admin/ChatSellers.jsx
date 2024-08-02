@@ -3,12 +3,15 @@ import { IoMdClose } from "react-icons/io";
 import { FaList } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { get_sellers } from "../../store/reducers/chatReducer";
+import { useParams } from "react-router-dom";
+import { BsEmojiSmile } from "react-icons/bs";
 
 const ChatSellers = () => {
   const dispatch = useDispatch();
   const { sellers, activeSeller } = useSelector((state) => state.chat);
   const [show, setShow] = useState(false);
-  const sellerId = 32;
+  const { sellerId } = useParams();
+  console.log(sellerId);
 
   useEffect(() => {
     dispatch(get_sellers());
@@ -35,7 +38,9 @@ const ChatSellers = () => {
               {sellers.map((s, i) => (
                 <div
                   key={i}
-                  className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-sm cursor-pointer bg-slate-700`}
+                  className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-sm cursor-pointer ${
+                    sellerId === s._id
+                  }`}
                 >
                   <div className="relative">
                     <img
@@ -83,35 +88,58 @@ const ChatSellers = () => {
 
             <div className="py-4">
               <div className="bg-slate-800 h-[calc(100vh-290px)] rounded-md p-3 overflow-y-auto">
-                <div className="w-full flex justify-start items-center">
-                  <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
-                    <div>
-                      <img
-                        src="http://localhost:3000/images/admin.jpg"
-                        alt=""
-                        className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
-                      />
-                    </div>
-                    <div className="flex justify-center items-start flex-col w-full bg-orange-500 text-white p-1 px-2 rounded-sm">
-                      <span>How are you?</span>
-                    </div>
+                {sellerId ? (
+                  [1, 2, 3, 4, 5, 6].map((m, i) => {
+                    if (m.senderId === sellerId) {
+                      return (
+                        <div
+                          key={i}
+                          className="w-full flex justify-start items-center"
+                        >
+                          <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
+                            <div>
+                              <img
+                                src="http://localhost:3000/images/admin.jpg"
+                                alt=""
+                                className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
+                              />
+                            </div>
+                            <div className="flex justify-center items-start flex-col w-full bg-orange-500 text-white p-1 px-2 rounded-sm">
+                              <span>How are you?</span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div
+                          key={i}
+                          className="w-full flex justify-end items-center"
+                        >
+                          <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
+                            <div className="flex justify-center items-start flex-col w-full bg-blue-500 text-white p-1 px-2 rounded-sm">
+                              <span>How are you?</span>
+                            </div>
+                            <div>
+                              <img
+                                src="http://localhost:3000/images/admin.jpg"
+                                alt=""
+                                className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })
+                ) : (
+                  <div className="w-full h-full flex justify-center items-center flex-col gap-2 text-white">
+                    <span>
+                      <BsEmojiSmile />
+                    </span>
+                    <span>Select Customer</span>
                   </div>
-                </div>
-
-                <div className="w-full flex justify-end items-center">
-                  <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
-                    <div className="flex justify-center items-start flex-col w-full bg-blue-500 text-white p-1 px-2 rounded-sm">
-                      <span>How are you?</span>
-                    </div>
-                    <div>
-                      <img
-                        src="http://localhost:3000/images/admin.jpg"
-                        alt=""
-                        className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
-                      />
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
 
