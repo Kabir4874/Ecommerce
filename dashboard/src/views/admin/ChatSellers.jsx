@@ -2,20 +2,35 @@ import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaList } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { get_sellers } from "../../store/reducers/chatReducer";
-import { useParams } from "react-router-dom";
+import {
+  get_sellers,
+  send_message_seller_admin,
+} from "../../store/reducers/chatReducer";
+import { useParams, Link } from "react-router-dom";
 import { BsEmojiSmile } from "react-icons/bs";
 
 const ChatSellers = () => {
   const dispatch = useDispatch();
   const { sellers, activeSeller } = useSelector((state) => state.chat);
+  const { userInfo } = useSelector((state) => state.auth);
   const [show, setShow] = useState(false);
   const { sellerId } = useParams();
-  console.log(sellerId);
 
   useEffect(() => {
     dispatch(get_sellers());
   }, []);
+  const [text, setText] = useState("");
+  const send = (e) => {
+    e.preventDefault();
+    dispatch(
+      send_message_seller_admin({
+        senderId: userInfo._id,
+        receiverId: sellerId,
+        message: text,
+        senderName: "MyShop Support",
+      })
+    );
+  };
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -36,7 +51,8 @@ const ChatSellers = () => {
                 </span>
               </div>
               {sellers.map((s, i) => (
-                <div
+                <Link
+                  to={`/admin/dashboard/chat-sellers/${s._id}`}
                   key={i}
                   className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-sm cursor-pointer ${
                     sellerId === s._id
@@ -57,7 +73,7 @@ const ChatSellers = () => {
                       <h2 className=" font-semibold">{s.name}</h2>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -137,7 +153,7 @@ const ChatSellers = () => {
                     <span>
                       <BsEmojiSmile />
                     </span>
-                    <span>Select Customer</span>
+                    <span>Select Seller</span>
                   </div>
                 )}
               </div>
@@ -145,11 +161,15 @@ const ChatSellers = () => {
 
             <form className="flex gap-3">
               <input
+                readOnly={sellerId ? false : true}
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-iron"
                 type="text"
                 placeholder="input your message"
               />
-              <button className=" bg-cyan-500 shadow-lg hover:shadow-cyan-500/50 font-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center">
+              <button
+                disabled={sellerId ? false : true}
+                className=" bg-cyan-500 shadow-lg hover:shadow-cyan-500/50 font-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center"
+              >
                 Send
               </button>
             </form>
