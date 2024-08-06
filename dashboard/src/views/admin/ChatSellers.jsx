@@ -11,7 +11,9 @@ import { BsEmojiSmile } from "react-icons/bs";
 
 const ChatSellers = () => {
   const dispatch = useDispatch();
-  const { sellers, activeSeller } = useSelector((state) => state.chat);
+  const { sellers, activeSeller, seller_admin_message } = useSelector(
+    (state) => state.chat
+  );
   const { userInfo } = useSelector((state) => state.auth);
   const [show, setShow] = useState(false);
   const { sellerId } = useParams();
@@ -31,6 +33,11 @@ const ChatSellers = () => {
       })
     );
   };
+  useEffect(()=>{
+    if(sellerId){
+      dispatch()
+    }
+  },[sellerId])
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -90,6 +97,7 @@ const ChatSellers = () => {
                     />
                     <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
                   </div>
+                  <span>{}</span>
                 </div>
               )}
               <div
@@ -105,7 +113,7 @@ const ChatSellers = () => {
             <div className="py-4">
               <div className="bg-slate-800 h-[calc(100vh-290px)] rounded-md p-3 overflow-y-auto">
                 {sellerId ? (
-                  [1, 2, 3, 4, 5, 6].map((m, i) => {
+                  seller_admin_message.map((m, i) => {
                     if (m.senderId === sellerId) {
                       return (
                         <div
@@ -121,7 +129,7 @@ const ChatSellers = () => {
                               />
                             </div>
                             <div className="flex justify-center items-start flex-col w-full bg-orange-500 text-white p-1 px-2 rounded-sm">
-                              <span>How are you?</span>
+                              <span>{m.message}</span>
                             </div>
                           </div>
                         </div>
@@ -134,7 +142,7 @@ const ChatSellers = () => {
                         >
                           <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
                             <div className="flex justify-center items-start flex-col w-full bg-blue-500 text-white p-1 px-2 rounded-sm">
-                              <span>How are you?</span>
+                              <span>{m.message}</span>
                             </div>
                             <div>
                               <img
