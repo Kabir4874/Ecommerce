@@ -159,9 +159,11 @@ const ChatSellers = () => {
               </div>
             </div>
 
-            <form className="flex gap-3">
+            <form className="flex gap-3" onSubmit={send}>
               <input
                 readOnly={sellerId ? false : true}
+                onChange={(e) => setText(e.target.value)}
+                value={text}
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-iron"
                 type="text"
                 placeholder="input your message"
