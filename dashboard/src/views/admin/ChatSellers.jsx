@@ -33,11 +33,11 @@ const ChatSellers = () => {
       })
     );
   };
-  useEffect(()=>{
-    if(sellerId){
-      dispatch()
+  useEffect(() => {
+    if (sellerId) {
+      dispatch();
     }
-  },[sellerId])
+  }, [sellerId]);
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">
