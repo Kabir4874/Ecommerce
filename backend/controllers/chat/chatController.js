@@ -290,5 +290,45 @@ class chatController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+
+  get_seller_admin_messages = async (req, res) => {
+    const { sellerId } = req.params;
+    const { id } = req;
+    try {
+      const messages = await adminSellerMessageModel.find({
+        $or: [
+          {
+            $and: [
+              {
+                receiverId: { $eq: sellerId },
+              },
+              {
+                senderId: {
+                  $eq: id,
+                },
+              },
+            ],
+          },
+          {
+            $and: [
+              {
+                receiverId: { $eq: id },
+              },
+              {
+                senderId: { $eq: sellerId },
+              },
+            ],
+          },
+        ],
+      });
+      let currentSeller = {};
+      if (sellerId) {
+        currentSeller = await sellerModel.findById(sellerId);
+      }
+      responseReturn(res, 200, { messages, currentSeller });
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
 }
 module.exports = new chatController();

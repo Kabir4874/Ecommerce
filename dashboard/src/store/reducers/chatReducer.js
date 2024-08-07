@@ -160,6 +160,10 @@ export const chatReducer = createSlice({
           ...state.seller_admin_message,
           payload.message,
         ];
+      })
+      .addCase(get_seller_admin_message.fulfilled, (state, { payload }) => {
+        state.seller_admin_message = payload.messages;
+        state.currentSeller = payload.currentSeller;
       });
   },
 });
