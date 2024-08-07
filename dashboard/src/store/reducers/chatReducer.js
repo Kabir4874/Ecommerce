@@ -80,10 +80,10 @@ export const send_message_seller_admin = createAsyncThunk(
 
 export const get_seller_admin_message = createAsyncThunk(
   "chat/get_seller_admin_message",
-  async (sellerId, { fulfillWithValue, rejectWithValue }) => {
+  async (receiverId, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(
-        `/chat/get-seller-admin-messages/${sellerId}`,
+        `/chat/get-seller-admin-messages/${receiverId}`,
         {
           withCredentials: true,
         }

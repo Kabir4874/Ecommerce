@@ -12,9 +12,8 @@ import { BsEmojiSmile } from "react-icons/bs";
 
 const ChatSellers = () => {
   const dispatch = useDispatch();
-  const { sellers, activeSeller, seller_admin_message } = useSelector(
-    (state) => state.chat
-  );
+  const { sellers, activeSeller, seller_admin_message, currentSeller } =
+    useSelector((state) => state.chat);
   const { userInfo } = useSelector((state) => state.auth);
   const [show, setShow] = useState(false);
   const { sellerId } = useParams();
@@ -27,12 +26,13 @@ const ChatSellers = () => {
     e.preventDefault();
     dispatch(
       send_message_seller_admin({
-        senderId: userInfo._id,
+        senderId: '',
         receiverId: sellerId,
         message: text,
         senderName: "MyShop Support",
       })
     );
+    setText('');
   };
   useEffect(() => {
     if (sellerId) {
@@ -63,7 +63,7 @@ const ChatSellers = () => {
                   to={`/admin/dashboard/chat-sellers/${s._id}`}
                   key={i}
                   className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-sm cursor-pointer ${
-                    sellerId === s._id
+                    sellerId === s._id ? "bg-slate-700" : ""
                   }`}
                 >
                   <div className="relative">
@@ -92,13 +92,13 @@ const ChatSellers = () => {
                 <div className="flex justify-start items-center gap-3">
                   <div className="relative">
                     <img
-                      src="http://localhost:3000/images/admin.jpg"
+                      src={currentSeller.image}
                       alt=""
                       className="w-[42px] h-[42px] max-w-[42px] rounded-full"
                     />
                     <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
                   </div>
-                  <span>{}</span>
+                  <span className="text-white">{currentSeller?.name}</span>
                 </div>
               )}
               <div

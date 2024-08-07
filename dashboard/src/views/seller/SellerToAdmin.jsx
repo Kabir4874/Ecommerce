@@ -1,7 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaList } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { get_seller_admin_message } from "../../store/reducers/chatReducer";
 
 const SellerToAdmin = () => {
+  const { seller_admin_message } = useSelector((state) => state.chat);
+  const {userInfo}=useSelector(state=>state.auth)
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(get_seller_admin_message(""));
+  }, []);
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -23,6 +31,15 @@ const SellerToAdmin = () => {
 
             <div className="py-4">
               <div className="bg-slate-800 h-[calc(100vh-290px)] rounded-md p-3 overflow-y-auto">
+               {
+                seller_admin_message.map((m,i)=>{
+                  if(){
+
+                  }else{
+
+                  }
+                })
+               }
                 <div className="w-full flex justify-start items-center">
                   <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
                     <div>
