@@ -37,9 +37,14 @@ router.post(
   chatController.seller_admin_message_insert
 );
 router.get(
-  "/chat/get-seller-admin-messages/:sellerId",
+  "/chat/get-admin-messages/:receiverId",
   authMiddleware,
-  chatController.get_seller_admin_messages
+  chatController.get_admin_messages
+);
+router.get(
+  "/chat/get-seller-messages",
+  authMiddleware,
+  chatController.get_seller_messages
 );
 
 module.exports = router;

@@ -291,12 +291,9 @@ class chatController {
     }
   };
 
-  get_seller_admin_messages = async (req, res) => {
+  get_admin_messages = async (req, res) => {
     const { receiverId } = req.params;
-    let { id } = req;
-    if (req.role === "admin") {
-      id = "";
-    }
+    const id = "";
     try {
       const messages = await adminSellerMessageModel.find({
         $or: [
@@ -329,6 +326,42 @@ class chatController {
         currentSeller = await sellerModel.findById(receiverId);
       }
       responseReturn(res, 200, { messages, currentSeller });
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
+
+  get_seller_messages = async (req, res) => {
+    const receiverId = "";
+    const { id } = req;
+    try {
+      const messages = await adminSellerMessageModel.find({
+        $or: [
+          {
+            $and: [
+              {
+                receiverId: { $eq: receiverId },
+              },
+              {
+                senderId: {
+                  $eq: id,
+                },
+              },
+            ],
+          },
+          {
+            $and: [
+              {
+                receiverId: { $eq: id },
+              },
+              {
+                senderId: { $eq: receiverId },
+              },
+            ],
+          },
+        ],
+      });
+      responseReturn(res, 200, { messages });
     } catch (error) {
       responseReturn(res, 501, { error: error.message });
     }

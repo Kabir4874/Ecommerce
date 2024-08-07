@@ -1,15 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { FaList } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { get_seller_admin_message } from "../../store/reducers/chatReducer";
+import {
+  get_seller_message,
+  send_message_seller_admin,
+} from "../../store/reducers/chatReducer";
 
 const SellerToAdmin = () => {
   const { seller_admin_message } = useSelector((state) => state.chat);
-  const {userInfo}=useSelector(state=>state.auth)
+  const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const [text, setText] = useState("");
   useEffect(() => {
-    dispatch(get_seller_admin_message(""));
+    dispatch(get_seller_message());
   }, []);
+
+  const send = (e) => {
+    e.preventDefault();
+    dispatch(
+      send_message_seller_admin({
+        senderId: userInfo._id,
+        receiverId: "",
+        message: text,
+        senderName: userInfo.name,
+      })
+    );
+  };
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -31,49 +46,56 @@ const SellerToAdmin = () => {
 
             <div className="py-4">
               <div className="bg-slate-800 h-[calc(100vh-290px)] rounded-md p-3 overflow-y-auto">
-               {
-                seller_admin_message.map((m,i)=>{
-                  if(){
-
-                  }else{
-
+                {seller_admin_message.map((m, i) => {
+                  if (userInfo._id !== m.senderId) {
+                    return (
+                      <div
+                        key={i}
+                        className="w-full flex justify-start items-center"
+                      >
+                        <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
+                          <div>
+                            <img
+                              src="http://localhost:3000/images/admin.jpg"
+                              alt=""
+                              className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
+                            />
+                          </div>
+                          <div className="flex justify-center items-start flex-col w-full bg-orange-500 text-white p-1 px-2 rounded-sm">
+                            <span>{m.message}</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div
+                        key={i}
+                        className="w-full flex justify-end items-center"
+                      >
+                        <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
+                          <div className="flex justify-center items-start flex-col w-full bg-blue-500 text-white p-1 px-2 rounded-sm">
+                            <span>{m.message}</span>
+                          </div>
+                          <div>
+                            <img
+                              src="http://localhost:3000/images/admin.jpg"
+                              alt=""
+                              className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
                   }
-                })
-               }
-                <div className="w-full flex justify-start items-center">
-                  <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
-                    <div>
-                      <img
-                        src="http://localhost:3000/images/admin.jpg"
-                        alt=""
-                        className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
-                      />
-                    </div>
-                    <div className="flex justify-center items-start flex-col w-full bg-orange-500 text-white p-1 px-2 rounded-sm">
-                      <span>How are you?</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="w-full flex justify-end items-center">
-                  <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
-                    <div className="flex justify-center items-start flex-col w-full bg-blue-500 text-white p-1 px-2 rounded-sm">
-                      <span>How are you?</span>
-                    </div>
-                    <div>
-                      <img
-                        src="http://localhost:3000/images/admin.jpg"
-                        alt=""
-                        className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
-                      />
-                    </div>
-                  </div>
-                </div>
+                })}
               </div>
             </div>
 
-            <form className="flex gap-3">
+            <form onSubmit={send} className="flex gap-3">
               <input
+                onChange={(e) => setText(e.target.value)}
+                value={text}
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-iron"
                 type="text"
                 placeholder="input your message"

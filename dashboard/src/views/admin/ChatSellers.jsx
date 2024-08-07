@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   get_sellers,
   send_message_seller_admin,
-  get_seller_admin_message,
+  get_admin_message,
 } from "../../store/reducers/chatReducer";
 import { useParams, Link } from "react-router-dom";
 import { BsEmojiSmile } from "react-icons/bs";
@@ -26,17 +26,17 @@ const ChatSellers = () => {
     e.preventDefault();
     dispatch(
       send_message_seller_admin({
-        senderId: '',
+        senderId: "",
         receiverId: sellerId,
         message: text,
         senderName: "MyShop Support",
       })
     );
-    setText('');
+    setText("");
   };
   useEffect(() => {
     if (sellerId) {
-      dispatch(get_seller_admin_message(sellerId));
+      dispatch(get_admin_message(sellerId));
     }
   }, [sellerId]);
   return (

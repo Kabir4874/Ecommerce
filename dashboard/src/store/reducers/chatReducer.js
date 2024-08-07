@@ -78,16 +78,27 @@ export const send_message_seller_admin = createAsyncThunk(
   }
 );
 
-export const get_seller_admin_message = createAsyncThunk(
-  "chat/get_seller_admin_message",
+export const get_admin_message = createAsyncThunk(
+  "chat/get_admin_message",
   async (receiverId, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(
-        `/chat/get-seller-admin-messages/${receiverId}`,
-        {
-          withCredentials: true,
-        }
-      );
+      const { data } = await api.get(`/chat/get-admin-messages/${receiverId}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_seller_message = createAsyncThunk(
+  "chat/get_seller_message",
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/chat/get-seller-messages`, {
+        withCredentials: true,
+      });
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -161,9 +172,12 @@ export const chatReducer = createSlice({
           payload.message,
         ];
       })
-      .addCase(get_seller_admin_message.fulfilled, (state, { payload }) => {
+      .addCase(get_admin_message.fulfilled, (state, { payload }) => {
         state.seller_admin_message = payload.messages;
         state.currentSeller = payload.currentSeller;
+      })
+      .addCase(get_seller_message.fulfilled, (state, { payload }) => {
+        state.seller_admin_message = payload.messages;
       });
   },
 });
