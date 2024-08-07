@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   get_sellers,
   send_message_seller_admin,
+  get_seller_admin_message,
 } from "../../store/reducers/chatReducer";
 import { useParams, Link } from "react-router-dom";
 import { BsEmojiSmile } from "react-icons/bs";
@@ -35,7 +36,7 @@ const ChatSellers = () => {
   };
   useEffect(() => {
     if (sellerId) {
-      dispatch();
+      dispatch(get_seller_admin_message(sellerId));
     }
   }, [sellerId]);
   return (

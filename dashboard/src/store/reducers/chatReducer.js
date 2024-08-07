@@ -78,6 +78,23 @@ export const send_message_seller_admin = createAsyncThunk(
   }
 );
 
+export const get_seller_admin_message = createAsyncThunk(
+  "chat/get_seller_admin_message",
+  async (sellerId, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/chat/get-seller-admin-messages/${sellerId}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const chatReducer = createSlice({
   name: "chat",
   initialState: {
