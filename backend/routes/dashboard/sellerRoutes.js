@@ -17,5 +17,10 @@ router.post(
   authMiddleware,
   sellerController.update_seller_status
 );
+router.get(
+  "/get-active-sellers",
+  authMiddleware,
+  sellerController.get_active_sellers
+);
 
 module.exports = router;

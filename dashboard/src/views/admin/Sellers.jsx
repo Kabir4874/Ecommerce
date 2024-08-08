@@ -2,14 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { FaEye } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { get_active_sellers } from "../../store/reducers/sellerReducer";
 const Sellers = () => {
+  const dispatch = useDispatch();
+  const { sellers, totalSeller } = useSelector((state) => state.seller);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [perPage, setPerPage] = useState(5);
-  const [show, setShow] = useState(false);
-  useEffect(()=>{
-    
-  },[])
+  useEffect(() => {
+    const obj = {
+      perPage: parseInt(perPage),
+      page: parseInt(currentPage),
+      searchValue,
+    };
+    dispatch(get_active_sellers(obj));
+  }, [searchValue, currentPage, perPage]);
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4 bg-ebony_clay rounded-md">
@@ -26,6 +34,8 @@ const Sellers = () => {
               </select>
               <input
                 type="text"
+                onChange={(e) => setSearchValue(e.target.value)}
+                value={searchValue}
                 placeholder="search"
                 className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
               />
@@ -64,40 +74,40 @@ const Sellers = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {[1, 2, 3, 4, 5].map((d, i) => (
+                  {sellers.map((d, i) => (
                     <tr key={i}>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        {d}
+                        {i + 1}
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
                         <img
-                          src={`http://localhost:3000/images/category/${d}.jpg`}
-                          alt=""
+                          src={d.image}
+                          alt="profile"
                           className="w-[45px] h-[45px]"
                         />
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        <span>Rakib Khan</span>
+                        <span>{d.name}</span>
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        <span>rakib@gmail.com</span>
+                        <span>{d.email}</span>
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        <span>Rakib Fashion</span>
+                        <span>{d.shopInfo.shopName}</span>
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        <span>Active</span>
+                        <span>{d.status}</span>
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        <span>Dhaka</span>
+                        <span>{d.shopInfo.division}</span>
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        <span>Dhaka</span>
+                        <span>{d.shopInfo.district}</span>
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
                         <div className="flex justify-start items-center gap-4">
                           <Link
-                            to={"/admin/dashboard/seller/details/1"}
+                            to={`/admin/dashboard/seller/details/${d._id}`}
                             className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50"
                           >
                             <FaEye />
@@ -109,15 +119,17 @@ const Sellers = () => {
                 </tbody>
               </table>
             </div>
-            <div className="w-full flex justify-end mt-4 bottom-4 right-4">
-              <Pagination
-                pageNumber={currentPage}
-                setPageNumber={setCurrentPage}
-                totalItem={20}
-                perPage={perPage}
-                showItem={4}
-              />
-            </div>
+            {totalSeller >= perPage && (
+              <div className="w-full flex justify-end mt-4 bottom-4 right-4">
+                <Pagination
+                  pageNumber={currentPage}
+                  setPageNumber={setCurrentPage}
+                  totalItem={totalSeller}
+                  perPage={perPage}
+                  showItem={4}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
