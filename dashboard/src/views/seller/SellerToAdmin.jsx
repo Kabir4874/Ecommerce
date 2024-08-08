@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   get_seller_message,
@@ -9,7 +9,8 @@ import {
 import { socket } from "../../utils/utils";
 
 const SellerToAdmin = () => {
-  const { seller_admin_message, successMessage } = useSelector(
+  const scrollRef = useRef();
+  const { seller_admin_message, successMessage, activeAdmin } = useSelector(
     (state) => state.chat
   );
   const { userInfo } = useSelector((state) => state.auth);
@@ -29,6 +30,7 @@ const SellerToAdmin = () => {
         senderName: userInfo.name,
       })
     );
+    setText("");
   };
 
   useEffect(() => {
@@ -40,12 +42,15 @@ const SellerToAdmin = () => {
   useEffect(() => {
     if (successMessage) {
       socket.emit(
-        "send_message_admin_to_seller",
+        "send_message_seller_to_admin",
         seller_admin_message[seller_admin_message.length - 1]
       );
       dispatch(messageClear());
     }
   }, [successMessage]);
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [seller_admin_message]);
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -57,9 +62,11 @@ const SellerToAdmin = () => {
                   <img
                     src="http://localhost:3000/images/admin.jpg"
                     alt=""
-                    className="w-[42px] h-[42px] border-green-500 border-2 max-w-[42px] p-[3px] rounded-full"
+                    className="w-[42px] h-[42px] max-w-[42px] rounded-full"
                   />
-                  <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                  {activeAdmin && (
+                    <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                  )}
                 </div>
                 <h2 className="text-white font-semibold">Support</h2>
               </div>
@@ -72,6 +79,7 @@ const SellerToAdmin = () => {
                     return (
                       <div
                         key={i}
+                        ref={scrollRef}
                         className="w-full flex justify-start items-center"
                       >
                         <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
@@ -92,6 +100,7 @@ const SellerToAdmin = () => {
                     return (
                       <div
                         key={i}
+                        ref={scrollRef}
                         className="w-full flex justify-end items-center"
                       >
                         <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
