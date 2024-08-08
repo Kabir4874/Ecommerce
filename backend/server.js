@@ -95,6 +95,13 @@ io.on("connection", (soc) => {
     }
   });
 
+  soc.on("send_message_admin_to_seller", (msg) => {
+    const seller = findSeller(msg.receiverId);
+    if (seller !== undefined) {
+      soc.to(seller.socketId).emit("received_admin_message", msg);
+    }
+  });
+
   soc.on("disconnect", () => {
     console.log("user disconnect");
     remove(soc.id);

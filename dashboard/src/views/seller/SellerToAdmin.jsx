@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   get_seller_message,
+  messageClear,
   send_message_seller_admin,
+  updateAdminMessage,
 } from "../../store/reducers/chatReducer";
+import { socket } from "../../utils/utils";
 
 const SellerToAdmin = () => {
-  const { seller_admin_message } = useSelector((state) => state.chat);
+  const { seller_admin_message, successMessage } = useSelector(
+    (state) => state.chat
+  );
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [text, setText] = useState("");
@@ -25,6 +30,22 @@ const SellerToAdmin = () => {
       })
     );
   };
+
+  useEffect(() => {
+    socket.on("received_admin_message", (msg) => {
+      dispatch(updateAdminMessage(msg));
+    });
+  }, []);
+
+  useEffect(() => {
+    if (successMessage) {
+      socket.emit(
+        "send_message_admin_to_seller",
+        seller_admin_message[seller_admin_message.length - 1]
+      );
+      dispatch(messageClear());
+    }
+  }, [successMessage]);
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">

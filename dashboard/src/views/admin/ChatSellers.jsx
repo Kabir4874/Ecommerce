@@ -6,14 +6,21 @@ import {
   get_sellers,
   send_message_seller_admin,
   get_admin_message,
+  messageClear,
 } from "../../store/reducers/chatReducer";
 import { useParams, Link } from "react-router-dom";
 import { BsEmojiSmile } from "react-icons/bs";
+import { socket } from "../../utils/utils";
 
 const ChatSellers = () => {
   const dispatch = useDispatch();
-  const { sellers, activeSeller, seller_admin_message, currentSeller } =
-    useSelector((state) => state.chat);
+  const {
+    sellers,
+    activeSeller,
+    seller_admin_message,
+    currentSeller,
+    successMessage,
+  } = useSelector((state) => state.chat);
   const { userInfo } = useSelector((state) => state.auth);
   const [show, setShow] = useState(false);
   const { sellerId } = useParams();
@@ -39,6 +46,16 @@ const ChatSellers = () => {
       dispatch(get_admin_message(sellerId));
     }
   }, [sellerId]);
+
+  useEffect(() => {
+    if (successMessage) {
+      socket.emit(
+        "send_message_admin_to_seller",
+        seller_admin_message[seller_admin_message.length - 1]
+      );
+      dispatch(messageClear());
+    }
+  }, [successMessage]);
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-ebony_clay px-4 py-4 rounded-md h-[calc(100vh-140px)]">
