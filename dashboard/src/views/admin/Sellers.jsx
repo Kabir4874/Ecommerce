@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { FaEye } from "react-icons/fa";
@@ -7,6 +7,9 @@ const Sellers = () => {
   const [searchValue, setSearchValue] = useState("");
   const [perPage, setPerPage] = useState(5);
   const [show, setShow] = useState(false);
+  useEffect(()=>{
+    
+  },[])
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4 bg-ebony_clay rounded-md">

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { getNavs } from "../navigation";
 import { BiLogOut } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/reducers/authReducer";
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { role } = useSelector((state) => state.auth);
   const { pathname } = useLocation();
   const [allNav, setAllNav] = useState([]);
@@ -52,7 +55,10 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
               </li>
             ))}
             <li>
-              <button className="text-iron duration-200 px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-3 hover:pl-4 transition-all w-full mb-4 text-xl">
+              <button
+                onClick={() => dispatch(logout({ navigate, role }))}
+                className="text-iron duration-200 px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-3 hover:pl-4 transition-all w-full mb-4 text-xl"
+              >
                 <span>
                   <BiLogOut />
                 </span>
