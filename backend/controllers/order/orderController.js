@@ -190,5 +190,27 @@ class orderController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+
+  get_admin_order = async (req, res) => {
+    const { orderId } = req.params;
+    try {
+      const order = await customerOrderModel.aggregate([
+        {
+          $match: { _id: new ObjectId(orderId) },
+        },
+        {
+          $lookup: {
+            from: "authororders",
+            localField: "_id",
+            foreignField: "orderId",
+            as: "subOrder",
+          },
+        },
+      ]);
+      responseReturn(res, 200, { order: order[0] });
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
 }
 module.exports = new orderController();

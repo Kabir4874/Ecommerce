@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { get_admin_order } from "../../store/reducers/orderReducer";
+import { useParams } from "react-router-dom";
 
 const OrderDetails = () => {
+  const { orderId } = useParams();
+  const dispatch = useDispatch();
+  const { order } = useSelector((state) => state.order);
+  useEffect(() => {
+    dispatch(get_admin_order(orderId));
+  }, [orderId]);
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4 bg-ebony_clay rounded-md">
@@ -11,11 +20,11 @@ const OrderDetails = () => {
             id=""
             className="px-4 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron"
           >
-            <option value="">pending</option>
-            <option value="">processing</option>
-            <option value="">warehouse</option>
-            <option value="">placed</option>
-            <option value="">cancelled</option>
+            <option value="pending">pending</option>
+            <option value="processing">processing</option>
+            <option value="warehouse">warehouse</option>
+            <option value="placed">placed</option>
+            <option value="cancelled">cancelled</option>
           </select>
         </div>
         <div className="p-4">

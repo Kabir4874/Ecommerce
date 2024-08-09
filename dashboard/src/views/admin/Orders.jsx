@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BsArrowBarDown } from "react-icons/bs";
+import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,7 +43,7 @@ const Orders = () => {
                 <div className="py-3 w-[18%]">Order Status</div>
                 <div className="py-3 w-[18%]">Action</div>
                 <div className="py-3 w-[8%]">
-                  <BsArrowBarDown />
+                  <MdKeyboardArrowDown />
                 </div>
               </div>
             </div>
@@ -57,13 +57,15 @@ const Orders = () => {
                   <div className="py-4 w-[18%]">{o.payment_status}</div>
                   <div className="py-4 w-[18%]">{o.delivery_status}</div>
                   <div className="py-4 w-[18%]">
-                    <Link to={"/admin/dashboard/order/details/1"}>view</Link>
+                    <Link to={`/admin/dashboard/order/details/${o._id}`}>
+                      view
+                    </Link>
                   </div>
                   <div
                     className="py-3 w-[8%] cursor-pointer"
                     onClick={(e) => setShow(o._id)}
                   >
-                    <BsArrowBarDown />
+                    <MdKeyboardArrowDown />
                   </div>
                 </div>
                 <div
@@ -82,7 +84,9 @@ const Orders = () => {
                       <div className="py-4 w-[18%]">{so.payment_status}</div>
                       <div className="py-4 w-[18%]">{so.delivery_status}</div>
                       <div className="py-4 w-[18%]">
-                        <Link>view</Link>
+                        <Link to={`/admin/dashboard/order/details/${so._id}`}>
+                          view
+                        </Link>
                       </div>
                     </div>
                   ))}
