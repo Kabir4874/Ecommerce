@@ -29,77 +29,50 @@ const OrderDetails = () => {
         </div>
         <div className="p-4">
           <div className="flex gap-2 text-lg text-iron">
-            <h2>#324325324sdfjl</h2>
-            <span>3 jun 2024</span>
+            <h2>{order._id}</h2>
+            <span>{order.date}</span>
           </div>
           <div className="flex flex-wrap">
             <div className="w-[32%]">
               <div className="pr-3 text-iron text-lg">
                 <div className="flex flex-col gap-1">
                   <h2 className="pb-2 font-semibold">
-                    Deliver to: Kabir Ahmed
+                    Deliver to: {order.shippingInfo?.name}
                   </h2>
                   <p>
                     <span className="text-sm">
-                      Rangpur, Kurigram, Nageshwari, House no: #53324
+                      {order.shippingInfo?.address}{" "}
+                      {order.shippingInfo?.province} {order.shippingInfo?.city}{" "}
+                      {order.shippingInfo?.area}
                     </span>
                   </p>
                 </div>
                 <div className="flex justify-start items-center gap-3">
                   <h2>Payment Status: </h2>
-                  <span>paid</span>
+                  <span>{order.payment_status}</span>
                 </div>
-                <span>Price: $5325</span>
-                <div className="mt-4 flex flex-col gap-4">
-                  <div className="text-iron">
-                    <div className="flex gap-3 text-lg">
-                      <img
-                        src={`http://localhost:3000/images/category/1.jpg`}
-                        alt=""
-                        className="w-[45px] h-[45px]"
-                      />
-                      <div>
-                        <h2>long long T-Shirt</h2>
-                        <p>
-                          <span>Brand: </span>
-                          <span>Easy </span>
-                          <span className="text-lg">Quantity: 2</span>
-                        </p>
+                <span>Price: ${order.price}</span>
+                <div className="mt-4 flex flex-col gap-8 text-iron">
+                  {order.products &&
+                    order.products.map((o, i) => (
+                      <div key={i} className="flex gap-3 text-lg">
+                        <img
+                          src={o.images[0]}
+                          alt=""
+                          className="w-[45px] h-[45px]"
+                        />
+                        <div>
+                          <h2>{o.name}</h2>
+                          <p>
+                            <span>Brand: </span>
+                            <span>{o.brand} </span>
+                            <span className="text-lg">
+                              Quantity: {o.quantity}
+                            </span>
+                          </p>
+                        </div>
                       </div>
-                    </div>
-
-                    <div className="flex gap-3 text-lg">
-                      <img
-                        src={`http://localhost:3000/images/category/1.jpg`}
-                        alt=""
-                        className="w-[45px] h-[45px]"
-                      />
-                      <div>
-                        <h2>long long T-Shirt</h2>
-                        <p>
-                          <span>Brand: </span>
-                          <span>Easy </span>
-                          <span className="text-lg">Quantity: 2</span>
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-3 text-lg">
-                      <img
-                        src={`http://localhost:3000/images/category/1.jpg`}
-                        alt=""
-                        className="w-[45px] h-[45px]"
-                      />
-                      <div>
-                        <h2>long long T-Shirt</h2>
-                        <p>
-                          <span>Brand: </span>
-                          <span>Easy </span>
-                          <span className="text-lg">Quantity: 2</span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -107,49 +80,33 @@ const OrderDetails = () => {
             <div className="w-[68%]">
               <div className="pl-3">
                 <div className="mt-4 flex flex-col">
-                  <div className="text-iron mb-6">
-                    <div className="flex justify-start items-center gap-3">
-                      <h2>Seller 1 order: </h2>
-                      <span>pending</span>
-                    </div>
-                    <div className="flex gap-3 text-lg mt-2">
-                      <img
-                        src={`http://localhost:3000/images/category/1.jpg`}
-                        alt=""
-                        className="w-[45px] h-[45px]"
-                      />
-                      <div>
-                        <h2>long long T-Shirt</h2>
-                        <p>
-                          <span>Brand: </span>
-                          <span>Easy </span>
-                          <span className="text-lg">Quantity: 2</span>
-                        </p>
+                  {order.subOrder?.map((o, i) => (
+                    <div key={i} className="text-iron mb-6">
+                      <div className="flex justify-start items-center gap-3">
+                        <h2>Seller {i + 1} order: </h2>
+                        <span>{o.delivery_status}</span>
                       </div>
+                      {o.products?.map((p, j) => (
+                        <div key={j} className="flex gap-3 text-lg mt-2">
+                          <img
+                            src={p.images[0]}
+                            alt=""
+                            className="w-[45px] h-[45px]"
+                          />
+                          <div>
+                            <h2>{p.name}</h2>
+                            <p>
+                              <span>Brand: </span>
+                              <span>{p.brand} </span>
+                              <span className="text-lg">
+                                Quantity: {p.quantity}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  </div>
-
-                  <div className="text-iron mb-6">
-                    <div className="flex justify-start items-center gap-3">
-                      <h2>Seller 2 order: </h2>
-                      <span>pending</span>
-                    </div>
-                    <div className="flex gap-3 text-lg mt-2">
-                      <img
-                        src={`http://localhost:3000/images/category/1.jpg`}
-                        alt=""
-                        className="w-[45px] h-[45px]"
-                      />
-                      <div>
-                        <h2>long long T-Shirt</h2>
-                        <p>
-                          <span>Brand: </span>
-                          <span>Easy </span>
-                          <span className="text-lg">Quantity: 2</span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>

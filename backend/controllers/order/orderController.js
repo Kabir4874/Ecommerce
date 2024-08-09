@@ -34,6 +34,7 @@ class orderController {
       const pro = products[i].products;
       for (let j = 0; j < pro.length; j++) {
         let tempCuspro = pro[j].productInfo;
+        tempCuspro.quantity = pro[j].quantity;
         customerORderProduct.push(tempCuspro);
         if (pro[j]._id) {
           cardId.push(pro[j]._id);
