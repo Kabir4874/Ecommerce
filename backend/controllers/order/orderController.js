@@ -150,5 +150,9 @@ class orderController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+
+  get_admin_orders = async (req, res) => {
+    console.log(req.query);
+  };
 }
 module.exports = new orderController();

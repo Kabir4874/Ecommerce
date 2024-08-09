@@ -134,7 +134,7 @@ app.use("/api", require("./routes/dashboard/categoryRoutes"));
 app.use("/api", require("./routes/dashboard/productRoutes"));
 app.use("/api", require("./routes/dashboard/sellerRoutes"));
 app.use("/api/home", require("./routes/home/homeRoutes"));
-app.use("/api/home", require("./routes/order/orderRoutes"));
+app.use("/api", require("./routes/order/orderRoutes"));
 dbConnect();
 
 app.get("/", (req, res) => res.send("Hello World!"));

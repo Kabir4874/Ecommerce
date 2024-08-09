@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsArrowBarDown } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
+import { useDispatch, useSelector } from "react-redux";
+import { get_admin_orders } from "../../store/reducers/orderReducer";
 
 const Orders = () => {
+  const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [perPage, setPerPage] = useState(5);
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    dispatch(get_admin_orders({ perPage, page: currentPage, searchValue }));
+  }, [perPage, currentPage, searchValue]);
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4 bg-ebony_clay rounded-md">
