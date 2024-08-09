@@ -22,5 +22,10 @@ router.get(
   authMiddleware,
   sellerController.get_active_sellers
 );
+router.get(
+  "/get-inactive-sellers",
+  authMiddleware,
+  sellerController.get_inactive_sellers
+);
 
 module.exports = router;

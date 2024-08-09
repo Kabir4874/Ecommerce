@@ -84,6 +84,47 @@ class sellerController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+  
+  get_inactive_sellers = async (req, res) => {
+    let { page, perPage, searchValue } = req.query;
+    page = parseInt(page);
+    perPage = parseInt(perPage);
+    const skipPage = perPage * (page - 1);
+    console.log(searchValue);
+    try {
+      if (searchValue) {
+        const sellers = await sellerModel
+          .find({
+            $text: { $search: searchValue },
+            status: "inactive",
+          })
+          .skip(skipPage)
+          .limit(perPage)
+          .sort({ createdAt: -1 });
+
+        const totalSeller = await sellerModel
+          .find({
+            $text: { $search: searchValue },
+            status: "inactive",
+          })
+          .countDocuments();
+        responseReturn(res, 200, { totalSeller, sellers });
+      } else {
+        const sellers = await sellerModel
+          .find({ status: "inactive" })
+          .skip(skipPage)
+          .limit(perPage)
+          .sort({ createdAt: -1 });
+
+        const totalSeller = await sellerModel
+          .find({ status: "inactive" })
+          .countDocuments();
+        responseReturn(res, 200, { totalSeller, sellers });
+      }
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
 }
 
 module.exports = new sellerController();

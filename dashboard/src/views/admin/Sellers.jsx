@@ -96,7 +96,7 @@ const Sellers = () => {
                         <span>{d.shopInfo.shopName}</span>
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
-                        <span>{d.status}</span>
+                        <span>{d.payment}</span>
                       </td>
                       <td className="py-3 px-4 font-medium whitespace-nowrap">
                         <span>{d.shopInfo.division}</span>
@@ -126,7 +126,7 @@ const Sellers = () => {
                   setPageNumber={setCurrentPage}
                   totalItem={totalSeller}
                   perPage={perPage}
-                  showItem={4}
+                  showItem={Math.floor(totalSeller / perPage)}
                 />
               </div>
             )}
