@@ -37,10 +37,10 @@ export const orderReducer = createSlice({
   },
 
   extraReducers: (builder) => {
-    // builder
-    //   .addCase(get_seller_request.pending, (state) => {
-    //     state.loader = true;
-    //   })
+    builder.addCase(get_admin_orders.fulfilled, (state, { payload }) => {
+      state.myOrders = payload.orders;
+      state.totalOrder = payload.totalOrder;
+    });
   },
 });
 
