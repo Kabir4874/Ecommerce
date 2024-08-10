@@ -88,6 +88,17 @@ export const get_inactive_sellers = createAsyncThunk(
   }
 );
 
+export const create_stripe_connect_account = createAsyncThunk(
+  "category/create_stripe_connect_account",
+  async () => {
+    try {
+      const { data } = await api.get(`/payment/create-stripe-connect-account`, {
+        withCredentials: true,
+      });
+    } catch (error) {}
+  }
+);
+
 export const sellerReducer = createSlice({
   name: "seller",
   initialState: {

@@ -11,6 +11,7 @@ import {
 import { toast } from "react-hot-toast";
 import { overrideStyle } from "../../utils/utils";
 import { PropagateLoader } from "react-spinners";
+import { create_stripe_connect_account } from "../../store/reducers/sellerReducer";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -121,12 +122,17 @@ const Profile = () => {
                 <div className="flex gap-2">
                   <span>Payment Account: </span>
                   <p>
-                    {userInfo?.status ? (
+                    {userInfo?.payment === "active" ? (
                       <span className="bg-red-500 text-white text-xs cursor-pointer ml-2 px-2 py-0.5 rounded">
                         {userInfo.payment}
                       </span>
                     ) : (
-                      <span className="bg-blue-500 text-white text-xs cursor-pointer ml-2 px-2 py-0.5 rounded">
+                      <span
+                        onClick={() =>
+                          dispatch(create_stripe_connect_account())
+                        }
+                        className="bg-blue-500 text-white text-xs cursor-pointer ml-2 px-2 py-0.5 rounded"
+                      >
                         click active
                       </span>
                     )}
