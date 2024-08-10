@@ -241,6 +241,10 @@ class orderController {
           .skip(skipPage)
           .limit(perPage)
           .sort({ createdAt: -1 });
+        const totalOrder = await authOrderModel
+          .find({ sellerId })
+          .countDocuments();
+        responseReturn(res, 200, { orders,totalOrder });
       }
     } catch (error) {
       responseReturn(res, 501, { error: error.message });

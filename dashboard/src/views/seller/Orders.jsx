@@ -49,28 +49,34 @@ const Orders = () => {
                   Order Status
                 </th>
                 <th scope="col" className="py-3 px-4">
+                  Date
+                </th>
+                <th scope="col" className="py-3 px-4">
                   Action
                 </th>
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5].map((d, i) => (
+              {myOrders.map((d, i) => (
                 <tr key={i}>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    #adlfkj3lfk323
+                    {d._id}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    $565
+                    ${d.price}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <span>pending</span>
+                    <span>{d.payment_status}</span>
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <span>pending</span>
+                    <span>{d.delivery_status}</span>
+                  </td>
+                  <td className="py-3 px-4 font-medium whitespace-nowrap">
+                    {d.date}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
                     <Link
-                      to={`/seller/dashboard/order/details/1`}
+                      to={`/seller/dashboard/order/details/${d._id}`}
                       className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50 flex justify-center items-center w-[30px]"
                     >
                       <FaEye />
@@ -85,9 +91,9 @@ const Orders = () => {
           <Pagination
             pageNumber={currentPage}
             setPageNumber={setCurrentPage}
-            totalItem={20}
+            totalItem={totalOrder}
             perPage={perPage}
-            showItem={4}
+            showItem={Math.floor(totalOrder / perPage)}
           />
         </div>
       </div>
