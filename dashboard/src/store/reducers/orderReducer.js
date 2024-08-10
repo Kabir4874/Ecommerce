@@ -34,6 +34,25 @@ export const get_admin_order = createAsyncThunk(
     }
   }
 );
+
+export const admin_order_status_update = createAsyncThunk(
+  "order/admin_order_status_update",
+  async ({ orderId, info }, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.put(
+        `/admin/order-status/update/${orderId}`,
+        info,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const orderReducer = createSlice({
   name: "order",
   initialState: {
@@ -58,6 +77,12 @@ export const orderReducer = createSlice({
       })
       .addCase(get_admin_order.fulfilled, (state, { payload }) => {
         state.order = payload.order;
+      })
+      .addCase(admin_order_status_update.rejected, (state, { payload }) => {
+        state.errorMessage = payload.error;
+      })
+      .addCase(admin_order_status_update.fulfilled, (state, { payload }) => {
+        state.successMessage = payload.message;
       });
   },
 });

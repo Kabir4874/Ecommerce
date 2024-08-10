@@ -213,5 +213,18 @@ class orderController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+
+  admin_order_status_update = async (req, res) => {
+    const { orderId } = req.params;
+    const { status } = req.body;
+    try {
+      await customerOrderModel.findByIdAndUpdate(orderId, {
+        delivery_status: status,
+      });
+      responseReturn(res, 200, { message: "Order status updated" });
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
 }
 module.exports = new orderController();

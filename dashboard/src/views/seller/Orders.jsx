@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Search from "../components/Search";
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 

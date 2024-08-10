@@ -1,7 +1,7 @@
 const orderController = require("../../controllers/order/orderController");
 
 const router = require("express").Router();
-
+// !customer
 router.post("/home/order/place-order", orderController.place_order);
 router.get(
   "/home/customer/get-dashboard-data/:userId",
@@ -16,7 +16,12 @@ router.get(
   orderController.get_order_details
 );
 
+// !admin
 router.get("/admin/orders", orderController.get_admin_orders);
 router.get("/admin/order/:orderId", orderController.get_admin_order);
+router.put(
+  "/admin/order-status/update/:orderId",
+  orderController.admin_order_status_update
+);
 
 module.exports = router;
