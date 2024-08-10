@@ -20,6 +20,25 @@ export const get_admin_orders = createAsyncThunk(
     }
   }
 );
+export const get_seller_orders = createAsyncThunk(
+  "order/get_seller_orders",
+  async (
+    { perPage, page, searchValue, sellerId },
+    { fulfillWithValue, rejectWithValue }
+  ) => {
+    try {
+      const { data } = await api.get(
+        `/seller/orders/${sellerId}?page=${page}&&searchValue=${searchValue}&&perPage=${perPage}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const get_admin_order = createAsyncThunk(
   "order/get_admin_order",

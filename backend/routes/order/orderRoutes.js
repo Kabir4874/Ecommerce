@@ -23,5 +23,6 @@ router.put(
   "/admin/order-status/update/:orderId",
   orderController.admin_order_status_update
 );
-
+// !seller
+router.get("/seller/orders/:sellerId", orderController.get_seller_orders);
 module.exports = router;

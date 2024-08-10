@@ -226,5 +226,25 @@ class orderController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+
+  get_seller_orders = async (req, res) => {
+    let { perPage, page, searchValue } = req.query;
+    const { sellerId } = req.params;
+    page = parseInt(page);
+    perPage = parseInt(perPage);
+    const skipPage = perPage * (page - 1);
+    try {
+      if (searchValue) {
+      } else {
+        const orders = await authOrderModel
+          .find({ sellerId })
+          .skip(skipPage)
+          .limit(perPage)
+          .sort({ createdAt: -1 });
+      }
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
 }
 module.exports = new orderController();
