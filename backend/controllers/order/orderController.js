@@ -244,8 +244,31 @@ class orderController {
         const totalOrder = await authOrderModel
           .find({ sellerId })
           .countDocuments();
-        responseReturn(res, 200, { orders,totalOrder });
+        responseReturn(res, 200, { orders, totalOrder });
       }
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
+
+  get_seller_order = async (req, res) => {
+    const { orderId } = req.params;
+    try {
+      const order = await authOrderModel.findById(orderId);
+      responseReturn(res, 200, { order });
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
+
+  seller_order_status_update = async (req, res) => {
+    const { orderId } = req.params;
+    const { status } = req.body;
+    try {
+      await authOrderModel.findByIdAndUpdate(orderId, {
+        delivery_status: status,
+      });
+      responseReturn(res, 200, { message: "Order status updated" });
     } catch (error) {
       responseReturn(res, 501, { error: error.message });
     }

@@ -90,7 +90,6 @@ export const seller_order_status_update = createAsyncThunk(
   }
 );
 
-
 export const get_seller_order = createAsyncThunk(
   "order/get_seller_order",
   async (orderId, { fulfillWithValue, rejectWithValue }) => {
@@ -137,7 +136,16 @@ export const orderReducer = createSlice({
       })
       .addCase(get_seller_orders.fulfilled, (state, { payload }) => {
         state.myOrders = payload.orders;
-        state.totalOrder= payload.totalOrder
+        state.totalOrder = payload.totalOrder;
+      })
+      .addCase(get_seller_order.fulfilled, (state, { payload }) => {
+        state.order = payload.order;
+      })
+      .addCase(seller_order_status_update.rejected, (state, { payload }) => {
+        state.errorMessage = payload.error;
+      })
+      .addCase(seller_order_status_update.fulfilled, (state, { payload }) => {
+        state.successMessage = payload.message;
       });
   },
 });
