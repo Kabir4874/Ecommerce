@@ -95,7 +95,10 @@ export const create_stripe_connect_account = createAsyncThunk(
       const { data } = await api.get(`/payment/create-stripe-connect-account`, {
         withCredentials: true,
       });
-    } catch (error) {}
+      console.log(data);
+    } catch (error) {
+      console.log(error.response.data);
+    }
   }
 );
 
