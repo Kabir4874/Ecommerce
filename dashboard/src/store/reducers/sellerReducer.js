@@ -168,7 +168,21 @@ export const sellerReducer = createSlice({
       .addCase(get_inactive_sellers.fulfilled, (state, { payload }) => {
         state.sellers = payload.sellers;
         state.totalSeller = payload.totalSeller;
-      });
+      })
+      .addCase(active_stripe_connect_account.pending, (state, { payload }) => {
+        state.loader = true;
+      })
+      .addCase(active_stripe_connect_account.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.error;
+      })
+      .addCase(
+        active_stripe_connect_account.fulfilled,
+        (state, { payload }) => {
+          state.loader = false;
+          state.successMessage = payload.message;
+        }
+      );
   },
 });
 

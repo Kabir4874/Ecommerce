@@ -123,7 +123,7 @@ const Profile = () => {
                   <span>Payment Account: </span>
                   <p>
                     {userInfo?.payment === "active" ? (
-                      <span className="bg-red-500 text-white text-xs cursor-pointer ml-2 px-2 py-0.5 rounded">
+                      <span className="bg-red-500 text-white select-none text-xs ml-2 px-2 py-0.5 rounded">
                         {userInfo.payment}
                       </span>
                     ) : (

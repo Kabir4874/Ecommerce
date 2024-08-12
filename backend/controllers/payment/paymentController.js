@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 const stripeModel = require("../../models/stripeModel");
+const sellerModel = require("../../models/sellerModel");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { responseReturn } = require("../../utils/response");
 
@@ -51,10 +52,23 @@ class paymentController {
     }
   };
 
-  active_stripe_connect_account= async(req,res)=>{
-    const {activeCode}=req.params
-    console.log(req.params);
-  }
+  active_stripe_connect_account = async (req, res) => {
+    const { activeCode } = req.params;
+    const { id } = req;
+    try {
+      const userStripeInfo = await stripeModel.findOne({
+        code: activeCode,
+      });
+      if (userStripeInfo) {
+        await sellerModel.findByIdAndUpdate(id, { payment: "active" });
+        responseReturn(res, 200, { message: "Payment Activated" });
+      } else {
+        responseReturn(res, 501, { error: "Payment Active Failed" });
+      }
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
 }
 
 module.exports = new paymentController();

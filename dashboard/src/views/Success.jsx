@@ -31,7 +31,10 @@ const Success = () => {
       ) : errorMessage ? (
         <>
           <img src={error} alt="error_img" />{" "}
-          <button className="px-5 py-2 bg-green-500 rounded-sm text-white">
+          <button
+            onClick={redirect}
+            className="px-5 py-2 bg-green-500 rounded-sm text-white"
+          >
             Back to Dashboard
           </button>
         </>
@@ -39,7 +42,10 @@ const Success = () => {
         successMessage && (
           <>
             <img src={success} alt="error_img" />{" "}
-            <button className="px-5 py-2 bg-green-500 rounded-sm text-white">
+            <button
+              onClick={redirect}
+              className="px-5 py-2 bg-green-500 rounded-sm text-white"
+            >
               Back to Dashboard
             </button>
           </>
