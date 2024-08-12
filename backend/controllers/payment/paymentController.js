@@ -16,8 +16,8 @@ class paymentController {
         console.log(account);
         const accountLink = await stripe.accountLinks.create({
           account: account.id,
-          refresh_url: "http://localhost:3000/refresh",
-          return_url: `http://localhost:3000/success?activeCode = ${uid}`,
+          refresh_url: "http://localhost:3001/refresh",
+          return_url: `http://localhost:3001/success?activeCode=${uid}`,
           type: "account_onboarding",
         });
 
@@ -33,8 +33,8 @@ class paymentController {
         console.log(account);
         const accountLink = await stripe.accountLinks.create({
           account: account.id,
-          refresh_url: "http://localhost:3000/refresh",
-          return_url: `http://localhost:3000/success?activeCode=${uid}`,
+          refresh_url: "http://localhost:3001/refresh",
+          return_url: `http://localhost:3001/success?activeCode=${uid}`,
           type: "account_onboarding",
         });
 
@@ -50,6 +50,11 @@ class paymentController {
       responseReturn(res, 500, { error: error.message });
     }
   };
+
+  active_stripe_connect_account= async(req,res)=>{
+    const {activeCode}=req.params
+    console.log(req.params);
+  }
 }
 
 module.exports = new paymentController();

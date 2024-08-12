@@ -104,6 +104,24 @@ export const create_stripe_connect_account = createAsyncThunk(
   }
 );
 
+export const active_stripe_connect_account = createAsyncThunk(
+  "category/active_stripe_connect_account",
+  async (activeCode, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.put(
+        `/payment/active-stripe-connect-account/${activeCode}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const sellerReducer = createSlice({
   name: "seller",
   initialState: {
