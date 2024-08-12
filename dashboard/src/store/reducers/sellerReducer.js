@@ -92,10 +92,12 @@ export const create_stripe_connect_account = createAsyncThunk(
   "category/create_stripe_connect_account",
   async () => {
     try {
-      const { data } = await api.get(`/payment/create-stripe-connect-account`, {
+      const {
+        data: { url },
+      } = await api.get(`/payment/create-stripe-connect-account`, {
         withCredentials: true,
       });
-      console.log(data);
+      window.location.href = url;
     } catch (error) {
       console.log(error.response.data);
     }
