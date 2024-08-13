@@ -20,6 +20,7 @@ import ChangePassword from "./components/dashboard/ChangePassword";
 import ClientDashboard from "./components/dashboard/ClientDashboard";
 import OrderDetails from "./components/dashboard/OrderDetails";
 import Chat from "./components/dashboard/Chat";
+import ConfirmOrder from "./pages/ConfirmOrder";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/products?" element={<CategoryShop />} />
         <Route path="/products/search?" element={<SearchProducts />} />
         <Route path="/card" element={<Card />} />
+        <Route path="/order/confirm" element={<ConfirmOrder />} />
         <Route path="/shipping" element={<Shipping />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/product/details/:slug" element={<Details />} />

@@ -290,5 +290,29 @@ class orderController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+
+  order_confirm = async (req, res) => {
+    const { orderId } = req.params;
+    try {
+      await customerOrderModel.findByIdAndUpdate(orderId, {
+        payment_status: "paid",
+        delivery_status: "pending",
+      });
+      await authOrderModel.updateMany(
+        { orderId: new ObjectId(orderId) },
+        {
+          payment_status: "paid",
+          delivery_status: "pending",
+        }
+      );
+      const cuOrder= await customerOrderModel.findById(orderId);
+      const auOrder= await authOrderModel.find({orderId:new ObjectId(orderId)})
+      const time= moment(Date.now()).format('l');
+      const splitTime= time.split('/')
+      
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
 }
 module.exports = new orderController();
