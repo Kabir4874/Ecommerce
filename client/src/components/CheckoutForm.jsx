@@ -11,12 +11,12 @@ const CheckoutForm = ({ orderId }) => {
   localStorage.setItem("orderId", orderId);
   const stripe = useStripe();
   const elements = useElements();
-  const [email, setEmail] = useState("");
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const paymentElementOptions = {
     layout: "tabs",
   };
+
   const submit = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) {
@@ -38,10 +38,7 @@ const CheckoutForm = ({ orderId }) => {
   };
   return (
     <form id="payment-form" onSubmit={submit}>
-      <LinkAuthenticationElement
-        id="link-authentication-element"
-        onChange={(e) => setEmail(e.target.value)}
-      />
+      <LinkAuthenticationElement id="link-authentication-element" />
       <PaymentElement id="payment-element" options={paymentElementOptions} />
       <button
         disabled={isLoading || !stripe || !elements}
@@ -49,7 +46,7 @@ const CheckoutForm = ({ orderId }) => {
         className="px-9 py-[6px] rounded-sm hover:shadow-orange-500/20 hover:shadow-lg bg-orange-500 text-white mt-4"
       >
         <span id="button-text">
-          {isLoading ? <div>Loading...</div> : "Payment Now"}
+          {isLoading ? <div>Loading...</div> : "Pay Now"}
         </span>
       </button>
       {message && <div>{message}</div>}

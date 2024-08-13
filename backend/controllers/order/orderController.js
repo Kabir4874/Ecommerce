@@ -6,6 +6,7 @@ const cardModel = require("../../models/cardModel");
 const {
   mongo: { ObjectId },
 } = require("mongoose");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 class orderController {
   paymentCheck = async (id) => {
     try {
@@ -273,8 +274,21 @@ class orderController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+
   create_payment = async (req, res) => {
-    console.log(req.body);
+    const { price } = req.body;
+    try {
+      const payment = await stripe.paymentIntents.create({
+        amount: price * 100,
+        currency: "usd",
+        automatic_payment_methods: {
+          enabled: true,
+        },
+      });
+      responseReturn(res, 200, { clientSecret: payment.client_secret });
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
   };
 }
 module.exports = new orderController();

@@ -6,7 +6,7 @@ import { useState } from "react";
 import CheckoutForm from "./CheckoutForm";
 
 const stripePromise = loadStripe(
-  "pk_live_51PmF6FIR1dQbKMRJ7kZPAR7HcrpDpkrK3YsDd1jLQ7G33b92cSwqbBvKHELPvswMUgheDIgWnDsUHMhyI3Hf9BDN00oVPzDZPF"
+  "pk_test_51PmF6FIR1dQbKMRJ28xNPIbFCxHC65QFFomrafKSTy5zGQoGqVFFwGO2USlidniImkfu0Gqy0VmHy6zxl8vJNiTe00ubMN0Mdw"
 );
 const Stripe = ({ price, orderId }) => {
   const [clientSecret, setClientSecret] = useState("");
@@ -24,19 +24,17 @@ const Stripe = ({ price, orderId }) => {
         { price },
         { withCredentials: true }
       );
-      // setClientSecret(data.clientSecret);
+      setClientSecret(data.clientSecret);
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error);
     }
   };
   return (
-    <div>
+    <div className="mt-4">
       {clientSecret ? (
-        <div>
-          <Elements options={options} stripe={stripePromise}>
-            <CheckoutForm orderId={orderId} />
-          </Elements>
-        </div>
+        <Elements options={options} stripe={stripePromise}>
+          <CheckoutForm orderId={orderId} />
+        </Elements>
       ) : (
         <button
           onClick={create_payment}
