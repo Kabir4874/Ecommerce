@@ -3,6 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { useState } from "react";
+import CheckoutForm from "./CheckoutForm";
 
 const stripePromise = loadStripe(
   "pk_live_51PmF6FIR1dQbKMRJ7kZPAR7HcrpDpkrK3YsDd1jLQ7G33b92cSwqbBvKHELPvswMUgheDIgWnDsUHMhyI3Hf9BDN00oVPzDZPF"
@@ -23,7 +24,7 @@ const Stripe = ({ price, orderId }) => {
         { price },
         { withCredentials: true }
       );
-      setClientSecret(data.clientSecret);
+      // setClientSecret(data.clientSecret);
     } catch (error) {
       console.log(error.response.data);
     }
@@ -32,10 +33,17 @@ const Stripe = ({ price, orderId }) => {
     <div>
       {clientSecret ? (
         <div>
-          <Elements options={options}></Elements>
+          <Elements options={options} stripe={stripePromise}>
+            <CheckoutForm orderId={orderId} />
+          </Elements>
         </div>
       ) : (
-        <button>Start Payment</button>
+        <button
+          onClick={create_payment}
+          className="px-9 py-[6px] rounded-sm hover:shadow-orange-500/20 hover:shadow-lg bg-orange-500 text-white mt-4"
+        >
+          Start Payment
+        </button>
       )}
     </div>
   );

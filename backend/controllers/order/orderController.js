@@ -273,5 +273,8 @@ class orderController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+  create_payment = async (req, res) => {
+    console.log(req.body);
+  };
 }
 module.exports = new orderController();
