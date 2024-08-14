@@ -1,8 +1,11 @@
 const { v4: uuidv4 } = require("uuid");
 const stripeModel = require("../../models/stripeModel");
 const sellerModel = require("../../models/sellerModel");
+const sellerWalletModel = require("../../models/sellerWalletModel");
+const myShopWalletModel = require("../../models/myShopWalletModel");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { responseReturn } = require("../../utils/response");
+const withdrawRequestModel = require("../../models/withdrawRequestModel");
 
 class paymentController {
   create_stripe_connect_account = async (req, res) => {
@@ -65,6 +68,67 @@ class paymentController {
       } else {
         responseReturn(res, 501, { error: "Payment Active Failed" });
       }
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
+
+  sumAmount = (data) => {
+    let sum = 0;
+    for (let i = 0; i < data.length; i++) {
+      sum += data[i].amount;
+    }
+    return sum;
+  };
+
+  get_seller_payment_details = async (req, res) => {
+    const { sellerId } = req.params;
+    try {
+      const payments = await sellerWalletModel.find({ sellerId });
+      const pendingWithdraws = await withdrawRequestModel.find({
+        $and: [
+          {
+            sellerId: {
+              $eq: sellerId,
+            },
+          },
+          {
+            status: {
+              $eq: "pending",
+            },
+          },
+        ],
+      });
+      const successWithdraws = await withdrawRequestModel.find({
+        $and: [
+          {
+            sellerId: {
+              $eq: sellerId,
+            },
+          },
+          {
+            status: {
+              $eq: "success",
+            },
+          },
+        ],
+      });
+      const pendingAmount = this.sumAmount(pendingWithdraws);
+      const withdrawalAmount = this.sumAmount(successWithdraws);
+      const totalAmount = this.sumAmount(payments);
+      let availableAmount = 0;
+
+      if (totalAmount > 0) {
+        availableAmount = totalAmount - (pendingAmount - withdrawalAmount);
+      }
+      responseReturn(res, 200, {
+        totalAmount,
+        pendingAmount,
+        withdrawalAmount,
+        availableAmount,
+        successWithdraws,
+        pendingWithdraws,
+      });
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
     }
