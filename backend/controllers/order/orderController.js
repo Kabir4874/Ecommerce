@@ -6,6 +6,8 @@ const cardModel = require("../../models/cardModel");
 const {
   mongo: { ObjectId },
 } = require("mongoose");
+const myShopWalletModel = require("../../models/myShopWalletModel");
+const sellerWalletModel = require("../../models/sellerWalletModel");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 class orderController {
   paymentCheck = async (id) => {
@@ -305,11 +307,26 @@ class orderController {
           delivery_status: "pending",
         }
       );
-      const cuOrder= await customerOrderModel.findById(orderId);
-      const auOrder= await authOrderModel.find({orderId:new ObjectId(orderId)})
-      const time= moment(Date.now()).format('l');
-      const splitTime= time.split('/')
-      
+      const cuOrder = await customerOrderModel.findById(orderId);
+      const auOrder = await authOrderModel.find({
+        orderId: new ObjectId(orderId),
+      });
+      const time = moment(Date.now()).format("l");
+      const splitTime = time.split("/");
+      await myShopWalletModel.create({
+        amount: cuOrder.price,
+        month: splitTime[0],
+        year: splitTime[2],
+      });
+      for (let i = 0; i < auOrder.length; i++) {
+        await sellerWalletModel.create({
+          sellerId: auOrder[i].sellerId.toString(),
+          amount: auOrder[i].price,
+          month: splitTime[0],
+          year: splitTime[2],
+        });
+      }
+      responseReturn(res, 200, { message: "Success" });
     } catch (error) {
       responseReturn(res, 501, { error: error.message });
     }

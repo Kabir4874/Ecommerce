@@ -83,12 +83,14 @@ const Orders = () => {
                         view
                       </span>
                     </Link>
-                    <span
-                      onClick={() => redirect(o)}
-                      className="bg-red-100 text-red-800 text-sm mr-2 px-2.5 py-[1px] rounded cursor-pointer"
-                    >
-                      Pay Now
-                    </span>
+                    {o.payment_status !== "paid" && (
+                      <span
+                        onClick={() => redirect(o)}
+                        className="bg-red-100 text-red-800 text-sm mr-2 px-2.5 py-[1px] rounded cursor-pointer"
+                      >
+                        Pay Now
+                      </span>
+                    )}
                   </td>
                 </tr>
               ))}
