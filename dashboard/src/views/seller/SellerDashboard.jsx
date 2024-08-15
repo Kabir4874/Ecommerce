@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import Chart from "react-apexcharts";
 import { Link } from "react-router-dom";
+import {useDispatch,useSelector} from 'react-redux'
+import { get_seller_dashboard_index_data } from "../../store/reducers/dashboardIndexReducer";
 const SellerDashboard = () => {
+  const dispatch= useDispatch();
   const state = {
     series: [
       {
@@ -92,6 +95,10 @@ const SellerDashboard = () => {
       ],
     },
   };
+
+  useEffect(()=>{
+    dispatch(get_seller_dashboard_index_data());
+  },[])
   return (
     <div className="px-2 md:px-7 py-5">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
