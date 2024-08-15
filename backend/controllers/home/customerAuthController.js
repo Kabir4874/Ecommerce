@@ -63,6 +63,12 @@ class customerAuthController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+  customer_logout = async (req, res) => {
+    res.cookie("customerToken", "", {
+      expires: new Date(Date.now()),
+    });
+    responseReturn(res, 200, { message: "Logout Successfully" });
+  };
 }
 
 module.exports = new customerAuthController();

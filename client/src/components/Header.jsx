@@ -12,9 +12,14 @@ import { AiFillGithub, AiFillHeart, AiFillShopping } from "react-icons/ai";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GrMail } from "react-icons/gr";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  get_card_products,
+  get_wishlist_products,
+} from "../store/reducers/cardReducer";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categorys } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
@@ -29,6 +34,12 @@ const Header = () => {
   const search = () => {
     navigate(`/products/search?category=${category}&&value=${searchValue}`);
   };
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(get_card_products(userInfo.id));
+      dispatch(get_wishlist_products(userInfo.id));
+    }
+  }, [userInfo]);
   return (
     <div className="w-full bg-white">
       {/* Header Top  */}
