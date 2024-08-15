@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
 import { FaUsers } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import Chart from "react-apexcharts";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { get_admin_dashboard_index_data } from "../../store/reducers/dashboardIndexReducer";
 const AdminDashboard = () => {
+  const dispatch= useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
+  const {
+    totalSale,
+    totalOrder,
+    totalProduct,
+    totalPendingOrder,
+    recentOrders,
+    recentMessages,
+    totalSeller
+  } = useSelector((state) => state.dashboardIndex);
   const state = {
     series: [
       {
@@ -93,6 +106,10 @@ const AdminDashboard = () => {
       ],
     },
   };
+
+  useEffect(() => {
+    dispatch(get_admin_dashboard_index_data());
+  }, []);
   return (
     <div className="px-2 md:px-7 py-5">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">

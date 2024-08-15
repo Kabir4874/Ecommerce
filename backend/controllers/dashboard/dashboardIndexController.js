@@ -84,5 +84,49 @@ class dashboardIndexController {
       responseReturn(res, 501, { error: error.message });
     }
   };
+  get_admin_dashboard_data = async (req, res) => {
+    const { id } = req;
+    try {
+      const totalSale = await myShopWalletModel.aggregate([
+        {
+          $group: {
+            _id: null,
+            totalAmount: { $sum: "$amount" },
+          },
+        },
+      ]);
+      const totalProduct = await productModel.find({}).countDocuments();
+      const totalOrder = await customerOrderModel.find({}).countDocuments();
+      const totalSeller = await sellerModel.find({}).countDocuments();
+      const messages = await adminSellerMessageModel
+        .find({
+          $or: [
+            {
+              senderId: {
+                $eq: id,
+              },
+            },
+            {
+              receiverId: {
+                $eq: id,
+              },
+            },
+          ],
+        })
+        .limit(3);
+      const recentOrders = await authOrderModel.find({}).limit(5);
+
+      responseReturn(res, 200, {
+        totalOrder,
+        totalSale: totalSale.length > 0 ? totalSale[0].totalAmount : 0,
+        recentOrders,
+        messages,
+        totalSeller,
+        totalProduct,
+      });
+    } catch (error) {
+      responseReturn(res, 501, { error: error.message });
+    }
+  };
 }
 module.exports = new dashboardIndexController();

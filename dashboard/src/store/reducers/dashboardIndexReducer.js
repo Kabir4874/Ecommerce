@@ -19,7 +19,7 @@ export const get_admin_dashboard_index_data = createAsyncThunk(
   "dashboardIndex/get_admin_dashboard_index_data",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.post("/admin/get-dashboard-index-data", {
+      const { data } = await api.get("/admin/get-dashboard-index-data", {
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -47,11 +47,29 @@ export const dashboardIndexReducer = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // builder
-    //   .addCase(categoryAdd.rejected, (state, { payload }) => {
-    //     state.loader = false;
-    //     state.errorMessage = payload.error;
-    //   })
+    builder
+      .addCase(
+        get_seller_dashboard_index_data.fulfilled,
+        (state, { payload }) => {
+          state.totalSale = payload.totalSale;
+          state.totalOrder = payload.totalOrder;
+          state.totalProduct = payload.totalProduct;
+          state.totalPendingOrder = payload.totalPendingOrder;
+          state.recentOrders = payload.recentOrders;
+          state.recentMessages = payload.messages;
+        }
+      )
+      .addCase(
+        get_admin_dashboard_index_data.fulfilled,
+        (state, { payload }) => {
+          state.totalSale = payload.totalSale;
+          state.totalOrder = payload.totalOrder;
+          state.totalProduct = payload.totalProduct;
+          state.totalSeller = payload.totalSeller;
+          state.recentOrders = payload.recentOrders;
+          state.recentMessages = payload.messages;
+        }
+      );
   },
 });
 
