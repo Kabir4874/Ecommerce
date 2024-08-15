@@ -133,6 +133,22 @@ class paymentController {
       responseReturn(res, 500, { error: error.message });
     }
   };
+
+  withdrawal_request = async (req, res) => {
+    const { sellerId, amount } = req.body;
+    try {
+      const withdrawal = await withdrawRequestModel.create({
+        sellerId,
+        amount,
+      });
+      responseReturn(res, 200, {
+        withdrawal,
+        message: "Withdrawal request sent",
+      });
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
 }
 
 module.exports = new paymentController();

@@ -1,9 +1,12 @@
-import React, { forwardRef, useEffect } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { FixedSizeList as List } from "react-window";
 import { useSelector, useDispatch } from "react-redux";
-import { get_seller_payment_details } from "../../store/reducers/paymentReducer";
+import {
+  get_seller_payment_details,
+  send_withdrawal_request,
+} from "../../store/reducers/paymentReducer";
 
 function handleOnWheel({ deltaY }) {
   console.log("Scrolled handleWheel", deltaY);
@@ -27,6 +30,7 @@ const Payments = () => {
     errorMessage,
     successMessage,
   } = useSelector((state) => state.payment);
+  const [amount, setAmount] = useState(0);
   const Row = ({ index, style }) => {
     return (
       <div className="flex text-sm my-4" style={style}>
@@ -45,6 +49,11 @@ const Payments = () => {
   useEffect(() => {
     dispatch(get_seller_payment_details(userInfo._id));
   }, []);
+
+  const sendRequest = (e) => {
+    e.preventDefault();
+    dispatch(send_withdrawal_request({ amount, sellerId: userInfo._id }));
+  };
   return (
     <div className="px-2 md:px-7 py-5">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -89,14 +98,17 @@ const Payments = () => {
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 pb-4 mt-5">
         <div className=" bg-ebony_clay text-iron rounded-md p-5">
-          <h2 className="text-lg">Send Request</h2>
+          <h2 className="text-lg">Send Withdrawal Request</h2>
           <div className="py-5">
-            <form action="">
+            <form action="" onSubmit={sendRequest}>
               <div className="flex gap-3 flex-wrap">
                 <input
                   type="number"
                   min={0}
                   name="amount"
+                  onChange={(e) => setAmount(e.target.value)}
+                  required
+                  value={amount}
                   className="px-3 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron md:w-[86%]"
                 />
                 <button className=" bg-indigo-500 hover:shadow-indigo-500/50 hover:shadow-lg text-white rounded-sm px-4 py-2  text-sm">
@@ -106,7 +118,7 @@ const Payments = () => {
             </form>
           </div>
           <div>
-            <h2 className="text-lg pb-4">Pending request</h2>
+            <h2 className="text-lg pb-4">Pending Withdrawal request</h2>
             <div className="w-full overflow-x-auto">
               <div className="flex bg-mirage uppercase text-xs min-w-[340px]">
                 <div className="w-[25%] p-2">no</div>
