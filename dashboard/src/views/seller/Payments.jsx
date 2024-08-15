@@ -1,12 +1,12 @@
 import React, { forwardRef, useEffect, useState } from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
-import { Link } from "react-router-dom";
 import { FixedSizeList as List } from "react-window";
 import { useSelector, useDispatch } from "react-redux";
 import {
   get_seller_payment_details,
   send_withdrawal_request,
 } from "../../store/reducers/paymentReducer";
+import { toast } from "react-hot-toast";
 
 function handleOnWheel({ deltaY }) {
   console.log("Scrolled handleWheel", deltaY);
@@ -54,6 +54,16 @@ const Payments = () => {
     e.preventDefault();
     dispatch(send_withdrawal_request({ amount, sellerId: userInfo._id }));
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+    }
+  }, [successMessage, errorMessage]);
+
   return (
     <div className="px-2 md:px-7 py-5">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -112,7 +122,7 @@ const Payments = () => {
                   className="px-3 py-2 focus:border-indigo-500 outline-none bg-ebony_clay border border-slate-700 rounded-md text-iron md:w-[86%]"
                 />
                 <button className=" bg-indigo-500 hover:shadow-indigo-500/50 hover:shadow-lg text-white rounded-sm px-4 py-2  text-sm">
-                  Submit
+                  {loader ? "Loading..." : "Submit"}
                 </button>
               </div>
             </form>
