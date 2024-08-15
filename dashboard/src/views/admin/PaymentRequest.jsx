@@ -1,5 +1,7 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FixedSizeList as List } from "react-window";
+import { get_payment_details } from "../../store/reducers/paymentReducer";
 
 function handleOnWheel({ deltaY }) {
   console.log("Scrolled handleWheel", deltaY);
@@ -10,6 +12,9 @@ const outerElementType = forwardRef((props, ref) => (
 ));
 
 const PaymentRequest = () => {
+  const dispatch = useDispatch();
+  const { pendingWithdraws, loader, errorMessage, successMessage } =
+    useSelector((state) => state.payment);
   const Row = ({ index, style }) => {
     return (
       <div className="flex text-sm my-4" style={style}>
@@ -29,6 +34,11 @@ const PaymentRequest = () => {
       </div>
     );
   };
+
+  useEffect(() => {
+    dispatch(get_payment_details())
+  }, []);
+
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4 bg-ebony_clay rounded-md text-iron">

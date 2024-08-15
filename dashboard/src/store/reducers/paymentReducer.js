@@ -30,6 +30,19 @@ export const send_withdrawal_request = createAsyncThunk(
     }
   }
 );
+export const get_payment_details = createAsyncThunk(
+  "payment/get_payment_details",
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/payment/request`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const paymentReducer = createSlice({
   name: "payment",

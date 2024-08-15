@@ -24,5 +24,10 @@ router.post(
   authMiddleware,
   paymentController.withdrawal_request
 );
+router.get(
+  "/payment/request",
+  authMiddleware,
+  paymentController.get_payment_request
+);
 
 module.exports = router;

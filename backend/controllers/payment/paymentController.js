@@ -149,6 +149,16 @@ class paymentController {
       responseReturn(res, 500, { error: error.message });
     }
   };
+  get_payment_request = async (req, res) => {
+    try {
+      const withdrawalRequest = await withdrawRequestModel.find({
+        status: "pending",
+      });
+      responseReturn(res, 200, { withdrawalRequest });
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
 }
 
 module.exports = new paymentController();

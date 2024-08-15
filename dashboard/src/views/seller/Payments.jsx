@@ -7,6 +7,7 @@ import {
   send_withdrawal_request,
 } from "../../store/reducers/paymentReducer";
 import { toast } from "react-hot-toast";
+import moment from "moment";
 
 function handleOnWheel({ deltaY }) {
   console.log("Scrolled handleWheel", deltaY);
@@ -35,13 +36,17 @@ const Payments = () => {
     return (
       <div className="flex text-sm my-4" style={style}>
         <div className="w-[25%] p-2 whitespace-nowrap">{index + 1}</div>
-        <div className="w-[25%] p-2 whitespace-nowrap">$154</div>
+        <div className="w-[25%] p-2 whitespace-nowrap">
+          ${pendingWithdraws[index]?.amount}
+        </div>
         <div className="w-[25%] p-2 whitespace-nowrap">
           <span className="py-[1px] px-[5px] bg-slate-700 text-blue-500 rounded-md text-xs">
-            pending
+            {pendingWithdraws[index]?.status}
           </span>
         </div>
-        <div className="w-[25%] p-2 whitespace-nowrap">12 Jun, 2024</div>
+        <div className="w-[25%] p-2 whitespace-nowrap">
+          {moment(pendingWithdraws[index]?.createdAt).format('LL')}
+        </div>
       </div>
     );
   };
@@ -53,6 +58,7 @@ const Payments = () => {
   const sendRequest = (e) => {
     e.preventDefault();
     dispatch(send_withdrawal_request({ amount, sellerId: userInfo._id }));
+    setAmount(0)
   };
 
   useEffect(() => {
@@ -141,7 +147,7 @@ const Payments = () => {
                   style={{ minWidth: "340px", overflowX: "hidden" }}
                   className="List"
                   height={550}
-                  itemCount={10}
+                  itemCount={pendingWithdraws.length}
                   itemSize={50}
                   outerElementType={outerElementType}
                 >
