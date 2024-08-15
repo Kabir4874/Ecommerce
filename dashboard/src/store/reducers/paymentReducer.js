@@ -30,13 +30,30 @@ export const send_withdrawal_request = createAsyncThunk(
     }
   }
 );
-export const get_payment_details = createAsyncThunk(
-  "payment/get_payment_details",
+export const get_payment_request = createAsyncThunk(
+  "payment/get_payment_request",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/payment/request`, {
         withCredentials: true,
       });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const confirm_payment_request = createAsyncThunk(
+  "payment/confirm_payment_request",
+  async (paymentId, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.post(
+        `/payment/request-confirm`,
+        { paymentId },
+        {
+          withCredentials: true,
+        }
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -90,6 +107,24 @@ export const paymentReducer = createSlice({
         state.availableAmount =
           state.availableAmount - payload.withdrawal.amount;
         state.pendingAmount = payload.withdrawal.amount;
+      })
+      .addCase(get_payment_request.fulfilled, (state, { payload }) => {
+        state.pendingWithdraws = payload.withdrawalRequest;
+      })
+      .addCase(confirm_payment_request.pending, (state, { payload }) => {
+        state.loader = true;
+      })
+      .addCase(confirm_payment_request.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.error;
+      })
+      .addCase(confirm_payment_request.fulfilled, (state, { payload }) => {
+        const temp = state.pendingWithdraws.filter(
+          (r) => r._id !== payload.payment._id
+        );
+        state.pendingWithdraws= temp;
+        state.loader = false;
+        state.successMessage = payload.message;
       });
   },
 });

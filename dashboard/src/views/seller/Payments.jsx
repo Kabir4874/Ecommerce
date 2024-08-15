@@ -4,6 +4,7 @@ import { FixedSizeList as List } from "react-window";
 import { useSelector, useDispatch } from "react-redux";
 import {
   get_seller_payment_details,
+  messageClear,
   send_withdrawal_request,
 } from "../../store/reducers/paymentReducer";
 import { toast } from "react-hot-toast";
@@ -32,7 +33,7 @@ const Payments = () => {
     successMessage,
   } = useSelector((state) => state.payment);
   const [amount, setAmount] = useState(0);
-  const Row = ({ index, style }) => {
+  const pendingRow = ({ index, style }) => {
     return (
       <div className="flex text-sm my-4" style={style}>
         <div className="w-[25%] p-2 whitespace-nowrap">{index + 1}</div>
@@ -45,7 +46,26 @@ const Payments = () => {
           </span>
         </div>
         <div className="w-[25%] p-2 whitespace-nowrap">
-          {moment(pendingWithdraws[index]?.createdAt).format('LL')}
+          {moment(pendingWithdraws[index]?.createdAt).format("LL")}
+        </div>
+      </div>
+    );
+  };
+
+  const successRow = ({ index, style }) => {
+    return (
+      <div className="flex text-sm my-4" style={style}>
+        <div className="w-[25%] p-2 whitespace-nowrap">{index + 1}</div>
+        <div className="w-[25%] p-2 whitespace-nowrap">
+          ${successWithdraws[index]?.amount}
+        </div>
+        <div className="w-[25%] p-2 whitespace-nowrap">
+          <span className="py-[1px] px-[5px] bg-slate-700 text-blue-500 rounded-md text-xs">
+            {successWithdraws[index]?.status}
+          </span>
+        </div>
+        <div className="w-[25%] p-2 whitespace-nowrap">
+          {moment(successWithdraws[index]?.createdAt).format("LL")}
         </div>
       </div>
     );
@@ -57,8 +77,12 @@ const Payments = () => {
 
   const sendRequest = (e) => {
     e.preventDefault();
-    dispatch(send_withdrawal_request({ amount, sellerId: userInfo._id }));
-    setAmount(0)
+    if (availableAmount - amount > 10) {
+      dispatch(send_withdrawal_request({ amount, sellerId: userInfo._id }));
+      setAmount(0);
+    } else {
+      toast.error("Insufficient Balance");
+    }
   };
 
   useEffect(() => {
@@ -68,6 +92,7 @@ const Payments = () => {
     if (errorMessage) {
       toast.error(errorMessage);
     }
+    dispatch(messageClear());
   }, [successMessage, errorMessage]);
 
   return (
@@ -151,7 +176,7 @@ const Payments = () => {
                   itemSize={50}
                   outerElementType={outerElementType}
                 >
-                  {Row}
+                  {pendingRow}
                 </List>
               }
             </div>
@@ -173,11 +198,11 @@ const Payments = () => {
                   style={{ minWidth: "340px", overflowX: "hidden" }}
                   className="List"
                   height={550}
-                  itemCount={10}
+                  itemCount={successWithdraws.length}
                   itemSize={50}
                   outerElementType={outerElementType}
                 >
-                  {Row}
+                  {successRow}
                 </List>
               }
             </div>

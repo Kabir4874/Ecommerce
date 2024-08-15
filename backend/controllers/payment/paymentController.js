@@ -6,6 +6,9 @@ const myShopWalletModel = require("../../models/myShopWalletModel");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { responseReturn } = require("../../utils/response");
 const withdrawRequestModel = require("../../models/withdrawRequestModel");
+const {
+  mongo: { ObjectId },
+} = require("mongoose");
 
 class paymentController {
   create_stripe_connect_account = async (req, res) => {
@@ -119,7 +122,7 @@ class paymentController {
       let availableAmount = 0;
 
       if (totalAmount > 0) {
-        availableAmount = totalAmount - (pendingAmount - withdrawalAmount);
+        availableAmount = totalAmount - (pendingAmount + withdrawalAmount);
       }
       responseReturn(res, 200, {
         totalAmount,
@@ -155,6 +158,26 @@ class paymentController {
         status: "pending",
       });
       responseReturn(res, 200, { withdrawalRequest });
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
+  payment_request_confirm = async (req, res) => {
+    const { paymentId } = req.body;
+    try {
+      const payment = await withdrawRequestModel.findById(paymentId);
+      const { stripeId } = await stripeModel.findOne({
+        sellerId: new ObjectId(payment.sellerId),
+      });
+      await stripe.transfers.create({
+        amount: payment.amount * 100,
+        currency: "usd",
+        destination: stripeId,
+      });
+      await withdrawRequestModel.findByIdAndUpdate(paymentId, {
+        status: "success",
+      });
+      responseReturn(res, 200, { payment, message: "Payment Success" });
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
     }

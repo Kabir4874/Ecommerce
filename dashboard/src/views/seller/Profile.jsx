@@ -123,7 +123,7 @@ const Profile = () => {
                   <span>Payment Account: </span>
                   <p>
                     {userInfo?.payment === "active" ? (
-                      <span className="bg-red-500 text-white select-none text-xs ml-2 px-2 py-0.5 rounded">
+                      <span className="bg-green-500 text-white select-none text-xs ml-2 px-2 py-0.5 rounded">
                         {userInfo.payment}
                       </span>
                     ) : (
@@ -131,7 +131,7 @@ const Profile = () => {
                         onClick={() =>
                           dispatch(create_stripe_connect_account())
                         }
-                        className="bg-blue-500 text-white text-xs cursor-pointer ml-2 px-2 py-0.5 rounded"
+                        className="bg-red-500 text-white text-xs cursor-pointer ml-2 px-2 py-0.5 rounded"
                       >
                         click active
                       </span>
