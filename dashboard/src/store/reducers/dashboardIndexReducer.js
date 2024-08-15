@@ -22,6 +22,7 @@ export const get_admin_dashboard_index_data = createAsyncThunk(
       const { data } = await api.get("/admin/get-dashboard-index-data", {
         withCredentials: true,
       });
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

@@ -98,23 +98,8 @@ class dashboardIndexController {
       const totalProduct = await productModel.find({}).countDocuments();
       const totalOrder = await customerOrderModel.find({}).countDocuments();
       const totalSeller = await sellerModel.find({}).countDocuments();
-      const messages = await adminSellerMessageModel
-        .find({
-          $or: [
-            {
-              senderId: {
-                $eq: id,
-              },
-            },
-            {
-              receiverId: {
-                $eq: id,
-              },
-            },
-          ],
-        })
-        .limit(3);
-      const recentOrders = await authOrderModel.find({}).limit(5);
+      const messages = await adminSellerMessageModel.find({}).limit(3);
+      const recentOrders = await customerOrderModel.find({}).limit(5);
 
       responseReturn(res, 200, {
         totalOrder,

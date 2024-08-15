@@ -7,17 +7,18 @@ import Chart from "react-apexcharts";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { get_admin_dashboard_index_data } from "../../store/reducers/dashboardIndexReducer";
+import moment from "moment";
+import admin from "../../assets/admin.jpg";
 const AdminDashboard = () => {
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const {
     totalSale,
     totalOrder,
     totalProduct,
-    totalPendingOrder,
     recentOrders,
     recentMessages,
-    totalSeller
+    totalSeller,
   } = useSelector((state) => state.dashboardIndex);
   const state = {
     series: [
@@ -115,7 +116,7 @@ const AdminDashboard = () => {
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
         <div className="flex justify-between items-center p-5 bg-ebony_clay rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-iron">
-            <h2 className="text-3xl font-bold">$6566</h2>
+            <h2 className="text-3xl font-bold">${totalSale}</h2>
             <span className="text-md font-medium">Total Sales</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-ufo_green flex justify-center items-center text-xl">
@@ -124,7 +125,7 @@ const AdminDashboard = () => {
         </div>
         <div className="flex justify-between items-center p-5 bg-ebony_clay rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-iron">
-            <h2 className="text-3xl font-bold">66</h2>
+            <h2 className="text-3xl font-bold">{totalProduct}</h2>
             <span className="text-md font-medium">Products</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-phlox flex justify-center items-center text-xl">
@@ -133,7 +134,7 @@ const AdminDashboard = () => {
         </div>
         <div className="flex justify-between items-center p-5 bg-ebony_clay rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-iron">
-            <h2 className="text-3xl font-bold">50</h2>
+            <h2 className="text-3xl font-bold">{totalSeller}</h2>
             <span className="text-md font-medium">Sellers</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-dark_turquoise flex justify-center items-center text-xl">
@@ -143,7 +144,7 @@ const AdminDashboard = () => {
 
         <div className="flex justify-between items-center p-5 bg-ebony_clay rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-iron">
-            <h2 className="text-3xl font-bold">12</h2>
+            <h2 className="text-3xl font-bold">{totalOrder}</h2>
             <span className="text-md font-medium">Orders</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-old_lavender flex justify-center items-center text-xl">
@@ -168,79 +169,48 @@ const AdminDashboard = () => {
               <h2 className="font-semibold text-lg pb-3">
                 Recent seller message
               </h2>
-              <Link className=" font-semibold text-sm">View All</Link>
+              <Link
+                to={"/admin/dashboard/chat-sellers"}
+                className=" font-semibold text-sm"
+              >
+                View All
+              </Link>
             </div>
             <div className="flex flex-col gap-2 pt-6">
               <ol className=" relative border border-slate-600 ml-4">
-                <li className="mb-3 ml-6">
-                  <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-dark_turquoise2 rounded-full z-10">
-                    <img
-                      src="http://localhost:3000/images/admin.jpg"
-                      alt=""
-                      className="w-full rounded-full h-full shadow-lg"
-                    />
-                  </div>
-                  <div className="p-3 bg-slate-800 rounded-lg border border-slate-600 shadow-sm">
-                    <div className="flex justify-between items-center">
-                      <Link className="text-md">Admin</Link>
-                      <time
-                        datetime=""
-                        className="mb-1 text-sm sm:order-last sm:mb-0"
-                      >
-                        4 day ago
-                      </time>
+                {recentMessages.map((m, i) => (
+                  <li key={i} className="mb-3 ml-6">
+                    <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-dark_turquoise2 rounded-full z-10">
+                      {m.senderId === userInfo._id ? (
+                        <img
+                          src={userInfo.image}
+                          alt=""
+                          className="w-full rounded-full h-full shadow-lg"
+                        />
+                      ) : (
+                        <img
+                          src={admin}
+                          alt=""
+                          className="w-full rounded-full h-full shadow-lg"
+                        />
+                      )}
                     </div>
-                    <div className="p-2 text-xs bg-slate-700 rounded-lg border border-slate-800">
-                      How are you
+                    <div className="p-3 bg-slate-800 rounded-lg border border-slate-600 shadow-sm">
+                      <div className="flex justify-between items-center">
+                        <Link className="text-md">{m.senderName}</Link>
+                        <time
+                          datetime=""
+                          className="mb-1 text-sm sm:order-last sm:mb-0"
+                        >
+                          {moment(m.createdAt).startOf("hour").fromNow()}
+                        </time>
+                      </div>
+                      <div className="p-2 text-xs bg-slate-700 rounded-lg border border-slate-800">
+                        {m.message}
+                      </div>
                     </div>
-                  </div>
-                </li>
-                <li className="mb-3 ml-6">
-                  <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-dark_turquoise2 rounded-full z-10">
-                    <img
-                      src="http://localhost:3000/images/admin.jpg"
-                      alt=""
-                      className="w-full rounded-full h-full shadow-lg"
-                    />
-                  </div>
-                  <div className="p-3 bg-slate-800 rounded-lg border border-slate-600 shadow-sm">
-                    <div className="flex justify-between items-center">
-                      <Link className="text-md">Admin</Link>
-                      <time
-                        datetime=""
-                        className="mb-1 text-sm sm:order-last sm:mb-0"
-                      >
-                        4 day ago
-                      </time>
-                    </div>
-                    <div className="p-2 text-xs bg-slate-700 rounded-lg border border-slate-800">
-                      How are you
-                    </div>
-                  </div>
-                </li>
-                <li className="mb-3 ml-6">
-                  <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-dark_turquoise2 rounded-full z-10">
-                    <img
-                      src="http://localhost:3000/images/admin.jpg"
-                      alt=""
-                      className="w-full rounded-full h-full shadow-lg"
-                    />
-                  </div>
-                  <div className="p-3 bg-slate-800 rounded-lg border border-slate-600 shadow-sm">
-                    <div className="flex justify-between items-center">
-                      <Link className="text-md">Admin</Link>
-                      <time
-                        datetime=""
-                        className="mb-1 text-sm sm:order-last sm:mb-0"
-                      >
-                        4 day ago
-                      </time>
-                    </div>
-                    <div className="p-2 text-xs bg-slate-700 rounded-lg border border-slate-800">
-                      How are you
-                    </div>
-                  </div>
-                </li>
+                  </li>
+                ))}
               </ol>
             </div>
           </div>
@@ -251,7 +221,12 @@ const AdminDashboard = () => {
           <h2 className=" font-semibold text-lg text-iron pb-3">
             Recent Orders
           </h2>
-          <Link className=" font-semibold text-sm text-iron">View All</Link>
+          <Link
+            to={"/admin/dashboard/orders"}
+            className=" font-semibold text-sm text-iron"
+          >
+            View All
+          </Link>
         </div>
         <div className=" relative overflow-x-auto">
           <table className="w-full text-sm text-left text-iron">
@@ -275,22 +250,24 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5].map((d, i) => (
+              {recentOrders.map((o, i) => (
                 <tr key={i}>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    #adlfkj3lfk323
+                    {o._id}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    $565
+                    ${o.price}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <span>pending</span>
+                    <span>{o.payment_status}</span>
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <span>pending</span>
+                    <span>{o.delivery_status}</span>
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <Link>View</Link>
+                    <Link to={`/admin/dashboard/order/details/${o._id}`}>
+                      View
+                    </Link>
                   </td>
                 </tr>
               ))}

@@ -83,11 +83,6 @@ const Orders = () => {
                       <div className="py-4 w-[13%]">${so.price}</div>
                       <div className="py-4 w-[18%]">{so.payment_status}</div>
                       <div className="py-4 w-[18%]">{so.delivery_status}</div>
-                      <div className="py-4 w-[18%]">
-                        <Link to={`/admin/dashboard/order/details/${so._id}`}>
-                          view
-                        </Link>
-                      </div>
                     </div>
                   ))}
                 </div>
