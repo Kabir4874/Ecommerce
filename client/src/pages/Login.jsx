@@ -113,6 +113,19 @@ const Login = () => {
                   </Link>
                 </p>
               </div>
+              <div className="text-center text-slate-600 pt-1">
+                <p>
+                  <a
+                    href="http://localhost:3001/login"
+                    rel="noreferrer"
+                    target="_blank"
+                    className="text-blue-500 underline"
+                  >
+                    Login
+                  </a>{" "}
+                  seller account
+                </p>
+              </div>
             </div>
             <div className="w-full h-full py-4 pr-4">
               <img

@@ -126,7 +126,20 @@ const Register = () => {
                   Already have an account?{" "}
                   <Link to={"/login"} className="text-blue-500 underline">
                     Login Now
-                  </Link>{" "}
+                  </Link>
+                </p>
+              </div>
+              <div className="text-center text-slate-600 pt-1">
+                <p>
+                  <a
+                    href="http://localhost:3001/register"
+                    rel="noreferrer"
+                    target="_blank"
+                    className="text-blue-500 underline"
+                  >
+                    Register
+                  </a>{" "}
+                  seller account
                 </p>
               </div>
             </div>

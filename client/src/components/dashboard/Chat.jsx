@@ -13,6 +13,7 @@ import {
 } from "../../store/reducers/chatReducer";
 import { toast } from "react-hot-toast";
 import { useRef } from "react";
+import { FaList } from "react-icons/fa6";
 
 const socket = io("http://localhost:5000");
 
@@ -86,10 +87,16 @@ const Chat = () => {
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [fd_messages]);
+
+  const [show, setShow] = useState(false);
   return (
     <div className="bg-white p-3 rounded-md">
-      <div className="w-full flex">
-        <div className="w-[230px]">
+      <div className="w-full flex relative">
+        <div
+          className={`w-[230px] md-lg:absolute bg-white md-lg:h-full transition-all duration-300 ${
+            show ? "left-0" : "left-[-350px]"
+          }`}
+        >
           <div className="flex justify-center gap-3 items-center text-slate-600 text-xl h-[50px]">
             <span>
               <AiOutlineMessage />
@@ -116,21 +123,31 @@ const Chat = () => {
           </div>
         </div>
 
-        <div className="w-[calc(100%-230px)]">
+        <div className="w-[calc(100%-230px)] md-lg:w-full">
           {currentFd ? (
             <div className="w-full h-full">
-              <div className="flex justify-start gap-3 items-center text-slate-600 text-xl h-[50px]">
-                <div className="w-[30px] h-[30px] rounded-full relative">
-                  {activeSeller.some((c) => c.sellerId === currentFd.fdId) && (
-                    <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0"></div>
-                  )}
-                  <img
-                    src={currentFd.image}
-                    alt="user"
-                    className="rounded-full"
-                  />
+              <div className="flex justify-between items-center text-slate-600 text-xl h-[50px]">
+                <div className="flex justify-start gap-3 items-center">
+                  <div className="w-[30px] h-[30px] rounded-full relative">
+                    {activeSeller.some(
+                      (c) => c.sellerId === currentFd.fdId
+                    ) && (
+                      <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0"></div>
+                    )}
+                    <img
+                      src={currentFd.image}
+                      alt="user"
+                      className="rounded-full"
+                    />
+                  </div>
+                  <span className=" whitespace-nowrap">{currentFd.name}</span>
                 </div>
-                <span className=" whitespace-nowrap">{currentFd.name}</span>
+                <div
+                  onClick={() => setShow(!show)}
+                  className="w-[40px] h-[40px] cursor-pointer rounded-sm justify-center items-center bg-sky-600 text-white hidden md-lg:flex"
+                >
+                  <FaList />
+                </div>
               </div>
 
               <div className="h-[400px] w-full bg-slate-100 p-3 rounded-md">
@@ -204,8 +221,11 @@ const Chat = () => {
               </div>
             </div>
           ) : (
-            <div className="w-full h-full flex justify-center items-center text-lg font-bold text-slate-600">
-              <span>select seller</span>
+            <div
+              onClick={() => setShow(true)}
+              className="w-full flex justify-center items-center text-lg font-bold text-slate-600 h-[400px]"
+            >
+              <span className=" cursor-pointer">select seller</span>
             </div>
           )}
         </div>
