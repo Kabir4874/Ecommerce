@@ -1,16 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
-export const categoryAdd = createAsyncThunk(
-  "banner/categoryAdd",
-  async ({ name, image }, { fulfillWithValue, rejectWithValue }) => {
+export const add_banner = createAsyncThunk(
+  "banner/add_banner",
+  async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("image", image);
-      const { data } = await api.post("/category-add", formData, {
+      const { data } = await api.post("/banner/add", info, {
         withCredentials: true,
       });
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -33,10 +31,18 @@ export const bannerReducer = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // builder.addCase(categoryAdd.rejected, (state, { payload }) => {
-    //   state.loader = false;
-    //   state.errorMessage = payload.error;
-    // })
+    builder
+      .addCase(add_banner.pending, (state, { payload }) => {
+        state.loader = true;
+      })
+      .addCase(add_banner.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.error;
+      })
+      .addCase(add_banner.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.successMessage = payload.message;
+      });
   },
 });
 

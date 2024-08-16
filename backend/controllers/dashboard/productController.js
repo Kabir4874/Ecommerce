@@ -52,7 +52,6 @@ class productController {
         });
         responseReturn(res, 201, { message: "Product Added Successfully" });
       } catch (error) {
-        console.log(error);
         responseReturn(res, 500, { error: error.message });
       }
     });

@@ -127,6 +127,7 @@ io.on("connection", (soc) => {
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api", require("./routes/chatRoutes"));
+app.use("/api", require("./routes/bannerRoutes"));
 app.use("/api", require("./routes/authRoutes"));
 app.use("/api", require("./routes/home/cardRoutes"));
 app.use("/api", require("./routes/home/customerAuthRoutes"));
