@@ -90,13 +90,6 @@ export const allNav = [
   },
   {
     id: 12,
-    title: "Add Banner",
-    icon: <AiOutlinePlus />,
-    role: "seller",
-    path: "/seller/dashboard/add-banner",
-  },
-  {
-    id: 12,
     title: "All Banner",
     icon: <PiFlagBannerBold />,
     role: "seller",

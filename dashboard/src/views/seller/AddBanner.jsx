@@ -1,9 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { BiSolidCloudUpload } from "react-icons/bi";
 const AddBanner = () => {
   const [show, setShow] = useState(false);
-
+  const { productId } = useParams();
+  const [imageShow, setImageShow] = useState("");
+  const [banner, setBanner] = useState("");
+  const imageHandle = (e) => {
+    const image = e.target.files;
+    setBanner(image[0]);
+    setImageShow(URL.createObjectURL(image[0]));
+  };
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full p-4 bg-ebony_clay rounded-md">
@@ -28,27 +35,13 @@ const AddBanner = () => {
                 </span>
                 <span>select banner image</span>
               </label>
-              <input type="file" id="image" hidden />
+              <input onChange={imageHandle} type="file" id="image" hidden />
             </div>
-
-            <div className="w-full mb-4 relative">
-              <div
-                onClick={() => setShow(!show)}
-                className="w-full h-[50px] rounded-md cursor-pointer border border-slate-700 flex justify-start items-center px-4 text-iron"
-              >
-                <span>select product</span>
+            {imageShow && (
+              <div>
+                <img src={imageShow} alt="banner" />
               </div>
-              {show && (
-                <div className="w-full h-[300px] bg-slate-800 relative">
-                  <div className="p-4">
-                    <input
-                      type="text"
-                      className="px-4 py-2 focus:border-indigo-500 outline-none bg-transparent border border-slate-700 rounded-md text-iron w-full"
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
+            )}
           </form>
         </div>
       </div>

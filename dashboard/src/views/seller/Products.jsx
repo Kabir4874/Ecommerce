@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { useSelector, useDispatch } from "react-redux";
 import { get_products } from "../../store/reducers/productReducer";
+import { GiKnightBanner } from "react-icons/gi";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -112,6 +113,12 @@ const Products = () => {
                       <button className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50">
                         <FaTrash />
                       </button>
+                      <Link
+                        to={`/seller/dashboard/add-banner/${d._id}`}
+                        className="p-[6px] bg-cyan-500 rounded hover:shadow-lg hover:shadow-cyan-500/50"
+                      >
+                        <GiKnightBanner />
+                      </Link>
                     </div>
                   </td>
                 </tr>
