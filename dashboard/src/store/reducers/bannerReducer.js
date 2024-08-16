@@ -8,7 +8,33 @@ export const add_banner = createAsyncThunk(
       const { data } = await api.post("/banner/add", info, {
         withCredentials: true,
       });
-      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_banner = createAsyncThunk(
+  "banner/get_banner",
+  async (productId, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/banner/get/${productId}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const update_banner = createAsyncThunk(
+  "banner/update_banner",
+  async ({ info, bannerId }, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.put(`/banner/update/${bannerId}`, info, {
+        withCredentials: true,
+      });
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -23,6 +49,7 @@ export const bannerReducer = createSlice({
     errorMessage: "",
     loader: false,
     banners: [],
+    banner: "",
   },
   reducers: {
     messageClear: (state) => {
@@ -42,6 +69,22 @@ export const bannerReducer = createSlice({
       .addCase(add_banner.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.successMessage = payload.message;
+        state.banner = payload.banner;
+      })
+      .addCase(get_banner.fulfilled, (state, { payload }) => {
+        state.banner = payload.banner;
+      })
+      .addCase(update_banner.pending, (state, { payload }) => {
+        state.loader = true;
+      })
+      .addCase(update_banner.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.error;
+      })
+      .addCase(update_banner.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.successMessage = payload.message;
+        state.banner = payload.banner;
       });
   },
 });
