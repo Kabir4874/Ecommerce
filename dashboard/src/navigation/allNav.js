@@ -9,6 +9,7 @@ import { CiChat1 } from "react-icons/ci";
 import { BsCurrencyDollar, BsChat } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
 import { RiDiscountPercentLine } from "react-icons/ri";
+import { PiFlagBannerBold } from "react-icons/pi";
 export const allNav = [
   {
     id: 1,
@@ -89,41 +90,55 @@ export const allNav = [
   },
   {
     id: 12,
+    title: "Add Banner",
+    icon: <AiOutlinePlus />,
+    role: "seller",
+    path: "/seller/dashboard/add-banner",
+  },
+  {
+    id: 12,
+    title: "All Banner",
+    icon: <PiFlagBannerBold />,
+    role: "seller",
+    path: "/seller/dashboard/banners",
+  },
+  {
+    id: 13,
     title: "Discount Product",
     icon: <RiDiscountPercentLine />,
     role: "seller",
     path: "/seller/dashboard/discount-products",
   },
   {
-    id: 13,
+    id: 14,
     title: "Orders",
     icon: <AiOutlineShoppingCart />,
     role: "seller",
     path: "/seller/dashboard/orders",
   },
   {
-    id: 14,
+    id: 15,
     title: "Payments",
     icon: <BsCurrencyDollar />,
     role: "seller",
     path: "/seller/dashboard/payments",
   },
   {
-    id: 15,
+    id: 16,
     title: "Chat Customer",
     icon: <BsChat />,
     role: "seller",
     path: "/seller/dashboard/chat-customer",
   },
   {
-    id: 16,
+    id: 17,
     title: "Chat Support",
     icon: <CiChat1 />,
     role: "seller",
     path: "/seller/dashboard/chat-support",
   },
   {
-    id: 17,
+    id: 18,
     title: "Profile",
     icon: <FiUsers />,
     role: "seller",

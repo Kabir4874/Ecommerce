@@ -1,4 +1,5 @@
 import authReducer from "./reducers/authReducer";
+import bannerReducer from "./reducers/bannerReducer";
 import categoryReducer from "./reducers/categoryReducer";
 import chatReducer from "./reducers/chatReducer";
 import dashboardIndexReducer from "./reducers/dashboardIndexReducer";
@@ -14,6 +15,7 @@ const rootReducer = {
   chat: chatReducer,
   order: orderReducer,
   payment: paymentReducer,
-  dashboardIndex: dashboardIndexReducer
+  dashboardIndex: dashboardIndexReducer,
+  banner: bannerReducer,
 };
 export default rootReducer;
