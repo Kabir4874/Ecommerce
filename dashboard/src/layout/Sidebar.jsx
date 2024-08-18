@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getNavs } from "../navigation";
 import { BiLogOut } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
